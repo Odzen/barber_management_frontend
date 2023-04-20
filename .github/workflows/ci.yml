@@ -9,11 +9,6 @@ on:
       - ${{ github.ref }}
     if: github.event_name == 'push' && github.event.pull_request.state == 'open'
 
-concurrency:
-  group: ${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
-
-
 jobs:
   lint:
     name: Lint
