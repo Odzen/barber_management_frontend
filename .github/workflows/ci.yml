@@ -4,8 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize]
   push:
-    branches:
-      - ${{ github.ref }}
     if: github.event_name == 'push' && github.event.pull_request.state == 'open'
 
 concurrency:
