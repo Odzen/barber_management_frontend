@@ -1,8 +1,11 @@
 name: CI
 
 on:
-  push:
   pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.head_ref || github.ref_name }}
