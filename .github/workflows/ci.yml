@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npm run lint
+
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npm run prettier
+
+  #test:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npm run build
+
+  deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: [lint, prettier, build]
+    outputs:
+      preview-url: ${{ steps.deploy-vercel.outputs.preview-url }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/cached_install
+      - name: Get branch name to GH Env
+        run: |
+          echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+          echo "HEAD_REF=$(echo ${{ github.head_ref }} | tr / -)" >> $GITHUB_ENV
+      - name: Set Alias Domain
+        run: |
+          echo "ALIAS_DOMAIN=$(echo ${{ env.HEAD_REF || env.BRANCH }})-barber-management.vercel.app" >> $GITHUB_ENV
+      - uses: amondnet/vercel-action@v20
+        id: deploy-vercel
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+          alias-domains: '${{ env.ALIAS_DOMAIN }}'
+          github-comment: false
+      - name: Comment on commit
+        uses: actions/github-script@v6
+        with:
+          script: |
+            if(!context.payload.pull_request) return
+            const prNumber = context.payload.pull_request.number
+            const commitSha = context.payload.pull_request.head.sha
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber
+            })
+            const {
+              data: {
+                head: { ref: branch }
+              }
+            } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            })
+            const botComment = comments.find((comment) => comment.user.login === 'github-actions[bot]')
+            const body = `Deploy preview for _barber-management_ ready!<br/><br/>:white_check_mark: Preview<br/>https://${{ env.ALIAS_DOMAIN }}<br/><br/>Built with commit ${commitSha}.<br/>This pull request is being automatically deployed with [vercel-action](https://github.com/marketplace/actions/vercel-action)`
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body
+              })
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body
+              })
+            }
