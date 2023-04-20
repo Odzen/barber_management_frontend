@@ -75,6 +75,8 @@ jobs:
           github-comment: false
       - name: Comment on commit
         uses: actions/github-script@v6
+        permissions:
+          repo: write
         with:
           script: |
             if(!context.payload.pull_request) return
