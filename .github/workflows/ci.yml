@@ -76,7 +76,6 @@ jobs:
       - name: Comment on commit
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             if(!context.payload.pull_request) return
             const prNumber = context.payload.pull_request.number
