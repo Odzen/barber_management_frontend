@@ -14,12 +14,14 @@ const MainRouter = ({ location }) => {
     /* Global variables */
     let role = localStorage.getItem('rol');
     let id = localStorage.getItem('id');
+    console.log("token: ", token)
+    console.log("tokenLocal: ", tokenLocal)
 
     /* If we do not have a token, it means that the user cannot enter the software and we redirect him to the Login */
     if (!token && tokenLocal == undefined) {
         return <LoginView setToken={setToken} />
     }
-
+    console.log("location.pathname: ", location.pathname)
     /* If the user's role is Administrator, then we redirect him to the Dashboard */
     if (role == 'Administrator' && location.pathname === '/') {
         return <Navigate to='/main' />;
@@ -33,11 +35,11 @@ const MainRouter = ({ location }) => {
     return (
         <>
             {/* SideBar, which allows us to navigate between the modules */}
-            <Sidebar setToken={setToken} />
+            {/* <Sidebar setToken={setToken} /> */}
 
             {/* Main routes conditioned according to the role of the user */}
             <Routes>
-                <Route path='/main' element={role == 'Barber' ? (<ErrorView />) : <h1>Dashboard</h1> } />
+                <Route path='/main' element={role == 'Barber' ? (<ErrorView />) : <h1>Dashboard</h1>} />
                 <Route path='/staff' element={role == 'Barber' ? (<ErrorView />) : <h1>Staff</h1>} />
                 <Route path='/staff/:id' element={<h1>Staff Id</h1>} />
                 <Route path='/users' element={role == 'Barber' ? (<ErrorView />) : <h1>Users</h1>} />

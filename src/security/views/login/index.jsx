@@ -2,9 +2,7 @@ import { useState } from "react";
 import { notification } from 'antd';
 import axios from "axios";
 import './login.css';
-
-
-
+import icon from "../../../assets/images/icono.png"
 /*Componente usado para validar el ingreso de usuarios*/
 
 const LoginView = ({ setToken }) => {
@@ -69,11 +67,15 @@ const LoginView = ({ setToken }) => {
     return (
         <section className="background h-100">
             <div className="h-100">
-                <div className="row g-0 align-items-center justify-content-end h-100 px-5 gradient">
+                <div className="row g-0 align-items-center justify-content-center h-100 px-5">
                     <div className="col-xxl-3 col-xl-5 col-lg-5 col-md-7 col-sm-9 col-lg-auto sw-lg-70">
                         <div className="card shadow-lg">
                             <div className="card-body p-5">
-                                <h1 className="fs-4 card-title fw-bold mb-4">Bienvenido</h1>
+                                <div className="d-flex justify-content-center align-items-center container-title">
+                                    <img src={icon} className="imgIcon" alt="" />
+                                    <h1 className="fs-4 card-title fw-bold">Bienvenido</h1>
+                                    <img src={icon} className="imgIcon" alt="" />
+                                </div>
                                 <form onSubmit={handleSubmit} className="needs-validation" noValidate={true} autoComplete="off" aria-label="form-login">
                                     <div className="mb-3">
                                         <label className="mb-2 text-muted" htmlFor="email">Usuario</label>
@@ -96,6 +98,10 @@ const LoginView = ({ setToken }) => {
                                         <button type="submit" className="btn btn-primary">
                                             <i className="bi bi-box-arrow-in-right"></i> Ingresar
                                         </button>
+
+                                        <button type="submit" className="btn btn-primary">
+                                            <i className="bi bi-box-arrow-in-right"></i> Registrarse
+                                        </button>
                                         <div className={user ? "text-center" : "cargando"}>
                                             <div className="spinner-grow text-warning" role="status">
                                             </div>
@@ -104,8 +110,8 @@ const LoginView = ({ setToken }) => {
                                 </form>
                             </div>
                             <div className="card-footer py-3 border-0">
-                                <div className="text-center">
-                                    Todos los derechos reservados &copy; 2022
+                                <div className="text-center text-white">
+                                    Todos los derechos reservados &copy; 2023
                                 </div>
                             </div>
                         </div>
