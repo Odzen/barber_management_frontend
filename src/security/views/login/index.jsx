@@ -102,10 +102,10 @@ const LoginView = ({ setToken }) => {
                                         <button type="submit" className="btn btn-primary">
                                             <i className="bi bi-box-arrow-in-right"></i> Registrarse
                                         </button>
-                                        <div className={user ? "text-center" : "cargando"}>
+                                        {/* <div className={user ? "text-center" : "cargando"}>
                                             <div className="spinner-grow text-warning" role="status">
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </form>
                             </div>
