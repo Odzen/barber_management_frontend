@@ -20,7 +20,7 @@ const MainRouter = ({ location }) => {
   if (!token && tokenLocal == undefined) {
     return <LoginView setToken={setToken} />
   }
-  console.log('location.pathname: ', location.pathname)
+  
   /* If the user's role is Administrator, then we redirect him to the Dashboard */
   if (role == 'Administrator' && location.pathname === '/') {
     return <Navigate to='/main' />
@@ -39,6 +39,7 @@ const MainRouter = ({ location }) => {
       {/* Main routes conditioned according to the role of the user */}
       <Routes>
         <Route path='/main' element={role == 'Barber' ? <ErrorView /> : <h1>Dashboard</h1>} />
+        <Route path='/register' element={<h1>Register</h1>} />
         <Route path='/staff' element={role == 'Barber' ? <ErrorView /> : <h1>Staff</h1>} />
         <Route path='/staff/:id' element={<h1>Staff Id</h1>} />
         <Route path='/users' element={role == 'Barber' ? <ErrorView /> : <h1>Users</h1>} />
