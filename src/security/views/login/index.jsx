@@ -11,7 +11,8 @@ import {
   Upload,
   DatePicker,
   Spin,
-  notification
+  notification,
+  message
 } from 'antd';
 import {
   UploadOutlined,
@@ -21,7 +22,10 @@ import icon from '../../../assets/images/icono.png'
 import './login.css'
 import { handleInputChange } from '../../../helpers/handleInputChange';
 import { openNotificationWithIcon } from '../../../helpers/openNotificationWithIcon';
-
+import { handleSetState } from '../../../helpers/handleSetState';
+import { STATES, ROLES } from "../../../utils/enums"
+import { resetForm } from '../../../helpers/resetForm';
+import { normFile, setUrlImgBase64 } from '../../../helpers/handleUpload';
 /* Component used to validate user input */
 
 const LoginView = (/*{ setToken }*/) => {
@@ -29,6 +33,7 @@ const LoginView = (/*{ setToken }*/) => {
   /* General states for receiving user data */
   const [formCustomer] = Form.useForm();
   const [user, setUser] = useState(false)
+  const [equalPasswords, setEqualPasswords] = useState(false)
   const [modelRegister, setModelRegister] = useState(false)
   const [newUser, setNewUser] = useState({
     name: '',
@@ -37,8 +42,8 @@ const LoginView = (/*{ setToken }*/) => {
     birthDate: '',
     urlImg: '',
     email: '',
-    state: '', // always active
-    role: '',  // always role
+    state: STATES.ACTIVE,
+    role: ROLES.CUSTOMER,
     password: '',
   })
   const [loginUser, setLoginUser] = useState({
@@ -49,7 +54,7 @@ const LoginView = (/*{ setToken }*/) => {
   /*Función para enviar los datos ingresados por el usuario para saber si puede ingresar o no*/
   const handleSubmit = async (e) => {
     e.preventDefault()
-
+    console.log("login: ", loginUser)
     try {
       setUser(!user)
       let res = await axios.post('http://localhost:3001/usuario/login', loginUser)
@@ -75,56 +80,9 @@ const LoginView = (/*{ setToken }*/) => {
       const message = '¡Ocurrió algo inusual!'
       const description = error.message
       setUser(false)
-
       openNotificationWithIcon(notification, type, message, description)
     }
   }
-
-  /*Función para cerrar modal con el formulario del cliente*/
-  const showRegisterCustomer = () => {
-    setModelRegister(true);
-  };
-
-  /*Función para cerrar modal con el formulario del cliente*/
-  const cancelRegisterCustomer = () => {
-    setModelRegister(false);
-  };
-
-  /*Función para convertir la URL del adjunto que suben al formulario de crear cliente en base64 y almacenarlo en el estado global*/
-  const getUrl = async () => {
-    const fileInput = document.getElementById('url_recibo_publico');
-    const selectedFile = fileInput.files[0];
-
-    const btn = document.getElementsByClassName('btnCrearCliente');
-
-    if (selectedFile.type != "application/pdf") {
-
-      alert("Solo se permiten imágenes en PDF")
-      fileInput.value = "";
-
-      btn[0].setAttribute('disabled', 'true');
-    } else {
-      btn[0].removeAttribute('disabled');
-
-
-      let result = await getBase64(selectedFile);
-      let url = result;
-
-      setDatosCliente({
-        ...datosCliente,
-        [fileInput.id]: url
-      })
-    }
-  }
-
-  const onChange = (dateString) => {
-    console.log(dateString);
-  };
-
-  const onResetCustomerForm = () => {
-    formCustomer.resetFields();
-  };
-
 
   return (
     <>
@@ -153,7 +111,7 @@ const LoginView = (/*{ setToken }*/) => {
                       <input
                         id='user'
                         type='text'
-                        onChange={(event) => handleInputChange(event, loginUser, setLoginUser)}
+                        onChange={(event) => handleInputChange(loginUser, setLoginUser, null, null, null, event)}
                         value={loginUser.user}
                         className='form-control'
                         name='user'
@@ -171,7 +129,7 @@ const LoginView = (/*{ setToken }*/) => {
                       <input
                         id='password'
                         type='password'
-                        onChange={(event) => handleInputChange(event, loginUser, setLoginUser)}
+                        onChange={(event) => handleInputChange(loginUser, setLoginUser, null, null, null, event)}
                         value={loginUser.password}
                         className='form-control'
                         name='password'
@@ -184,7 +142,7 @@ const LoginView = (/*{ setToken }*/) => {
                         <i className='bi bi-box-arrow-in-right'></i> Ingresar
                       </button>
 
-                      <button type="button" className='btn btn-primary' onClick={showRegisterCustomer}>
+                      <button type="button" className='btn btn-primary' onClick={() => handleSetState(true, setModelRegister)}>
                         <i className='bi bi-box-arrow-in-right'></i> Registrarse
                       </button>
                     </div>
@@ -204,18 +162,23 @@ const LoginView = (/*{ setToken }*/) => {
         </div>
       </section>
       <Modal
-        style={{
-          top: 20,
-        }}
+        centered
         open={modelRegister}
         title="Registrar cliente"
-        onCancel={cancelRegisterCustomer}
+        onCancel={() => handleSetState(false, setModelRegister)}
         width="800px"
         footer={[
         ]}
       >
 
-        <Form form={formCustomer} name="crearCliente" className="crearCliente" id="crearCliente" onFinish={() => console.log("create customer")}>
+        <Form
+          form={formCustomer}
+          name="crearCliente"
+          className="crearCliente"
+          id="crearCliente"
+          onFinish={() => console.log("create customer")}
+          onFinishFailed={() => console.log("some field are not ready to send it")}
+        >
           <Row className='col-12 d-flex flex-column align-items-center'>
             <div className='d-flex justify-content-center'>
               <Col span={12} className="m-3">
@@ -228,7 +191,7 @@ const LoginView = (/*{ setToken }*/) => {
                     type="text"
                     pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$"
                     title="Ingresa un nombre válido"
-                    onChange={(event) => handleInputChange(event, newUser, setNewUser)}
+                    onChange={(event) => handleInputChange(newUser, setNewUser, null, null, null, event)}
                     name="name" />
                 </Form.Item>
                 <Form.Item
@@ -240,7 +203,7 @@ const LoginView = (/*{ setToken }*/) => {
                     type="email"
                     pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
                     title="Ingresa un correo válido"
-                    onChange={(event) => handleInputChange(event, newUser, setNewUser)}
+                    onChange={(event) => handleInputChange(newUser, setNewUser, null, null, null, event)}
                     name="email" />
                 </Form.Item>
                 <Form.Item
@@ -252,7 +215,7 @@ const LoginView = (/*{ setToken }*/) => {
                     type="text"
                     pattern="^[0-9]{6,10}$"
                     title="Ingresa un número de cédula válido"
-                    onChange={(event) => handleInputChange(event, newUser, setNewUser)}
+                    onChange={(event) => handleInputChange(newUser, setNewUser, null, null, null, event)}
                     name="documentNumber" />
                 </Form.Item>
                 <Form.Item
@@ -265,47 +228,8 @@ const LoginView = (/*{ setToken }*/) => {
                     pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$"
                     title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, 
                     al menos una mayúscula y al menos un caracter no alfanumérico."
-                    onChange={(event) => handleInputChange(event, newUser, setNewUser)}
+                    onChange={(event) => handleInputChange(newUser, setNewUser, null, null, null, event)}
                     name="password" />
-                </Form.Item>
-              </Col>
-              <Col span={12} className="m-3">
-                <Form.Item
-                  name="phone"
-                  label="Número de celular"
-                  rules={[{ required: true, message: "Este campo es obligatorio" }]}
-                  className="d-flex flex-column">
-                  <Input type="text"
-                    pattern="([0-9]{10})"
-                    title="Ingresa un número de celular válido"
-                    onChange={(event) => handleInputChange(event, newUser, setNewUser)}
-                    name="phone" />
-                </Form.Item>
-
-                <Form.Item
-                  name="birthDate"
-                  label="Fecha de nacimineto"
-                  rules={[{ required: true, message: "Este campo es obligatorio" }]}
-                  className="d-flex flex-column">
-                  <DatePicker onChange={onChange} name="birthDate" />
-                </Form.Item>
-                <Form.Item
-                  name="urlImg"
-                  label="Imágen de perfil"
-                  valuePropName="fileList"
-                  // getValueFromEvent={normFile}
-                  onChange={getUrl}
-                  rules={[{ required: true, message: "Este campo es obligatorio" }]}
-                  className="d-flex flex-column"
-                >
-                  <Upload
-                    name="urlImg"
-                    listType="picture"
-                    maxCount={1}
-                    id="urlImg"
-                    accept="application/pdf">
-                    <Button icon={<UploadOutlined />}>Subir imágen</Button>
-                  </Upload>
                 </Form.Item>
                 <Form.Item
                   name="password_confirm"
@@ -317,20 +241,74 @@ const LoginView = (/*{ setToken }*/) => {
                     pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$"
                     title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, 
                   al menos una mayúscula y al menos un caracter no alfanumérico."
-                    onChange={(event) => handleInputChange(event, newUser, setNewUser)}
+                    onChange={(event) => handleInputChange(newUser, setNewUser, null, null, null, event)}
                     name="contraseña_cliente" />
                 </Form.Item>
+              </Col>
+              <Col span={12} className="m-3">
+                <Form.Item
+                  name="phone"
+                  label="Número de celular"
+                  rules={[{ required: true, message: "Este campo es obligatorio" }]}
+                  className="d-flex flex-column">
+                  <Input type="text"
+                    pattern="([0-9]{10})"
+                    title="Ingresa un número de celular válido"
+                    onChange={(event) => handleInputChange(newUser, setNewUser, null, null, null, event)}
+                    name="phone" />
+                </Form.Item>
 
+                <Form.Item
+                  name="birthDate"
+                  label="Fecha de nacimineto"
+                  rules={[{ required: true, message: "Este campo es obligatorio" }]}
+                  className="d-flex flex-column">
+                  <DatePicker
+                    onChange={(date, dateString) => handleInputChange(newUser, setNewUser, "birthDate", date, dateString)}
+                    name="birthDate"
+                    className='w-100' />
+                </Form.Item>
+                <Form.Item
+                  accept="image/svg+xml, image/png, image/jpeg, image/jpg"
+                  name="urlImg"
+                  label="Imágen de perfil"
+                  valuePropName="fileList"
+                  getValueFromEvent={(event) => normFile(event)}
+                  // onChange={getUrl}s
+                  rules={[{ required: true, message: "Este campo es obligatorio" }]}
+                  className="d-flex flex-column">
+                  <Upload
+                    beforeUpload={async (file) => {
+                      const notImage =
+                        file.type === 'image/jpg' ||
+                        file.type === 'image/jpeg' ||
+                        file.type === 'image/png' ||
+                        file.type === 'image/svg+xml'
+                      if (!notImage) {
+                        message.error(`${file.name} no es un archivo válido`)
+                      } else {
+                        message.success(`${file.name} añadido exitosamente`)
+                        setUrlImgBase64(file, newUser, setNewUser)
+                      }
+                      return notImage || Upload.LIST_IGNORE
+                    }}
+                    name="urlImg"
+                    listType="picture"
+                    maxCount={1}
+                    id="urlImg">
+                    <Button icon={<UploadOutlined />} >Subir imágen</Button>
+                  </Upload>
+                </Form.Item>
               </Col>
             </div>
           </Row>
 
           <div className='d-flex justify-content-center'>
             <Form.Item >
-              <Button htmlType="button" className="m-2" onClick={onResetCustomerForm}>
+              <Button htmlType="button" className="m-2" onClick={() => resetForm(formCustomer)}>
                 Limpiar
               </Button>
-              <Button type="primary" htmlType="submit" /* loading={loadingClient} */ className="btnCrearCliente m-2">
+              <Button type="primary" htmlType="submit" onClick={() => console.log(newUser)} /* loading={loadingClient} */ className="btnCrearCliente m-2">
                 Crear
               </Button>
             </Form.Item>

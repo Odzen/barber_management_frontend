@@ -1,9 +1,14 @@
 /* Function to handle input changes */
-
-export const handleInputChange = (event, state, setState) => {
-  setState({
-    ...state,
-    [event.target.name]: event.target.value
-  })
-  console.log(state)
+export const handleInputChange = (state, setState, name, date, dateString, event = null) => {
+  if (!!event) {
+    setState({
+      ...state,
+      [event.target.name]: event.target.value
+    })
+  } else {
+    setState({
+      ...state,
+      [name]: dateString
+    })
+  }
 }
