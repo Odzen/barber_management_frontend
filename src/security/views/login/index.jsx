@@ -46,6 +46,7 @@ const LoginView = (/*{ setToken }*/) => {
     state: STATES.ACTIVE,
     role: ROLES.CUSTOMER,
     password: '',
+    password_confirm: ''
   })
   const [loginUser, setLoginUser] = useState({
     user: '',
@@ -86,15 +87,31 @@ const LoginView = (/*{ setToken }*/) => {
   }
 
   const handleRegisterSubmit = () => {
-    const type = 'success'
-    const message = '¡Registro exitoso!'
-    const description = `Bienvenido ${newUser.name}`
-    setRegisteredUser(true)
-    setTimeout(() => {
-      handleSetState(false, setModelRegister)
-      setRegisteredUser(false)
+    let type = ''
+    let message = ''
+    let description = ''
+
+    if (newUser.password === newUser.password_confirm) {
+      console.log("the passwords are equals")
+
+      type = 'success'
+      message = '¡Registro exitoso!'
+      description = `Bienvenido ${newUser.name}`
+
+      setRegisteredUser(true)
+      setTimeout(() => {
+        handleSetState(false, setModelRegister)
+        setRegisteredUser(false)
+        openNotificationWithIcon(notification, type, message, description)
+      }, 5000);
+
+    } else {
+      type = 'warning'
+      message = '¡Las contraseñas no son iguales!'
+      description = 'Inténtalo de nuevo'
       openNotificationWithIcon(notification, type, message, description)
-    }, 5000);
+
+    }
   }
 
   return (
@@ -179,7 +196,7 @@ const LoginView = (/*{ setToken }*/) => {
         open={modelRegister}
         title="Registrar cliente"
         onCancel={() => handleSetState(false, setModelRegister)}
-        width="800px"
+        width="11a00px"
         footer={[
         ]}
       >
@@ -260,7 +277,7 @@ const LoginView = (/*{ setToken }*/) => {
                     title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, 
                   al menos una mayúscula y al menos un caracter no alfanumérico."
                     onChange={(event) => handleInputChange(newUser, setNewUser, null, null, null, event)}
-                    name="contraseña_cliente" />
+                    name="password_confirm" />
                 </Form.Item>
               </Col>
               <Col span={12} className="m-3">
