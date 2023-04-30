@@ -17,6 +17,7 @@
 
 .card-title {
   color: white !important;
+  margin-bottom: 0 !important;
 }
 
 .text-muted,
@@ -35,16 +36,33 @@
 }
 
 .container-title {
-  padding: 30px 15px;
   background-color: #01329a;
   border-radius: 30px;
   border: 1px solid white !important;
 }
 
 .imgIcon {
-  width: 15%;
+  width: 30px;
 }
 
 .loading {
   display: none;
+}
+
+.register_btn {
+  cursor: pointer;
+  color: blue;
+}
+
+.login-form {
+  max-width: 300px;
+}
+.login-form-forgot {
+  float: right;
+}
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+.login-form-button {
+  width: 100%;
 }

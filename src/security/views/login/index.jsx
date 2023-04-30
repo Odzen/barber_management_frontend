@@ -11,17 +11,20 @@ import {
   Upload,
   DatePicker,
   Spin,
+  Checkbox,
   notification,
   message
 } from 'antd';
 import {
   UploadOutlined,
-  LoadingOutlined
+  LoadingOutlined,
+  LockOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import icon from '../../../assets/images/icono.png'
 import './login.css'
 import { handleInputChange } from '../../../helpers/handleInputChange';
-import { openNotificationWithIcon } from '../../../helpers/openNotificationWithIcon';
+import { openNotificationWithIcon, } from '../../../helpers/openNotificationWithIcon';
 import { handleSetState } from '../../../helpers/handleSetState';
 import { STATES, ROLES } from "../../../utils/enums"
 import { resetForm } from '../../../helpers/resetForm';
@@ -55,7 +58,7 @@ const LoginView = (/*{ setToken }*/) => {
 
   /*Función para enviar los datos ingresados por el usuario para saber si puede ingresar o no*/
   const handleLoginSubmit = async (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     console.log("login: ", loginUser)
     try {
       setUser(!user)
@@ -114,72 +117,74 @@ const LoginView = (/*{ setToken }*/) => {
     }
   }
 
+  const onFinish = (values) => {
+    console.log('Received values of form: ', values);
+  };
+
   return (
     <>
       <section className='background h-100'>
+
         <div className='h-100'>
           <div className='row g-0 align-items-center justify-content-center h-100 px-5'>
             <div className='col-xxl-3 col-xl-5 col-lg-5 col-md-7 col-sm-9 col-lg-auto sw-lg-70'>
               <div className='card shadow-lg'>
-                <div className='card-body p-5'>
-                  <div className='d-flex justify-content-center align-items-center container-title'>
-                    <img src={icon} className='imgIcon' alt='' />
-                    <h1 className='fs-4 card-title fw-bold'>Bienvenido</h1>
-                    <img src={icon} className='imgIcon' alt='' />
+                <div className='card-body p-3'>
+                  <div className='d-flex justify-content-center align-items-center'>
+                    <div className='d-flex container-title p-3 m-2'>
+                      <img src={icon} className='imgIcon' alt='' />
+                      <span className='fs-4 card-title fw-bold'>Bienvenido</span>
+                      <img src={icon} className='imgIcon' alt='' />
+                    </div>
                   </div>
-                  <form
-                    onSubmit={handleLoginSubmit}
-                    className='needs-validation'
-                    noValidate={true}
-                    autoComplete='off'
-                    aria-label='form-login'
-                  >
-                    <div className='mb-3'>
-                      <label className='mb-2 text-muted' htmlFor='email'>
-                        Usuario
-                      </label>
-                      <input
-                        id='user'
-                        type='text'
-                        onChange={(event) => handleInputChange(loginUser, setLoginUser, null, null, null, event)}
-                        value={loginUser.user}
-                        className='form-control'
-                        name='user'
-                        required
-                        autoFocus
-                      />
-                      <div className='invalid-feedback'>Usuario inválido</div>
-                    </div>
-                    <div className='mb-3'>
-                      <div className='mb-2 w-100'>
-                        <label className='text-muted' htmlFor='password'>
-                          Contraseña
-                        </label>
-                      </div>
-                      <input
-                        id='password'
-                        type='password'
-                        onChange={(event) => handleInputChange(loginUser, setLoginUser, null, null, null, event)}
-                        value={loginUser.password}
-                        className='form-control'
-                        name='password'
-                        required
-                      />
-                      <div className='invalid-feedback'>Contraseña es requirida</div>
-                    </div>
-                    <div className='d-flex align-items-center justify-content-between'>
-                      <button type='submit' className='btn btn-primary'>
-                        <i className='bi bi-box-arrow-in-right'></i> Ingresar
-                      </button>
+                  <div className='d-flex justify-content-center align-items-center m-3'>
 
-                      <button type="button" className='btn btn-primary' onClick={() => handleSetState(true, setModelRegister)}>
-                        <i className='bi bi-box-arrow-in-right'></i> Registrarse
-                      </button>
-                    </div>
-                    <div className={user ? "text-center mt-3" : "loading"}>
-                      <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
-                    </div>
-                  </form>
+                    <Form
+                      name="normal_login"
+                      className="login-form"
+                      initialValues={{ remember: true }}
+                      onFinish={handleLoginSubmit}
+                    >
+                      <Form.Item
+                        name="user"
+                        rules={[{ required: true, message: 'Ingresa tu correo!' }]}
+                      >
+                        <Input
+                          prefix={<UserOutlined className="site-form-item-icon" />}
+                          placeholder="Correo"
+                          onChange={(event) => handleInputChange(loginUser, setLoginUser, null, null, null, event)}
+                          value={loginUser.user}
+                          name='user'
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="password"
+                        rules={[{ required: true, message: 'Ingresa tu contraseña!' }]}
+                      >
+                        <Input
+                          prefix={<LockOutlined className="site-form-item-icon" />}
+                          type="password"
+                          placeholder="Contraseña"
+                          onChange={(event) => handleInputChange(loginUser, setLoginUser, null, null, null, event)}
+                          value={loginUser.password}
+                          name='password'
+                        />
+                      </Form.Item>
+                      <Form.Item style={{ color: 'white', marginBottom: '0' }}>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          className="login-form-button btn-primary"
+                          disabled={user ? true : false}>
+                          Ingresar
+                        </Button>
+                        Or <a className='' onClick={() => handleSetState(true, setModelRegister)}>Registrarse</a>
+                      </Form.Item>
+                      <div className={user ? "text-center mt-3" : "loading"}>
+                        <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+                      </div>
+                    </Form>
+                  </div>
                 </div>
                 <div className='card-footer py-3 border-0'>
                   <div className='text-center text-white'>
@@ -196,7 +201,7 @@ const LoginView = (/*{ setToken }*/) => {
         open={modelRegister}
         title="Registrar cliente"
         onCancel={() => handleSetState(false, setModelRegister)}
-        width="11a00px"
+        width="75vw"
         footer={[
         ]}
       >
@@ -214,7 +219,7 @@ const LoginView = (/*{ setToken }*/) => {
             openNotificationWithIcon(notification, type, message, description)
           }}
         >
-          <Row className='col-12 d-flex flex-column align-items-center'>
+          <Row className='col-12 col-md-12 d-flex flex-column align-items-center'>
             <div className='d-flex justify-content-center'>
               <Col span={12} className="m-3">
                 <Form.Item
@@ -295,7 +300,7 @@ const LoginView = (/*{ setToken }*/) => {
 
                 <Form.Item
                   name="birthDate"
-                  label="Fecha de nacimineto"
+                  label="Fecha de nacimiento"
                   rules={[{ required: true, message: "Este campo es obligatorio" }]}
                   className="d-flex flex-column">
                   <DatePicker
@@ -311,7 +316,7 @@ const LoginView = (/*{ setToken }*/) => {
                   getValueFromEvent={(event) => normFile(event)}
                   // onChange={getUrl}s
                   rules={[{ required: true, message: "Este campo es obligatorio" }]}
-                  className="d-flex flex-column">
+                  className="d-flex text-center">
                   <Upload
                     beforeUpload={async (file) => {
                       const notImage =
