@@ -33,6 +33,7 @@ const LoginView = (/*{ setToken }*/) => {
   /* General states for receiving user data */
   const [formCustomer] = Form.useForm();
   const [user, setUser] = useState(false)
+  const [registeredUser, setRegisteredUser] = useState(false)
   const [equalPasswords, setEqualPasswords] = useState(false)
   const [modelRegister, setModelRegister] = useState(false)
   const [newUser, setNewUser] = useState({
@@ -52,7 +53,7 @@ const LoginView = (/*{ setToken }*/) => {
   })
 
   /*Función para enviar los datos ingresados por el usuario para saber si puede ingresar o no*/
-  const handleSubmit = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault()
     console.log("login: ", loginUser)
     try {
@@ -84,6 +85,18 @@ const LoginView = (/*{ setToken }*/) => {
     }
   }
 
+  const handleRegisterSubmit = () => {
+    const type = 'success'
+    const message = '¡Registro exitoso!'
+    const description = `Bienvenido ${newUser.name}`
+    setRegisteredUser(true)
+    setTimeout(() => {
+      handleSetState(false, setModelRegister)
+      setRegisteredUser(false)
+      openNotificationWithIcon(notification, type, message, description)
+    }, 5000);
+  }
+
   return (
     <>
       <section className='background h-100'>
@@ -98,7 +111,7 @@ const LoginView = (/*{ setToken }*/) => {
                     <img src={icon} className='imgIcon' alt='' />
                   </div>
                   <form
-                    onSubmit={handleSubmit}
+                    onSubmit={handleLoginSubmit}
                     className='needs-validation'
                     noValidate={true}
                     autoComplete='off'
@@ -176,8 +189,13 @@ const LoginView = (/*{ setToken }*/) => {
           name="crearCliente"
           className="crearCliente"
           id="crearCliente"
-          onFinish={() => console.log("create customer")}
-          onFinishFailed={() => console.log("some field are not ready to send it")}
+          onFinish={handleRegisterSubmit}
+          onFinishFailed={() => {
+            const type = 'warning'
+            const message = '¡No se pudo completar el registro!'
+            const description = "Algunos campos obligatorios no están diligenciados"
+            openNotificationWithIcon(notification, type, message, description)
+          }}
         >
           <Row className='col-12 d-flex flex-column align-items-center'>
             <div className='d-flex justify-content-center'>
@@ -308,10 +326,14 @@ const LoginView = (/*{ setToken }*/) => {
               <Button htmlType="button" className="m-2" onClick={() => resetForm(formCustomer)}>
                 Limpiar
               </Button>
-              <Button type="primary" htmlType="submit" onClick={() => console.log(newUser)} /* loading={loadingClient} */ className="btnCrearCliente m-2">
+              <Button type="primary" htmlType="submit" onSubmit={() => console.log("the form was sent")} onClick={() => console.log(newUser)} /* loading={loadingClient} */ className="btnCrearCliente m-2">
                 Crear
               </Button>
             </Form.Item>
+          </div>
+
+          <div className={registeredUser ? "text-center mt-3" : "loading"}>
+            <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
           </div>
         </Form>
       </Modal>
