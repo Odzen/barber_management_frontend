@@ -13,6 +13,8 @@ const LoginView = (/*{ setToken }*/) => {
     clave: ''
   })
 
+  const API_URL = import.meta.env.VITE_API_URL
+
   /*Función para mostrar notificación cuando los datos del usuario para el login son incorrectos*/
   const openNotificationWithIcon = (type) => {
     notification[type]({
@@ -33,7 +35,7 @@ const LoginView = (/*{ setToken }*/) => {
     e.preventDefault()
 
     try {
-      let res = await axios.post('http://localhost:3001/usuario/login', datos)
+      let res = await axios.post(API_URL, datos)
       setUser(!user)
       setTimeout(() => {
         const accessToken = res.data.token
