@@ -62,7 +62,7 @@ jobs:
           echo "HEAD_REF=$(echo ${{ github.head_ref }} | tr / -)" >> $GITHUB_ENV
       - name: Set Alias Domain
         run: |
-          echo "ALIAS_DOMAIN=$(echo ${{ env.HEAD_REF || env.BRANCH }})-barbermanagment.live" >> $GITHUB_ENV
+          echo "ALIAS_DOMAIN=$(echo ${{ env.HEAD_REF || env.BRANCH }})-barber-management.vercel.app" >> $GITHUB_ENV
       - uses: amondnet/vercel-action@v20
         id: deploy-vercel
         with:
