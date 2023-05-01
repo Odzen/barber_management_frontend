@@ -46,8 +46,6 @@ const LoginView = (/*{ setToken }*/) => {
     birthDate: '',
     urlImg: '',
     email: '',
-    state: STATES.ACTIVE,
-    role: ROLES.CUSTOMER,
     password: '',
     password_confirm: ''
   })
@@ -178,7 +176,7 @@ const LoginView = (/*{ setToken }*/) => {
                           disabled={user ? true : false}>
                           Ingresar
                         </Button>
-                        Or <a className='' onClick={() => handleSetState(true, setModelRegister)}>Registrarse</a>
+                        O <a className='' onClick={() => handleSetState(true, setModelRegister)}>Registrarse</a>
                       </Form.Item>
                       <div className={user ? "text-center mt-3" : "loading"}>
                         <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
