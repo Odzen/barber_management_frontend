@@ -218,8 +218,8 @@ const LoginView = (/*{ setToken }*/) => {
           }}
         >
           <Row className='col-12 col-md-12 d-flex flex-column align-items-center'>
-            <div className='d-flex justify-content-center'>
-              <Col span={12} className="m-3">
+            <div className='d-flex justify-content-center form_r'>
+              <Col span={12} className="m-3 col_r">
                 <Form.Item
                   name="name"
                   label="Nombre completo"
@@ -283,7 +283,7 @@ const LoginView = (/*{ setToken }*/) => {
                     name="password_confirm" />
                 </Form.Item>
               </Col>
-              <Col span={12} className="m-3">
+              <Col span={12} className="m-3 col_r">
                 <Form.Item
                   name="phone"
                   label="Número de celular"

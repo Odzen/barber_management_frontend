@@ -57,12 +57,30 @@
 .login-form {
   max-width: 300px;
 }
+
 .login-form-forgot {
   float: right;
 }
+
 .ant-col-rtl .login-form-forgot {
   float: left;
 }
+
 .login-form-button {
   width: 100%;
+}
+
+.form_r {
+  flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .form_r {
+    flex-direction: column !important;
+  }
+
+  .col_r {
+    margin: 0 !important;
+    max-width: 100%;
+  }
 }
