@@ -1,23 +1,23 @@
 export const ROLES = Object.freeze({
-	ADMIN: 'admin',
-	BARBER: 'barber',
-    CUSTOMER: 'customer'
+	ADMIN: 'ADMIN',
+	BARBER: 'BARBER',
+    CUSTOMER: 'CUSTOMER'
 });
 
 export const STATES = Object.freeze({
-	ACTIVE: 'active',
-    INACTIVE: 'inactive',
+	ACTIVE: 'ACTIVE',
+    INACTIVE: 'INACTIVE',
 });
 
 export const SERVICES = Object.freeze({
-	HAIRCUT: 'haircut',
-    BEARD: 'beard',
+	HAIRCUT: 'HAIRCUT',
+    BEARD: 'BEARD',
 });
 
 export const APPOINTMENT_STATE = Object.freeze({
-	CANCELED: 'canceled',
-    SCHEDULED: 'scheduled',
-    DONE: 'done',
+	CANCELED: 'CANCELED',
+    SCHEDULED: 'SCHEDULED',
+    DONE: 'DONE',
 });
   
   

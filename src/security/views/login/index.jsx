@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Modal,
   Form,
@@ -31,9 +31,11 @@ import { resetForm } from '../../../helpers/resetForm';
 import { normFile, setUrlImgBase64 } from '../../../helpers/handleUpload';
 /* Component used to validate user input */
 
-const LoginView = (/*{ setToken }*/) => {
+const LoginView = ({ setToken }) => {
 
   /* General states for receiving user data */
+  // const API_URL = process.env.VITE_API_URL;
+  const API_URL = "http://localhost:8080/"
   const [formCustomer] = Form.useForm();
   const [user, setUser] = useState(false)
   const [registeredUser, setRegisteredUser] = useState(false)
@@ -50,38 +52,38 @@ const LoginView = (/*{ setToken }*/) => {
     password_confirm: ''
   })
   const [loginUser, setLoginUser] = useState({
-    user: '',
+    email: '',
     password: ''
   })
 
   /*Función para enviar los datos ingresados por el usuario para saber si puede ingresar o no*/
-  const handleLoginSubmit = async (e) => {
-    // e.preventDefault()
-    console.log("login: ", loginUser)
+  const handleLoginSubmit = async () => {
     try {
       setUser(!user)
-      let res = await axios.post('http://localhost:3001/usuario/login', loginUser)
+      let response = await axios.post(`${API_URL}api/auth/login`, loginUser)
+      let { data, token } = await response.data
+
+      const id = data.id;
+      const name = data.name;
+      const role = data.role;
+      const urlImg = data.urlImg;
+
+      /* Local storage variables */
+      localStorage.setItem('id', id)
+      localStorage.setItem('name', name)
+      localStorage.setItem('role', role)
+      localStorage.setItem('urlImg', urlImg)
+
       setTimeout(() => {
-
-        const accessToken = res.data.token
-        // setToken(accessToken)
-        localStorage.setItem('token', accessToken)
-
-        setLoginUser({
-          user: '',
-          password: ''
-        })
-
-        /* Local storage variables */
-        localStorage.setItem('name', res.data.nombre_usuario)
-        localStorage.setItem('urlImg', res.data.url_img_usuario)
-        localStorage.setItem('role', res.data.nombre_rol)
-        localStorage.setItem('id', res.data.id_usuario)
-      }, 1000)
+        localStorage.setItem('token', token)
+        setToken(token)
+        setUser(!user)
+      }, 1000);
     } catch (error) {
       const type = 'warning'
       const message = '¡Ocurrió algo inusual!'
-      const description = error.message
+      const description = error.response.status === 401 ? "Las credenciales ingresadas con incorrectas, ¡Inténtalo de nuevo!" : error.message
+      console.log(error)
       setUser(false)
       openNotificationWithIcon(notification, type, message, description)
     }
@@ -122,7 +124,6 @@ const LoginView = (/*{ setToken }*/) => {
   return (
     <>
       <section className='background h-100'>
-
         <div className='h-100'>
           <div className='row g-0 align-items-center justify-content-center h-100 px-5'>
             <div className='col-xxl-3 col-xl-5 col-lg-5 col-md-7 col-sm-9 col-lg-auto sw-lg-70'>
@@ -144,15 +145,15 @@ const LoginView = (/*{ setToken }*/) => {
                       onFinish={handleLoginSubmit}
                     >
                       <Form.Item
-                        name="user"
+                        name="email"
                         rules={[{ required: true, message: 'Ingresa tu correo!' }]}
                       >
                         <Input
                           prefix={<UserOutlined className="site-form-item-icon" />}
                           placeholder="Correo"
                           onChange={(event) => handleInputChange(loginUser, setLoginUser, null, null, null, event)}
-                          value={loginUser.user}
-                          name='user'
+                          value={loginUser.email}
+                          name='email'
                         />
                       </Form.Item>
                       <Form.Item

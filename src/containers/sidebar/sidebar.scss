@@ -1,7 +1,7 @@
 .sidebar {
     width: 60px;
     height: 100vh;
-    background: linear-gradient(174.54deg, #FDC43F 22.68%, rgba(178, 145, 104, 0.713644) 99.09%)!important;
+    background: #231F1F!important;
     transition-duration: 0.3s;
     display: flex;
     flex-direction: column;
@@ -30,7 +30,7 @@
 .sidebarOpen {
     width: 200px;
     height: 100vh;
-    background: linear-gradient(174.54deg, #FDC43F 22.68%, rgba(178, 145, 104, 0.713644) 99.09%)!important;
+    background: #231F1F!important;
     transition-duration: 0.3s;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,7 @@
     .linksContainer {
         display: flex;
         flex-direction: column;
-        margin-top: 80px;
+        margin-top: 40px;
     }
 
     a {
@@ -58,8 +58,8 @@
     .name p{
         color: white!important;
         font-weight: bold;
-        background-color: #B29168;
-        padding: 1% 20%;
+        background-color: #333237;
+        padding: 1% 10%;
         border-radius: 20px;
         margin: 0!important;
     }
