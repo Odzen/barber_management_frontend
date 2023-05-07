@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ErrorView from '../../security/views/error'
 import LoginView from '../../security/views/login'
 import { ROLES } from '../../utils/enums'
-import Sidebar from '../sidebar';
+import Sidebar from '../sidebar'
 
 const MainRouter = ({ location }) => {
   /* General states for receiving the token */
