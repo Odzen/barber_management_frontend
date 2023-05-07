@@ -5,7 +5,8 @@ export const setUrlImgBase64 = (file, state, setState) => {
   reader.addEventListener(
     'load',
     () => {
-      const srcData = reader.result
+      let srcData = reader.result
+      srcData = srcData.split('base64,')[1]
       setState({
         ...state,
         urlImg: srcData
@@ -21,4 +22,3 @@ export const setUrlImgBase64 = (file, state, setState) => {
 export const normFile = (e) => {
   return e.fileList
 }
-

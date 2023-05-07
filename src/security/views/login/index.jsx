@@ -1,5 +1,11 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { handleInputChange } from '../../../helpers/handleInputChange';
+import { openNotificationWithIcon, } from '../../../helpers/openNotificationWithIcon';
+import { handleSetState } from '../../../helpers/handleSetState';
+import { newUserFields } from "../../../utils/newUserFields"
+import { resetForm } from '../../../helpers/resetForm';
+import { normFile, setUrlImgBase64 } from '../../../helpers/handleUpload';
 import {
   Modal,
   Form,
@@ -23,23 +29,16 @@ import {
 } from '@ant-design/icons';
 import icon from '../../../assets/images/icono.png'
 import './login.css'
-import { handleInputChange } from '../../../helpers/handleInputChange';
-import { openNotificationWithIcon, } from '../../../helpers/openNotificationWithIcon';
-import { handleSetState } from '../../../helpers/handleSetState';
-import { STATES, ROLES } from "../../../utils/enums"
-import { resetForm } from '../../../helpers/resetForm';
-import { normFile, setUrlImgBase64 } from '../../../helpers/handleUpload';
+
 /* Component used to validate user input */
 
 const LoginView = ({ setToken }) => {
 
   /* General states for receiving user data */
-  // const API_URL = process.env.VITE_API_URL;
-  const API_URL = "http://localhost:8080/"
+  const API_URL = import.meta.env.VITE_API_URL
   const [formCustomer] = Form.useForm();
   const [user, setUser] = useState(false)
   const [registeredUser, setRegisteredUser] = useState(false)
-  const [equalPasswords, setEqualPasswords] = useState(false)
   const [modelRegister, setModelRegister] = useState(false)
   const [newUser, setNewUser] = useState({
     name: '',
@@ -55,8 +54,9 @@ const LoginView = ({ setToken }) => {
     email: '',
     password: ''
   })
+  console.log()
 
-  /*Función para enviar los datos ingresados por el usuario para saber si puede ingresar o no*/
+  /* Function to send the data entered by the user to know if they can enter or not */
   const handleLoginSubmit = async () => {
     try {
       setUser(!user)
@@ -89,24 +89,38 @@ const LoginView = ({ setToken }) => {
     }
   }
 
-  const handleRegisterSubmit = () => {
+  const handleRegisterSubmit = async () => {
     let type = ''
     let message = ''
     let description = ''
 
     if (newUser.password === newUser.password_confirm) {
-      console.log("the passwords are equals")
 
       type = 'success'
       message = '¡Registro exitoso!'
       description = `Bienvenido ${newUser.name}`
 
-      setRegisteredUser(true)
-      setTimeout(() => {
-        handleSetState(false, setModelRegister)
-        setRegisteredUser(false)
+
+      let user = Object.assign({}, newUser);
+      delete user.password_confirm
+
+      try {
+
+        let response = await axios.post(`${API_URL}api/users`, user)
+        setRegisteredUser(true)
+        setTimeout(() => {
+          handleSetState(false, setModelRegister)
+          setRegisteredUser(false)
+          openNotificationWithIcon(notification, type, message, description)
+        }, 1000);
+
+      } catch (error) {
+        let error_field = newUserFields[error.response.data.err.meta.target]
+        type = 'warning'
+        message = '¡Hubo un error!'
+        description = "El " + error_field + " ingresado ya existe, inténtalo con uno diferente"
         openNotificationWithIcon(notification, type, message, description)
-      }, 5000);
+      }
 
     } else {
       type = 'warning'
@@ -317,6 +331,7 @@ const LoginView = ({ setToken }) => {
                   rules={[{ required: true, message: "Este campo es obligatorio" }]}
                   className="d-flex text-center">
                   <Upload
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                     beforeUpload={async (file) => {
                       const notImage =
                         file.type === 'image/jpg' ||
@@ -347,7 +362,7 @@ const LoginView = ({ setToken }) => {
               <Button htmlType="button" className="m-2" onClick={() => resetForm(formCustomer)}>
                 Limpiar
               </Button>
-              <Button type="primary" htmlType="submit" onSubmit={() => console.log("the form was sent")} onClick={() => console.log(newUser)} /* loading={loadingClient} */ className="btnCrearCliente m-2">
+              <Button type="primary" htmlType="submit" disabled={registeredUser ? true : false} className="btnCrearCliente m-2">
                 Crear
               </Button>
             </Form.Item>
