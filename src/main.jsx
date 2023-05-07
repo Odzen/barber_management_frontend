@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Routes, Route, BrowserRouter as Router, useLocation } from 'react-router-dom'
-import MainRouter from './containers/mainRouter/index'
+import MainRouter from './components/mainRouter/index'
 import 'antd/dist/reset.css'
 
 const App = () => {

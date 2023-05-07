@@ -27,6 +27,7 @@ import './login.css'
 /* Component used to validate user input */
 
 const LoginView = ({ setToken }) => {
+  
   /* General states for receiving user data */
   const API_URL = import.meta.env.VITE_API_URL
   const [formCustomer] = Form.useForm()
