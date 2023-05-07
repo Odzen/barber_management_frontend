@@ -38,7 +38,6 @@ const MainRouter = ({ location }) => {
       {/* Main routes conditioned according to the role of the user */}
       <Routes>
         <Route path='/main' element={role !== ROLES.ADMIN ? <ErrorView /> : <h1>Dashboard</h1>} />
-        <Route path='/register' element={<h1>Register</h1>} />
         <Route path='/staff' element={role == ROLES.BARBER ? <ErrorView /> : <h1>Staff</h1>} />
         <Route path='/staff/:id' element={<h1>Staff Id</h1>} />
         <Route path='/users' element={role !== ROLES.ADMIN ? <ErrorView /> : <h1>Users</h1>} />
