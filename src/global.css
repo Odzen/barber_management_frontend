@@ -7,13 +7,13 @@
   width: 94%;
 }
 
-.ant-btn,
+/* .ant-btn,
 .ant-btn:hover,
 .ant-btn:focus {
   color: red !important;
   border-color: #fdc43f !important;
   background: transparent !important;
-}
+} */
 
 .centrar {
   margin: 0 auto !important;

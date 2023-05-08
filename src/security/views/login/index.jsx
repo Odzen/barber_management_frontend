@@ -208,7 +208,7 @@ const LoginView = ({ setToken }) => {
         open={modelRegister}
         title='Registrar cliente'
         onCancel={() => handleSetState(false, setModelRegister)}
-        width='75vw'
+        width='50vw'
         footer={[]}
       >
         <Form
@@ -235,7 +235,7 @@ const LoginView = ({ setToken }) => {
                 >
                   <Input
                     type='text'
-                    pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$"
+                    pattern='^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+${2,60}'
                     title='Ingresa un nombre válido'
                     onChange={(event) =>
                       handleInputChange(newUser, setNewUser, null, null, null, event)
@@ -283,9 +283,8 @@ const LoginView = ({ setToken }) => {
                 >
                   <Input.Password
                     type='password'
-                    pattern='^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$'
-                    title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, 
-                    al menos una mayúscula y al menos un caracter no alfanumérico.'
+                    pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*]){1})\S{8,16}$'
+                    title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
                     onChange={(event) =>
                       handleInputChange(newUser, setNewUser, null, null, null, event)
                     }
@@ -300,9 +299,8 @@ const LoginView = ({ setToken }) => {
                 >
                   <Input.Password
                     type='password'
-                    pattern='^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$'
-                    title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, 
-                  al menos una mayúscula y al menos un caracter no alfanumérico.'
+                    pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*]){1})\S{8,16}$'
+                    title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
                     onChange={(event) =>
                       handleInputChange(newUser, setNewUser, null, null, null, event)
                     }
@@ -353,6 +351,7 @@ const LoginView = ({ setToken }) => {
                   className='d-flex text-center'
                 >
                   <Upload
+                    style={{ maxWidth: '200px' }}
                     action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
                     beforeUpload={async (file) => {
                       const notImage =

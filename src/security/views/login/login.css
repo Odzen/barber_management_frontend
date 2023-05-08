@@ -74,6 +74,10 @@
   flex-direction: row;
 }
 
+.ant-form-item-row {
+  display: block !important;
+}
+
 @media (max-width: 768px) {
   .form_r {
     flex-direction: column !important;
