@@ -53,7 +53,7 @@ const LoginView = ({ setToken }) => {
   const handleLoginSubmit = async () => {
     try {
       setUser(!user)
-      let response = await axios.post(`${API_URL}api/auth/login`, loginUser)
+      let response = await axios.post(`${API_URL}/api/auth/login`, loginUser)
       let { data, token } = await response.data
 
       const id = data.id
