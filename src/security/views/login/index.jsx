@@ -223,7 +223,7 @@ const LoginView = ({ setToken }) => {
             openNotificationWithIcon(notification, type, message, description)
           }}
         >
-          <div className='col-12 col-md-12 d-flex flex-column align-items-center'>
+          <Row className='col-12 col-md-12 d-flex flex-column align-items-center'>
             <div className='d-flex justify-content-center form_r'>
               <Col span={12} className='m-3 col_r'>
                 <Form.Item
@@ -376,7 +376,7 @@ const LoginView = ({ setToken }) => {
                 </Form.Item>
               </Col>
             </div>
-          </div>
+          </Row>
 
           <div className='d-flex justify-content-center'>
             <Form.Item>
