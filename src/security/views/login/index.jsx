@@ -99,7 +99,7 @@ const LoginView = ({ setToken }) => {
       delete user.password_confirm
 
       try {
-        await axios.post(`${API_URL}api/users`, user)
+        await axios.post(`${API_URL}/api/users`, user)
         setRegisteredUser(true)
         setTimeout(() => {
           handleSetState(false, setModelRegister)
