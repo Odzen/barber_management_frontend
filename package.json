@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint \"./src/**/*.jsx\" --config ./.eslintrc.json",
-    "prettier": "prettier './src' --config ./.prettierrc"
+    "prettier": "prettier './src' --config ./.prettierrc",
+    "sonar": "sonar-scanner"
   },
   "dependencies": {
     "antd": "^5.4.5",
@@ -31,6 +32,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.7",
-    "vite": "^4.1.0"
+    "vite": "^4.1.0",
+    "sonarqube-scanner": "^2.7.0"
   }
 }
