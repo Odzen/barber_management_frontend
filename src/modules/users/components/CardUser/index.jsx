@@ -12,20 +12,18 @@ import {
     notification
 } from 'antd';
 import { useGetBase64 } from '../../../../hooks/useGetBase64';
-// import { headers } from '../../../../components/headers/headers';
 import PropTypes from 'prop-types';
 
-const { Option } = Select;
 
-/*Layout para inputs de los formularios*/
-const layout = {
-    labelCol: { span: 20 },
-    wrapperCol: { span: 50 },
-};
+import './style.scss'
+import { ROLES, STATES } from '../../../../utils/enums';
+
+
+
 
 /*Componente usado para mostrar la información de cada uno de los usuarios, como el nombre, correo, telefono, imagen, y estado*/
 
-export const CardUser = ({ nombre, correo, telefono, estado, url, id }) => {
+export const CardUser = ({ id, name, urlImg, email, phone, state, role }) => {
 
     const { confirm } = Modal;
 
@@ -214,161 +212,49 @@ export const CardUser = ({ nombre, correo, telefono, estado, url, id }) => {
         setVisibleVerUsuario(false);
     };
 
-    /*Función que muestra un modal para confirmar que se quiere eliminar un usuario*/
-    const showDeleteConfirm = async (e) => {
 
-        let idUserDel = getIdDelete(e);
+    const getRole = (role) => {
 
-        confirm({
-            title: '¿Estás seguro de eliminar este usuario?',
-            icon: <ExclamationCircleOutlined />,
-            content: 'Este cambio es permanente ',
-            okText: 'Sí',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk() {
-                deleteUsers(idUserDel);
-            },
-        });
-    };
-
-    /*Función y objetos del antd requeridos para el uso del componente Upload*/
-    const props = {
-        name: 'file',
-        headers: {
-            authorization: 'authorization-text',
+        const _ROLES = {
+            ADMIN: 'Administrador',
+            CUSTOMER: 'Cliente',
+            BARBER: 'Barbero',
         }
+
+        return _ROLES[role]
     }
-
-    const normFile = (e) => {
-        if (Array.isArray(e)) {
-            return e.fileList;
-        }
-
-        return e.fileList;
-    };
-
 
     return (
         <>
-            <div id={id} className="cardUser">
-
-                <li className="ant-list-item">
-                    <div className="ant-list-item-meta">
-                        <div className="ant-list-item-meta-avatar">
-                            <span className="ant-avatar ant-avatar-circle ant-avatar-image">
-                                <img src={url} />
-                            </span>
-                        </div>
-                        <div className="ant-list-item-meta-content">
-                            <h4 className="ant-list-item-meta-title" >
-                                <a onClick={openUser} id={id}>{nombre}</a>
-                            </h4>
-                        </div>
-                        <div className="ant-list-item-meta-content">
-                            <div className="ant-list-item-meta-description correo">{correo}</div>
-                        </div>
-                        <div className="ant-list-item-meta-content">
-                            <div className="ant-list-item-meta-description telefono">{telefono}</div>
-                        </div>
-
+            <div className='userCard'>
+                <div className='d-flex align-items-center field'>
+                    <img
+                        src={'data:image/png;base64,' + urlImg}
+                        alt="avatar"
+                        className='userImg' />
+                    <span className='info_text _name'>{name}</span>
+                </div>
+                <div className='field'>
+                    <div className='d-flex align-items-center justify-content-center'>
+                        <span className='info_text text-decoration-underline'>{email}</span>
                     </div>
-                    <div className={estado == 1 ? 'activo' : 'deshabilitado'}>{estado == 1 ? 'Activo' : 'Deshabilitado'}</div>
-                    <ul className="ant-list-item-action">
-                        <li>
-                            <div >
-
-                                <svg className='editar' onClick={openEditUser} id={id} viewBox="64 64 896 896" focusable="false" data-icon="edit" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path id={id} d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"></path></svg>
-
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                {
-                                    idUser == id ? <svg className='eliminar_bloqueado' viewBox="64 64 896 896" focusable="false" data-icon="delete" width="1em" height="1em" fill="currentColor" aria-hidden="true" data-darkreader-inline-fill="" ><path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path></svg>
-                                        :
-                                        <svg className='eliminar' onClick={showDeleteConfirm} id={id} viewBox="64 64 896 896" focusable="false" data-icon="delete" width="1em" height="1em" fill="currentColor" aria-hidden="true" data-darkreader-inline-fill="" ><path id={id} d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path></svg>
-
-                                }
-                            </div>
-                        </li>
-                    </ul>
-                </li>
+                </div>
+                <div className='field'>
+                    <span className='info_text'>(+57) {phone}</span>
+                </div>
+                <div className='field'>
+                    <span className='info_text'>{getRole(role)}</span>
+                </div>
+                <div className='field'>
+                    <span className={`state ${STATES[state] === state ? 'active' : 'inactive'}`} style={{ fontWeight: '500' }}>
+                        {STATES[state] === state ? 'Activo' : 'Inactivo'}
+                    </span>
+                </div>
             </div>
 
-            <Modal
-                open={visible}
-                title="Editar usuario"
-                onCancel={handleCancel}
-                width="800px"
-                footer={[
 
 
-                ]}
-            >
-
-                <Form {...layout} form={form} name="editarUsuario" className="editarUsuario" id="editarUsuario" onFinish={updateUsers}>
-
-                    <Row className='d-flex align-items-center justify-content-center foto_perfil'>
-                        <Form.Item
-                            name="url_img_usuario2"
-                            label=""
-                            valuePropName="fileList"
-                            onChange={getUrlUpdateUser}
-                            getValueFromEvent={normFile}
-                        >
-                            <Upload name="url_img_usuario2" listType="picture" {...props} maxCount={1} id="url_img_usuario2" accept="image/png, image/jpeg, image/jpg">
-                                <Button icon={<UploadOutlined />}>Foto de perfil</Button>
-                            </Upload>
-                        </Form.Item>
-                    </Row>
-
-                    <Row className='col-12 d-flex flex-column align-items-center'>
-                        <div className='d-flex justify-content-center'>
-                            <Col span={12} className="m-3">
-                                <Form.Item name="nombre_usuario" label="Nombre" className="d-flex flex-column">
-                                    <Input type="text" onChange={handleInputChange} name="nombre_usuario" />
-                                </Form.Item>
-                                <Form.Item name="estado_usuario" label="Estado" className="d-flex flex-column">
-
-
-                                    <Select required
-                                        defaultValue='Seleccione:'
-                                        onChange={handleSelectChange}
-                                        placeholder=""
-                                        allowClear
-                                        name="estado_usuario"
-                                    >
-
-                                        <Option key="1" value="1">Activo</Option>
-                                        <Option key="2" value="0">Deshabilitado</Option>
-
-
-                                    </Select>
-                                </Form.Item>
-                            </Col>
-                            <Col span={12} className="m-3">
-                                <Form.Item name="telefono_usuario" label="Teléfono" className="d-flex flex-column" id="telefono_usuario">
-                                    <Input type="text" onChange={handleInputChange} name="telefono_usuario" />
-                                </Form.Item>
-                            </Col>
-                        </div>
-                    </Row>
-                    <div className='d-flex justify-content-center'>
-                        <Form.Item >
-                            <Button htmlType="button" onClick={onReset}>
-                                Limpiar
-                            </Button>
-                            <Button type="primary" htmlType="submit" loading={loading} className="btnEditarUsuario">
-                                Actualizar
-                            </Button>
-                        </Form.Item>
-                    </div>
-                </Form>
-            </Modal>
-
-
-            <Modal
+            {/* <Modal
                 open={visibleVerUsuario}
                 title="Ver usuario"
                 onCancel={handleCancelUser}
@@ -430,7 +316,7 @@ export const CardUser = ({ nombre, correo, telefono, estado, url, id }) => {
                         </>
                 }
 
-            </Modal>
+            </Modal> */}
 
         </>
     )
@@ -438,13 +324,13 @@ export const CardUser = ({ nombre, correo, telefono, estado, url, id }) => {
 }
 
 CardUser.propTypes = {
-    nombre: PropTypes.string.isRequired,
-    correo: PropTypes.string.isRequired,
-    telefono: PropTypes.string.isRequired,
-    estado: PropTypes.number.isRequired,
-    url: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    urlImg: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
+    state: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
 }
 
 export default CardUser;
-

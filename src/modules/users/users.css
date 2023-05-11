@@ -92,41 +92,6 @@
   margin-left: 10px !important;
 }
 
-.cardUser .activo {
-  font-weight: bold;
-  background-color: lightgreen;
-  padding: 5px 5px;
-  border-radius: 10px;
-  width: 130px;
-  text-align: center;
-  color: black;
-  background-image: linear-gradient(
-    to left top,
-    #48bb78,
-    #41c18d,
-    #3ec7a2,
-    #43ccb4,
-    #4fd1c5
-  );
-  color: white;
-}
-
-.cardUser .deshabilitado {
-  font-weight: bold;
-  padding: 5px 5px;
-  border-radius: 10px;
-  width: 130px;
-  text-align: center;
-  color: white;
-  background-image: linear-gradient(
-    to left top,
-    #e53e3e,
-    #ec504f,
-    #f26160,
-    #f77170,
-    #fc8181
-  );
-}
 
 .cardUser svg {
   cursor: pointer;
@@ -143,7 +108,7 @@
 
 .eliminar_bloqueado {
   color: black;
-  cursor:auto!important;
+  cursor: auto !important;
 }
 
 .cardUser .ant-list-item-meta {
@@ -181,3 +146,8 @@
 .contenedor_main .pagination {
   display: none !important;
 }
+
+
+
+
+

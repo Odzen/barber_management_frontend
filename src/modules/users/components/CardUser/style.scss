@@ -1,0 +1,48 @@
+.state {
+  font-weight: bold;
+  padding: 5px 15px;
+  border-radius: 10px;
+  width: 130px;
+  text-align: center;
+  color: white;
+}
+
+.active {
+  background-image: linear-gradient(to left top, #48bb78, #41c18d, #3ec7a2, #43ccb4, #4fd1c5);
+}
+
+.inactive {
+  background-image: linear-gradient(to left top, #e53e3e, #ec504f, #f26160, #f77170, #fc8181);
+}
+
+.userCard {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 15px;
+  padding: 10px 20px;
+  margin: 20px;
+  background: white;
+
+  .userImg {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+    border-radius: 30px;
+    border: 1px solid #01329a;
+  }
+
+  .info_text {
+    font-weight: 500;
+  }
+
+  ._name {
+    color: #01329a;
+  }
+
+  .field {
+    text-align: center;
+    width: 220px;
+  }
+}

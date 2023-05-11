@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { Routes, Route, BrowserRouter as Router, useLocation } from 'react-router-dom'
 import MainRouter from './components/mainRouter/index'
 import 'antd/dist/reset.css'
+import './style.scss'
 
 const App = () => {
   const location = useLocation()

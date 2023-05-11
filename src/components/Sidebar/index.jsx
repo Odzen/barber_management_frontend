@@ -5,7 +5,7 @@ import { ROLES } from '../../utils/enums'
 import PropTypes from 'prop-types'
 import userPhoto from '../../assets/images/UserPhoto.png'
 import Item from './Item'
-import './sidebar.scss'
+import './style.scss'
 
 const Sidebar = ({ setToken }) => {
   /* Global variables */
