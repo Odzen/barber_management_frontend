@@ -1,28 +1,12 @@
 //'use-strict'
 //import { expect, describe, test } from '@jest/globals'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import '@testing-library/user-event'
-import React from 'react'
 
 //import MainRouter from '../containers/mainRouter/index'
 //import Sidebar from '../containers/sidebar/index'
 
 //import Item from '../containers/sidebar/Item/index.jsx'
-import ErrorView from '../security/views/error/index'
 
-//HELPERS
-import handleInputChange from '../helpers/handleInputChange'
-import handleSetState from '../helpers/handleSetState'
-import { setUrlImgBase64, normFile } from '../helpers/handleUpload'
-import openNotificationWithIcon from '../helpers/openNotificationWithIcon'
-import resetForm from '../helpers/resetForm'
-
-//import LoginView from '../security/views/login/index' main
-
-//import Links from'../containers/sidebar/Data/index.jsx' preguntar
-
-//[class ErrorView]
 
 afterEach(() => {
   cleanup()
