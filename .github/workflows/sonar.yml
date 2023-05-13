@@ -16,9 +16,9 @@ jobs:
           fetch-depth: 0
       # TODO -> Install dependencies and run tests
       - name: Install dependencies
-        run: npm install
+        run: yarn
       - name: Test and coverage
-        run: npm run test2
+        run: jest --coverage
       - name: SonarCloud Scan
         id: scan
         uses: SonarSource/sonarcloud-github-action@master
