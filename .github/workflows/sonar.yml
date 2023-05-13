@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
       # TODO -> Install dependencies and run tests
       - name: Install dependencies
-        run: npm
+        run: npm install
       - name: Test and coverage
         run: npm run test
       - name: SonarCloud Scan
