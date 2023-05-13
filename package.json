@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint \"./src/**/*.jsx\" --config ./.eslintrc.json",
-    "prettier": "prettier './src' --config ./.prettierrc"
+    "prettier": "prettier './src' --config ./.prettierrc",
+    "test": "react-scripts test ./__tests__"
   },
   "dependencies": {
     "antd": "^5.4.5",
