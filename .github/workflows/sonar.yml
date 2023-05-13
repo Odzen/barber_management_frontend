@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Test and coverage
-        run: jest --coverage --watchAll
+        run: npm run test2
       - name: SonarCloud Scan
         id: scan
         uses: SonarSource/sonarcloud-github-action@master
