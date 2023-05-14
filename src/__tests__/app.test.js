@@ -1,5 +1,5 @@
 // import { render, screen, cleanup, fireEvent } from '@testing-library/react'
-import { MemoryRouter, Routes, Route } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import App from '../App'
 import renderer from 'react-test-renderer'
 

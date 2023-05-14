@@ -28,7 +28,7 @@ import './login.css'
 
 const LoginView = ({ setToken }) => {
   /* General states for receiving user data */
-  const API_URL = "http://localhost:8080"
+  const API_URL = 'http://localhost:8080'
   const [formCustomer] = Form.useForm()
   const [user, setUser] = useState(false)
   const [registeredUser, setRegisteredUser] = useState(false)

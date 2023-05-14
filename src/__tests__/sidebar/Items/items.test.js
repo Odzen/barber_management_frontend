@@ -1,4 +1,4 @@
-import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import { cleanup } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import renderer from 'react-test-renderer'
 import Item from '../../../containers/sidebar/Item/index'
@@ -18,12 +18,11 @@ describe('testing to Item component', () => {
     let item = renderer
       .create(
         <MemoryRouter initialEntries={['/users/mjackson']}>
-          <Item text={text} to={to} svg={svg} open={open} classes={classes} />
+          <Item text={text} to={to} svg={svg} classes={classes} />
         </MemoryRouter>
       )
       .toJSON()
 
     expect(item).toMatchSnapshot()
-
   })
 })
