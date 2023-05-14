@@ -5,13 +5,24 @@ on:
       types: [opened, reopened, review_requested, closed, synchronize]
       branches: [main, dev]
 jobs:
+    if_merged:
+        if: ${{github.event.pull_request.merged == true}}
+        runs-on: ubuntu-latest
+        steps:
+                - name: Notification Slack
+                  uses: rtCamp/action-slack-notify@v2
+                  env:
+                    SLACK_CHANNEL: github
+                    SLACK_TITLE: Frontend
+                    SLACK_USERNAME: BotRepo
+                    SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+                    SLACK_MESSAGE: "${{github.event.pull_request.title}} ${{github.event.action}} (merged) on ${{github.event.pull_request.base.ref}}"  
+            
     messageSlack:
       runs-on: ubuntu-latest
       steps:
         - name: Notification Slack
           uses: rtCamp/action-slack-notify@v2
-          with:
-            fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           env:
             SLACK_CHANNEL: github
             SLACK_TITLE: Frontend
