@@ -17,4 +17,4 @@ jobs:
             SLACK_TITLE: Frontend
             SLACK_USERNAME: BotRepo
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-            SLACK_MESSAGE: "Frontend has changes in its PRs. Action: ${{github.event.pull_request.action}} {{github.event.action}}"  
+            SLACK_MESSAGE: "Frontend has changes in its PRs. Action: ${{github.event.action}}"  
