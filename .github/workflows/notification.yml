@@ -16,4 +16,3 @@ jobs:
           SLACK_USERNAME: BotRepo
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_MESSAGE: '¡Frontend has been updated!'
-
