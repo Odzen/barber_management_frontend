@@ -8,8 +8,8 @@
     "preview": "vite preview",
     "lint": "eslint \"./src/**/*.jsx\" --config ./.eslintrc.json",
     "prettier": "prettier './src' --config ./.prettierrc",
-    "test": "react-scripts test ./__tests__",
-    "test2": "jest --coverage --watchAll"
+    "test": "react-scripts test --coverage ./__tests__",
+    "test2": "jest --coverage"
   },
   "dependencies": {
     "@babel/preset-env": "^7.21.5",
@@ -25,6 +25,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
+    "react-scripts": "^5.0.1",
     "sass": "^1.62.0"
   },
   "devDependencies": {
