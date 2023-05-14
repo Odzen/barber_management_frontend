@@ -10,9 +10,11 @@ jobs:
       steps:
         - name: Notification Slack
           uses: rtCamp/action-slack-notify@v2
+          with:
+            fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           env:
             SLACK_CHANNEL: github
             SLACK_TITLE: Frontend
             SLACK_USERNAME: BotRepo
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-            SLACK_MESSAGE: "Commit message: ${{ github.event.head_commit.message }}"  
+            SLACK_MESSAGE: "Frontend has changes in its PRs"  
