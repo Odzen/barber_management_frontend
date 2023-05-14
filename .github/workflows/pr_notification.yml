@@ -2,7 +2,7 @@ name: Notifier_PR
 
 on:
     pull_request:
-      types: [opened]
+      types: [opened, reopened, review_requested]
       branches: [main, dev]
 jobs:
     messageSlack:
@@ -15,4 +15,4 @@ jobs:
             SLACK_TITLE: Frontend
             SLACK_USERNAME: BotRepo
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-            SLACK_MESSAGE: '¡Frontend has another PR!'    
+            SLACK_MESSAGE: "Commit message: ${{ github.event.head_commit.message }}"  
