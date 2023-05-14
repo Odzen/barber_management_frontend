@@ -2,7 +2,7 @@ name: Notifier_PR
 
 on:
     pull_request:
-      types: [opened, reopened, review_requested, closed]
+      types: [opened, reopened, review_requested, closed, synchronize]
       branches: [main, dev]
 jobs:
     messageSlack:
