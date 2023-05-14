@@ -1,3 +1,5 @@
+name: Notifier_PR
+
 on:
     pull_request:
       types: [opened]
