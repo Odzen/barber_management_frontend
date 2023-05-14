@@ -4,12 +4,14 @@ import './item.scss'
 
 /* Component to display each of the modules in the Sidebar */
 
-const Item = ({ text = '', to = '', svg = '', open = false }) => {
+const Item = ({ text, to, svg, open, classes }) => {
+
+
   return (
     <div className='container_item'>
-      <NavLink className={open ? 'linkOpen' : 'normal'} to={to}>
+      <NavLink className={classes} to={to}>
         <div>{svg}</div>
-        {open ? <p>{text}</p> : null}
+        <p>{text}</p>
       </NavLink>
     </div>
   )

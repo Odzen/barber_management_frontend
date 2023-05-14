@@ -4,4 +4,7 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: '<rootDir>/coverage',
   collectCoverageFrom: ['src/**/*.jsx'],
+  moduleNameMapper: {
+    "^.+.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
+  }
 }

@@ -28,7 +28,7 @@ import './login.css'
 
 const LoginView = ({ setToken }) => {
   /* General states for receiving user data */
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = "http://localhost:8080"
   const [formCustomer] = Form.useForm()
   const [user, setUser] = useState(false)
   const [registeredUser, setRegisteredUser] = useState(false)
@@ -47,7 +47,6 @@ const LoginView = ({ setToken }) => {
     email: '',
     password: ''
   })
-  console.log()
 
   /* Function to send the data entered by the user to know if they can enter or not */
   const handleLoginSubmit = async () => {
