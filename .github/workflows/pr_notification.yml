@@ -17,4 +17,4 @@ jobs:
             SLACK_TITLE: Frontend
             SLACK_USERNAME: BotRepo
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-            SLACK_MESSAGE: "Frontend Pull Request Action: ${{github.event.pull_request.title}} ${{github.event.action}} on ${{github.event.pull_request.base.ref}}"  
+            SLACK_MESSAGE: "Frontend Pull Request Action: ${{github.event.pull_request.title}} ${{github.event.action}} (${{github.event.pull_request.merged == true ? 'merged' : ''}}) on ${{github.event.pull_request.base.ref}}"  
