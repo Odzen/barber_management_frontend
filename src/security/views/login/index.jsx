@@ -28,7 +28,7 @@ import './login.css'
 
 const LoginView = ({ setToken }) => {
   /* General states for receiving user data */
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = 'https://api.barbermanagment.live/api/auth/login'
   const [formCustomer] = Form.useForm()
   const [user, setUser] = useState(false)
   const [registeredUser, setRegisteredUser] = useState(false)
