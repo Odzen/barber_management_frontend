@@ -28,7 +28,7 @@ import './login.css'
 
 const LoginView = ({ setToken }) => {
   /* General states for receiving user data */
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = 'http://localhost:8080'
   const [formCustomer] = Form.useForm()
   const [user, setUser] = useState(false)
   const [registeredUser, setRegisteredUser] = useState(false)
@@ -47,7 +47,6 @@ const LoginView = ({ setToken }) => {
     email: '',
     password: ''
   })
-  console.log()
 
   /* Function to send the data entered by the user to know if they can enter or not */
   const handleLoginSubmit = async () => {
@@ -141,7 +140,7 @@ const LoginView = ({ setToken }) => {
                       name='normal_login'
                       className='login-form'
                       initialValues={{ remember: true }}
-                      onFinish={handleLoginSubmit}
+                      onFinish={() => void handleLoginSubmit()}
                     >
                       <Form.Item
                         name='email'
@@ -215,7 +214,7 @@ const LoginView = ({ setToken }) => {
           name='crearCliente'
           className='crearCliente'
           id='crearCliente'
-          onFinish={handleRegisterSubmit}
+          onFinish={() => void handleRegisterSubmit()}
           onFinishFailed={() => {
             const type = 'warning'
             const message = '¡No se pudo completar el registro!'
@@ -359,9 +358,9 @@ const LoginView = ({ setToken }) => {
                         file.type === 'image/png' ||
                         file.type === 'image/svg+xml'
                       if (!notImage) {
-                        message.error(`${file.name} no es un archivo válido`)
+                        await message.error(`${file.name} no es un archivo válido`)
                       } else {
-                        message.success(`${file.name} añadido exitosamente`)
+                        await message.success(`${file.name} añadido exitosamente`)
                         setUrlImgBase64(file, newUser, setNewUser)
                       }
                       return notImage || Upload.LIST_IGNORE

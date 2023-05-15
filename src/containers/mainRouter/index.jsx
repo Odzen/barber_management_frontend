@@ -51,7 +51,7 @@ const MainRouter = ({ location }) => {
 }
 
 MainRouter.propTypes = {
-  location: PropTypes.string.isRequired
+  location: PropTypes.object.isRequired
 }
 
 export default MainRouter
