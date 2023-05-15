@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ErrorView from '../../security/views/error'
 import LoginView from '../../security/views/login'
 import Sidebar from '../../components/sidebar'
-import UsersView from '../../modules/users';
+import UsersView from '../../modules/users'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { ROLES } from '../../utils/enums'
 

@@ -1,260 +1,229 @@
-import React, { useState } from 'react';
-import { ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons';
-import {
-    Modal,
-    Form,
-    Input,
-    Select,
-    Button,
-    Col,
-    Row,
-    Upload,
-    notification
-} from 'antd';
-import { useGetBase64 } from '../../../../hooks/useGetBase64';
-import PropTypes from 'prop-types';
-
+import React, { useState } from 'react'
+import { ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons'
+import { Modal, Form, Input, Select, Button, Col, Row, Upload, notification } from 'antd'
+import { useGetBase64 } from '../../../../hooks/useGetBase64'
+import PropTypes from 'prop-types'
 
 import './style.scss'
-import { ROLES, STATES } from '../../../../utils/enums';
-
-
-
+import { ROLES, STATES } from '../../../../utils/enums'
 
 /*Componente usado para mostrar la información de cada uno de los usuarios, como el nombre, correo, telefono, imagen, y estado*/
 
 export const CardUser = ({ id, name, urlImg, email, phone, state, role }) => {
+  const { confirm } = Modal
 
-    const { confirm } = Modal;
+  /*Estados generales*/
+  const [users, setUsers] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const [visibleVerUsuario, setVisibleVerUsuario] = useState(false)
+  const [form] = Form.useForm()
+  const [datos, setDatos] = useState({
+    nombre_usuario: '',
+    telefono_usuario: '',
+    estado_usuario: '',
+    url_img_usuario: ''
+  })
 
-    /*Estados generales*/
-    const [users, setUsers] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [visible, setVisible] = useState(false);
-    const [visibleVerUsuario, setVisibleVerUsuario] = useState(false)
-    const [form] = Form.useForm();
-    const [datos, setDatos] = useState({
-        nombre_usuario: '',
-        telefono_usuario: '',
-        estado_usuario: '',
-        url_img_usuario: ''
+  /*Variables globales para las peticiones*/
+  const urlVerUsuario = `http://${document.domain}:3001/usuarios/`
+  const urlEditarUsuario = `http://${document.domain}:3001/editarUsuario/`
+  const urlEliminarUsuario = `http://${document.domain}:3001/eliminarUsuario/`
+
+  let idUser = localStorage.getItem('id')
+
+  /*Función para editar/actualizar usuarios*/
+  const updateUsers = async (e) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        ...datos
+      })
+    }
+
+    const res = await fetch(urlEditarUsuario + id, requestOptions)
+    openNotificationWithIcon('success')
+
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setVisible(false)
+      onReset()
+      window.location.reload()
+    }, 1000)
+  }
+
+  /*Función para eliminar usuarios*/
+  const deleteUsers = async (idUserDel) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: headers
+    }
+
+    const ruta = urlEliminarUsuario + idUserDel
+    console.log(ruta)
+    const res = await fetch(ruta, requestOptions)
+
+    openNotificationWithIconDelete('success')
+
+    setLoading(true)
+    setTimeout(() => {
+      window.location.reload()
+    }, 1000)
+  }
+
+  /*Función para obtener la data de cada usuario*/
+  const getUsers = async (idUserVer) => {
+    const requestOptions = {
+      method: 'GET',
+      headers: headers
+    }
+
+    const ruta = urlVerUsuario + idUserVer
+    console.log(ruta)
+    const res = await fetch(ruta, requestOptions)
+    const data = await res.json()
+    console.log(data[0])
+    setUsers(data[0])
+    localStorage.removeItem('idUserVer')
+  }
+
+  /*Función que abre el modal del formulario para editar usuarios*/
+  const openEditUser = (e) => {
+    setVisible(true)
+  }
+
+  /*Función que retorna el id del usuario a eliminar*/
+  const getIdDelete = (e) => {
+    let idUserDel = e.target.id
+    return idUserDel
+  }
+
+  /*Función que cierra el modal del formulario para editar usuarios*/
+  const handleCancel = () => {
+    setVisible(false)
+  }
+
+  /*Función que limpia los inputs del formulario para editar usuarios*/
+  const onReset = () => {
+    form.resetFields()
+  }
+
+  /*Función para actualizar los datos del usuario cada vez que hace cambios en los inputs del formulario de crear usuarios*/
+  const handleInputChange = (e) => {
+    setDatos({
+      ...datos,
+      [e.target.name]: e.target.value
     })
+  }
 
-    /*Variables globales para las peticiones*/
-    const urlVerUsuario = `http://${document.domain}:3001/usuarios/`;
-    const urlEditarUsuario = `http://${document.domain}:3001/editarUsuario/`;
-    const urlEliminarUsuario = `http://${document.domain}:3001/eliminarUsuario/`;
+  /*Función para convertir la URL del adjunto que suben al formulario de crear usuarios en base64 y almacenarlo en el estado global*/
+  const getUrlUpdateUser = async () => {
+    const fileInput = document.getElementById('url_img_usuario2')
+    const selectedFile = fileInput.files[0]
+    const btn = document.getElementsByClassName('btnEditarUsuario')
 
-    let idUser = localStorage.getItem('id');
+    if (
+      selectedFile.type != 'image/png' &&
+      selectedFile.type != 'image/jpeg' &&
+      selectedFile.type != 'image/jpg'
+    ) {
+      //console.log('LLEGO');
+      alert('Solo se permiten imágenes en PDF, JPG y JPEG')
+      fileInput.value = ''
+      //console.log(btn[0])
+      btn[0].setAttribute('disabled', 'true')
+    } else {
+      btn[0].removeAttribute('disabled')
+      let result = await useGetBase64(selectedFile)
+      let url = result
+      //console.log(url)
+      setDatos({
+        ...datos,
+        ['url_img_usuario']: url
+      })
+    }
+  }
 
-    /*Función para editar/actualizar usuarios*/
-    const updateUsers = async (e) => {
+  /*Función que actualiza cual item de la lista desplegable es seleccionado*/
+  const handleSelectChange = (value) => {
+    setDatos({
+      ...datos,
+      ['estado_usuario']: value
+    })
+  }
 
-        const requestOptions = {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({
-                ...datos
-            }
-            )
-        }
+  /*Función que muestra una notificación cuando se ha logrado actualizar un usuario*/
+  const openNotificationWithIcon = (type) => {
+    notification[type]({
+      message: '¡Usuario actualizado correctamente!',
+      description: 'Los datos ingresados han sido recibidos :)'
+    })
+  }
 
-        const res = await fetch(urlEditarUsuario + id, requestOptions);
-        openNotificationWithIcon('success');
+  /*Función que muestra una notificación cuando se ha logrado eliminar un usuario*/
+  const openNotificationWithIconDelete = (type) => {
+    notification[type]({
+      message: '¡Usuario eliminado correctamente!',
+      description: 'El usuario ha sido desterrado :)'
+    })
+  }
 
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            setVisible(false);
-            onReset();
-            window.location.reload();
-        }, 1000);
+  /*Función que muestra un modal con la información del usuario*/
+  const openUser = (e) => {
+    let idUserVer = e.target.id
+    localStorage.setItem('idUserVer', idUserVer)
 
+    getUsers(idUserVer)
+
+    setVisibleVerUsuario(true)
+  }
+
+  /*Función quecierra un modal con la información del usuario*/
+  const handleCancelUser = () => {
+    setVisibleVerUsuario(false)
+  }
+
+  const getRole = (role) => {
+    const _ROLES = {
+      ADMIN: 'Administrador',
+      CUSTOMER: 'Cliente',
+      BARBER: 'Barbero'
     }
 
-    /*Función para eliminar usuarios*/
-    const deleteUsers = async (idUserDel) => {
+    return _ROLES[role]
+  }
 
-        const requestOptions = {
-            method: 'POST',
-            headers: headers,
-        }
+  return (
+    <>
+      <div className='userCard'>
+        <div className='d-flex align-items-center field'>
+          <img src={'data:image/png;base64,' + urlImg} alt='avatar' className='userImg' />
+          <span className='info_text _name'>{name}</span>
+        </div>
+        <div className='field'>
+          <div className='d-flex align-items-center justify-content-center'>
+            <span className='info_text text-decoration-underline'>{email}</span>
+          </div>
+        </div>
+        <div className='field'>
+          <span className='info_text'>(+57) {phone}</span>
+        </div>
+        <div className='field'>
+          <span className='info_text'>{getRole(role)}</span>
+        </div>
+        <div className='field'>
+          <span
+            className={`state ${STATES[state] === state ? 'active' : 'inactive'}`}
+            style={{ fontWeight: '500' }}
+          >
+            {STATES[state] === state ? 'Activo' : 'Inactivo'}
+          </span>
+        </div>
+      </div>
 
-        const ruta = urlEliminarUsuario + idUserDel;
-        console.log(ruta)
-        const res = await fetch(ruta, requestOptions);
-
-        openNotificationWithIconDelete('success');
-
-        setLoading(true);
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
-
-    }
-
-    /*Función para obtener la data de cada usuario*/
-    const getUsers = async (idUserVer) => {
-
-        const requestOptions = {
-            method: 'GET',
-            headers: headers,
-        }
-
-        const ruta = urlVerUsuario + idUserVer;
-        console.log(ruta);
-        const res = await fetch(ruta, requestOptions);
-        const data = await res.json();
-        console.log(data[0]);
-        setUsers(data[0]);
-        localStorage.removeItem('idUserVer');
-
-    }
-
-    /*Función que abre el modal del formulario para editar usuarios*/
-    const openEditUser = (e) => {
-        setVisible(true);
-    }
-
-    /*Función que retorna el id del usuario a eliminar*/
-    const getIdDelete = (e) => {
-        let idUserDel = e.target.id;
-        return idUserDel;
-    }
-
-    /*Función que cierra el modal del formulario para editar usuarios*/
-    const handleCancel = () => {
-        setVisible(false);
-    };
-
-    /*Función que limpia los inputs del formulario para editar usuarios*/
-    const onReset = () => {
-        form.resetFields();
-    };
-
-    /*Función para actualizar los datos del usuario cada vez que hace cambios en los inputs del formulario de crear usuarios*/
-    const handleInputChange = (e) => {
-
-        setDatos({
-            ...datos,
-            [e.target.name]: e.target.value
-        })
-
-    }
-
-    /*Función para convertir la URL del adjunto que suben al formulario de crear usuarios en base64 y almacenarlo en el estado global*/
-    const getUrlUpdateUser = async () => {
-
-        const fileInput = document.getElementById('url_img_usuario2');
-        const selectedFile = fileInput.files[0];
-        const btn = document.getElementsByClassName('btnEditarUsuario');
-
-        if (selectedFile.type != "image/png" && selectedFile.type != "image/jpeg" && selectedFile.type != "image/jpg") {
-            //console.log('LLEGO');
-            alert("Solo se permiten imágenes en PDF, JPG y JPEG")
-            fileInput.value = "";
-            //console.log(btn[0])
-            btn[0].setAttribute('disabled', 'true');
-        } else {
-            btn[0].removeAttribute('disabled');
-            let result = await useGetBase64(selectedFile);
-            let url = result;
-            //console.log(url)
-            setDatos({
-                ...datos,
-                ['url_img_usuario']: url
-            })
-        }
-    }
-
-    /*Función que actualiza cual item de la lista desplegable es seleccionado*/
-    const handleSelectChange = (value) => {
-
-        setDatos({
-            ...datos,
-            ['estado_usuario']: value
-        })
-
-    };
-
-    /*Función que muestra una notificación cuando se ha logrado actualizar un usuario*/
-    const openNotificationWithIcon = (type) => {
-        notification[type]({
-            message: '¡Usuario actualizado correctamente!',
-            description:
-                'Los datos ingresados han sido recibidos :)',
-        });
-    };
-
-    /*Función que muestra una notificación cuando se ha logrado eliminar un usuario*/
-    const openNotificationWithIconDelete = (type) => {
-        notification[type]({
-            message: '¡Usuario eliminado correctamente!',
-            description:
-                'El usuario ha sido desterrado :)',
-        });
-    };
-
-    /*Función que muestra un modal con la información del usuario*/
-    const openUser = (e) => {
-
-        let idUserVer = e.target.id;
-        localStorage.setItem('idUserVer', idUserVer);
-
-        getUsers(idUserVer);
-
-        setVisibleVerUsuario(true)
-
-    }
-
-    /*Función quecierra un modal con la información del usuario*/
-    const handleCancelUser = () => {
-        setVisibleVerUsuario(false);
-    };
-
-
-    const getRole = (role) => {
-
-        const _ROLES = {
-            ADMIN: 'Administrador',
-            CUSTOMER: 'Cliente',
-            BARBER: 'Barbero',
-        }
-
-        return _ROLES[role]
-    }
-
-    return (
-        <>
-            <div className='userCard'>
-                <div className='d-flex align-items-center field'>
-                    <img
-                        src={'data:image/png;base64,' + urlImg}
-                        alt="avatar"
-                        className='userImg' />
-                    <span className='info_text _name'>{name}</span>
-                </div>
-                <div className='field'>
-                    <div className='d-flex align-items-center justify-content-center'>
-                        <span className='info_text text-decoration-underline'>{email}</span>
-                    </div>
-                </div>
-                <div className='field'>
-                    <span className='info_text'>(+57) {phone}</span>
-                </div>
-                <div className='field'>
-                    <span className='info_text'>{getRole(role)}</span>
-                </div>
-                <div className='field'>
-                    <span className={`state ${STATES[state] === state ? 'active' : 'inactive'}`} style={{ fontWeight: '500' }}>
-                        {STATES[state] === state ? 'Activo' : 'Inactivo'}
-                    </span>
-                </div>
-            </div>
-
-
-
-            {/* <Modal
+      {/* <Modal
                 open={visibleVerUsuario}
                 title="Ver usuario"
                 onCancel={handleCancelUser}
@@ -317,20 +286,18 @@ export const CardUser = ({ id, name, urlImg, email, phone, state, role }) => {
                 }
 
             </Modal> */}
-
-        </>
-    )
-
+    </>
+  )
 }
 
 CardUser.propTypes = {
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    urlImg: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
-    state: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  urlImg: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+  state: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired
 }
 
-export default CardUser;
+export default CardUser

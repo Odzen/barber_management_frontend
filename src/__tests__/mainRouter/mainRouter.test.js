@@ -1,7 +1,7 @@
 // import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import renderer from 'react-test-renderer'
-import MainRouter from '../../containers/mainRouter'
+import MainRouter from '../../components/mainRouter'
 
 describe('testing to MainRouter', () => {
   test('should return MainRouter Component', () => {

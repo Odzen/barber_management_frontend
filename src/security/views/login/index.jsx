@@ -27,7 +27,6 @@ import './login.css'
 /* Component used to validate user input */
 
 const LoginView = ({ setToken }) => {
-  
   /* General states for receiving user data */
   const API_URL = 'http://localhost:8080'
   const [formCustomer] = Form.useForm()

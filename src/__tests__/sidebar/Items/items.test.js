@@ -1,7 +1,7 @@
 import { cleanup } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import renderer from 'react-test-renderer'
-import Item from '../../../containers/sidebar/Item/index'
+import Item from '../../../components/sidebar/Item/index'
 
 afterEach(() => {
   cleanup()

@@ -18,7 +18,7 @@ const Item = ({ text, to, svg, classes }) => {
 Item.propTypes = {
   text: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  svg: PropTypes.object.isRequired,
+  svg: PropTypes.string.isRequired,
   classes: PropTypes.string.isRequired
 }
 
