@@ -7,4 +7,8 @@ import App from './App'
 
 const location = useLocation()
 
-ReactDOM.createRoot(document.getElementById('root')).render(<Router><App location={location}/></Router>);
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <Router>
+    <App location={location} />
+  </Router>
+)
