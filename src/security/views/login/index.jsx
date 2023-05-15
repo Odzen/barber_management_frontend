@@ -214,7 +214,7 @@ const LoginView = ({ setToken }) => {
           name='crearCliente'
           className='crearCliente'
           id='crearCliente'
-          onFinish={handleRegisterSubmit}
+          onFinish={() => void handleRegisterSubmit()}
           onFinishFailed={() => {
             const type = 'warning'
             const message = '¡No se pudo completar el registro!'
