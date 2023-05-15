@@ -140,7 +140,7 @@ const LoginView = ({ setToken }) => {
                       name='normal_login'
                       className='login-form'
                       initialValues={{ remember: true }}
-                      onFinish={handleLoginSubmit}
+                      onFinish={()=> void handleLoginSubmit}
                     >
                       <Form.Item
                         name='email'
