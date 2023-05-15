@@ -358,10 +358,10 @@ const LoginView = ({ setToken }) => {
                         file.type === 'image/png' ||
                         file.type === 'image/svg+xml'
                       if (!notImage) {
-                        message.error(`${file.name} no es un archivo válido`)
+                        await message.error(`${file.name} no es un archivo válido`)
                       } else {
-                        message.success(`${file.name} añadido exitosamente`)
-                        await setUrlImgBase64(file, newUser, setNewUser)
+                        await message.success(`${file.name} añadido exitosamente`)
+                        setUrlImgBase64(file, newUser, setNewUser)
                       }
                       return notImage || Upload.LIST_IGNORE
                     }}
