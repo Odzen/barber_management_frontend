@@ -4,12 +4,12 @@ import './style.scss'
 
 /* Component to display each of the modules in the Sidebar */
 
-const Item = ({ text = '', to = '', svg = '', open = false }) => {
+const Item = ({ text, to, svg, classes }) => {
   return (
     <div className='container_item'>
-      <NavLink className={open ? 'linkOpen' : 'normal'} to={to}>
+      <NavLink className={classes} to={to}>
         <div>{svg}</div>
-        {open ? <p>{text}</p> : null}
+        <p>{text}</p>
       </NavLink>
     </div>
   )
@@ -19,7 +19,7 @@ Item.propTypes = {
   text: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
   svg: PropTypes.object.isRequired,
-  open: PropTypes.bool.isRequired
+  classes: PropTypes.string.isRequired
 }
 
 export default Item

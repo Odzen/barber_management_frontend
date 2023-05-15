@@ -105,11 +105,16 @@ const Sidebar = ({ setToken }) => {
         <div className='linksContainer'>
           {dataUser.role == ROLES.ADMIN &&
             Links &&
-            Links.map(({ text, to, svg }) => (
-              <Item key={text} open={open} to={to} svg={svg} text={text}>
-                {text}
-              </Item>
-            ))}
+            Links.map(({ text, to, svg }) => {
+              let classes = open ? 'linkOpen' : 'normal'
+              let item_text = text ? text : ''
+
+              return (
+                <Item key={text} open={open} to={to} svg={svg} text={item_text} classes={classes}>
+                  {text}
+                </Item>
+              )
+            })}
         </div>
 
         <div className='d-flex flex-column justify-center align-items-center'>

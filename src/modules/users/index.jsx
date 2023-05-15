@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import CardUser from './components/CardUser';
 import {
   Input,
-  Button,
 } from 'antd';
 import { headers } from '../../utils/headers';
 import './users.css'
 import './components/CardUser/style.scss'
-import { ROLES, STATES } from '../../utils/enums';
+import '../../style.scss'
+
 const { Search } = Input;
 
 /* Component used to display each of the users */
@@ -24,7 +24,7 @@ const UsersView = () => {
 
 
   /* Global variables for requests */
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = "http://localhost:8080/"
 
   /*Elementos del DOM*/
   let elementos = document.querySelector(".displaying-num");
