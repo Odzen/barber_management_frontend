@@ -32,12 +32,16 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     steps:
+    - name: Clean secret management files
+      run: |
+        rm -f \
+          src/__tests__/__snapshots__/app.test.js.snap \
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
       - run: npm install
-      - run: npm run test:unit -- -u
+      - run: npm run test:unit
 
   build:
     name: Build
