@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import CardUser from './components/CardUser'
-import { Input } from 'antd'
+import { Input, Spin } from 'antd'
 import { headers } from '../../utils/headers'
-import './users.css'
+import './style.scss'
 import './components/CardUser/style.scss'
 import '../../style.scss'
 
@@ -11,6 +11,7 @@ const { Search } = Input
 /* Component used to display each of the users */
 
 const UsersView = () => {
+
   /* General states */
   const [data, setData] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -20,7 +21,7 @@ const UsersView = () => {
   })
 
   /* Global variables for requests */
-  const API_URL = 'http://localhost:8080/'
+  const API_URL = import.meta.env.VITE_API_URL
 
   /*Elementos del DOM*/
   let elementos = document.querySelector('.displaying-num')
@@ -94,7 +95,6 @@ const UsersView = () => {
   /*Funciones que se ejecutarán cuando se renderice la página*/
   useEffect(() => {
     getUsers()
-    // getRoles();
   }, [])
 
   return (
@@ -106,31 +106,64 @@ const UsersView = () => {
         >
           <h1 className='_title'>Usuarios</h1>
           <Search
-            placeholder='input search text'
+            placeholder='Buscar...'
             onSearch={onSearchUsers}
             style={{
-              width: 200
+              width: 400
             }}
             enterButton
           />
+          
         </div>
 
-        {!data
-          ? ''
+        <div className='titles'>
+          <div className='field'>
+            <div className='d-flex align-items-center justify-content-center'>
+              <span className='info_text text-white'>Nombre</span>
+            </div>
+          </div>
+          <div className='field'>
+            <div className='d-flex align-items-center justify-content-center'>
+              <span className='info_text text-white'>Correo</span>
+            </div>
+          </div>
+          <div className='field'>
+            <div className='d-flex align-items-center justify-content-center'>
+              <span className='info_text text-white'>Teléfono</span>
+            </div>
+          </div>
+          <div className='field'>
+            <div className='d-flex align-items-center justify-content-center'>
+              <span className='info_text text-white'>Rol</span>
+            </div>
+          </div>
+          <div className='field'>
+            <div className='d-flex align-items-center justify-content-center'>
+              <span className='info_text text-white'>Estado</span>
+            </div>
+          </div>
+        </div>
+
+        {!data && !loading
+          ? (
+            <Spin tip="Loading" size="large">
+              <div className="content" />
+            </Spin>
+          )
           : data.map(({ id, name, urlImg, phone, email, state, role }) => {
-              return (
-                <CardUser
-                  key={id}
-                  id={id}
-                  name={name}
-                  urlImg={urlImg}
-                  email={email}
-                  phone={phone}
-                  state={state}
-                  role={role}
-                />
-              )
-            })}
+            return (
+              <CardUser
+                key={id}
+                id={id}
+                name={name}
+                urlImg={urlImg}
+                email={email}
+                phone={phone}
+                state={state}
+                role={role}
+              />
+            )
+          })}
       </div>
     </div>
   )

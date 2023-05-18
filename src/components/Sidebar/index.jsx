@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Links } from '../sidebar/Data/index'
+import { Links } from '../Sidebar/Data/index'
 import { useNavigate } from 'react-router-dom'
 import { ROLES } from '../../utils/enums'
 import PropTypes from 'prop-types'
