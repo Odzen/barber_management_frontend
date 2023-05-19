@@ -4,6 +4,7 @@ import ErrorView from '../../security/views/error'
 import LoginView from '../../security/views/login'
 import Sidebar from '../../components/sidebar'
 import CustomersView from '../../modules/customers'
+import BarbersView from '../../modules/barbers'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { ROLES } from '../../utils/enums'
 
@@ -39,9 +40,12 @@ const MainRouter = ({ location }) => {
       {/* Main routes conditioned according to the role of the user */}
       <Routes>
         <Route path='/main' element={role !== ROLES.ADMIN ? <ErrorView /> : <h1>Dashboard</h1>} />
-        <Route path='/staff' element={role == ROLES.BARBER ? <ErrorView /> : <h1>Staff</h1>} />
+        <Route path='/staff' element={role == ROLES.BARBER ? <ErrorView /> : <BarbersView />} />
         <Route path='/staff/:id' element={<h1>Staff Id</h1>} />
-        <Route path='/customers' element={role !== ROLES.ADMIN ? <ErrorView /> : <CustomersView />} />
+        <Route
+          path='/customers'
+          element={role !== ROLES.ADMIN ? <ErrorView /> : <CustomersView />}
+        />
         <Route path='/profile' element={<h1>Profile</h1>} />
         {/* <Route path='/customers' element={rol == 'Barber' ? (<ErrorView />) : <h1>Customers</h1>} />
                 <Route path='/customers:id' element={rol == 'Barber' ? (<ErrorView />) : <h1>Customer Id</h1>} /> */}
