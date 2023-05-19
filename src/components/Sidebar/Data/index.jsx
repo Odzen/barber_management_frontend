@@ -36,8 +36,8 @@ export const Links = [
     )
   },
   {
-    to: '/users',
-    text: 'Usuarios',
+    to: '/customers',
+    text: 'Clientes',
     svg: (
       <svg
         xmlns='http://www.w3.org/2000/svg'

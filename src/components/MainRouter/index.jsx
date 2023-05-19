@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ErrorView from '../../security/views/error'
 import LoginView from '../../security/views/login'
 import Sidebar from '../../components/sidebar'
-import UsersView from '../../modules/users'
+import CustomersView from '../../modules/customers'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { ROLES } from '../../utils/enums'
 
@@ -41,7 +41,7 @@ const MainRouter = ({ location }) => {
         <Route path='/main' element={role !== ROLES.ADMIN ? <ErrorView /> : <h1>Dashboard</h1>} />
         <Route path='/staff' element={role == ROLES.BARBER ? <ErrorView /> : <h1>Staff</h1>} />
         <Route path='/staff/:id' element={<h1>Staff Id</h1>} />
-        <Route path='/users' element={role !== ROLES.ADMIN ? <ErrorView /> : <UsersView />} />
+        <Route path='/customers' element={role !== ROLES.ADMIN ? <ErrorView /> : <CustomersView />} />
         <Route path='/profile' element={<h1>Profile</h1>} />
         {/* <Route path='/customers' element={rol == 'Barber' ? (<ErrorView />) : <h1>Customers</h1>} />
                 <Route path='/customers:id' element={rol == 'Barber' ? (<ErrorView />) : <h1>Customer Id</h1>} /> */}
