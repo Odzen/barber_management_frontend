@@ -7,7 +7,6 @@ import userPhoto from '../../assets/images/UserPhoto.png'
 import Item from './Item/index'
 import './style.scss'
 
-
 const Sidebar = ({ setToken }) => {
   /* Global variables */
   const [open, setOpen] = useState(false)
