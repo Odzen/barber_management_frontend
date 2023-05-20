@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { ROLES } from '../../utils/enums'
 import PropTypes from 'prop-types'
 import userPhoto from '../../assets/images/UserPhoto.png'
-import Item from './Item'
+import Item from './Item/index'
 import './style.scss'
+
 
 const Sidebar = ({ setToken }) => {
   /* Global variables */

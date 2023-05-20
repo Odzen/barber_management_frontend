@@ -35,7 +35,7 @@ export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate })
           </span>
         </div>
 
-        <div className='field'>
+        <div className='d-flex justify-content-center align-center' style={{ width: '110px' }}>
           <EditOutlined className='m-1' style={{ color: '#01329a', cursor: 'pointer' }} id={id} />
           <DeleteOutlined className='m-1' style={{ color: 'red', cursor: 'pointer' }} id={id} />
         </div>

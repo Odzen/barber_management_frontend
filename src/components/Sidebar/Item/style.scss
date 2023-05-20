@@ -23,6 +23,10 @@
     align-items: center;
     justify-content: center;
   }
+
+  p {
+    display: none !important;
+  }
 }
 
 /* Sidebar Cerrada e item Desactivado */
@@ -39,6 +43,11 @@
     align-items: center;
     justify-content: center;
   }
+
+  p {
+    display: none !important;
+  }
+
 }
 
 /* Sidebar Abierta e item Desactivado */

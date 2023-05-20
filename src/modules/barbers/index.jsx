@@ -87,7 +87,7 @@ const BarbersView = () => {
               <span className='info_text text-white'>Estado</span>
             </div>
           </div>
-          <div className='field'>
+          <div style={{ width: '110px' }}>
             <div className='d-flex align-items-center justify-content-center'>
               <span className='info_text text-white'>Acciones</span>
             </div>
