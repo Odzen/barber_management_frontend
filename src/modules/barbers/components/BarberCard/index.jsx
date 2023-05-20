@@ -1,12 +1,53 @@
-import { STATES } from '../../../../utils/enums'
+import { ROLES, STATES } from '../../../../utils/enums'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { openNotificationWithIcon } from '../../../../helpers/openNotificationWithIcon'
 import { Popconfirm } from 'antd'
+import { headers } from '../../../../utils/headers'
+import { getUsers } from '../../../../helpers/getUsers'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import './style.scss'
+
 /* Component used to display barber information */
 
 export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate }) => {
+
+  const API_URL = import.meta.env.VITE_API_URL
+
+  /* Function to delete a barber */
+  const onDeleteBarber = async (id) => {
+    const requestOptions = {
+      method: 'DELETE',
+      headers: headers
+    }
+
+    try {
+      const response = await fetch(API_URL + "api/users/" + id, requestOptions)
+      const { data } = await response.json()
+      const barber = data.name
+
+      if (response.status === 200) {
+        const type = 'success'
+        const message = '¡Despido exitoso!'
+        const description = `El barbero ${barber} ha sido despedido`
+        openNotificationWithIcon(type, message, description)
+        await getUsers(ROLES.BARBER, type, setData, setLoading)
+
+      }
+
+    } catch (error) {
+      console.log(error)
+
+      const type = 'warning'
+      const message = '¡Ocurrió algo inusual!'
+      const description = error.message
+
+      openNotificationWithIcon(type, message, description)
+    }
+  }
+
+
+
   return (
     <>
       <div className='userCard'>
@@ -37,12 +78,11 @@ export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate })
         </div>
 
         <div className='d-flex justify-content-center align-center' style={{ width: '110px' }}>
-          <EditOutlined className='m-1' style={{ color: '#01329a', cursor: 'pointer' }} id={id} />
+          <EditOutlined className='m-1' style={{ color: '#01329a', cursor: 'pointer' }} />
           <Popconfirm
             title='Despedir barbero'
             description='¿Quieres despedir a este barbero?'
-            onConfirm={() => console.log('confirm')}
-            onCancel={() => console.log('cancel')}
+            onConfirm={async () => await onDeleteBarber(id)}
             okText='Sí'
             cancelText='No'
           >

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Input, Spin, Empty } from 'antd'
-import { headers } from '../../utils/headers'
+import { getUsers } from '../../helpers/getUsers'
 import { ROLES } from '../../utils/enums'
 import { onSearch } from '../../helpers/onSearch'
 import CustomerCard from './components/CustomerCard'
@@ -15,33 +15,9 @@ const CustomersView = () => {
   const [loading, setLoading] = useState(false)
   const type = 'customers'
 
-  /* Global variables for requests */
-  const API_URL = import.meta.env.VITE_API_URL
-
-  /* Function to obtain the data of all customers */
-  const getUsers = async () => {
-    const requestOptions = {
-      method: 'GET',
-      headers: headers
-    }
-
-    try {
-      const res = await fetch(API_URL + 'api/users', requestOptions)
-      let data = await res.json()
-      data = data.data.filter((user) => user.role === ROLES.CUSTOMER)
-      setLoading(true)
-      setData(data)
-      localStorage.setItem(type, JSON.stringify(data))
-    } catch (error) {
-      console.log('error: ', error)
-    }
-
-    return data
-  }
-
   /* Functions to be executed when the page is rendered */
   useEffect(() => {
-    getUsers()
+    getUsers(ROLES.CUSTOMER, type, setData, setLoading)
   }, [])
 
   return (

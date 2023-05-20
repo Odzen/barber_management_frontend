@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Input, Spin, Empty } from 'antd'
-import { headers } from '../../utils/headers'
 import { ROLES } from '../../utils/enums'
 import { onSearch } from '../../helpers/onSearch'
+import { getUsers } from '../../helpers/getUsers'
 import BarberCard from './components/BarberCard/index'
 import '../../style.scss'
 import './style.scss'
@@ -15,33 +15,9 @@ const BarbersView = () => {
   const [loading, setLoading] = useState(false)
   const type = 'barbers'
 
-  /* Global variables for requests */
-  const API_URL = import.meta.env.VITE_API_URL
-
-  /* Function to obtain the data of all barbers */
-  const getUsers = async () => {
-    const requestOptions = {
-      method: 'GET',
-      headers: headers
-    }
-
-    try {
-      const res = await fetch(API_URL + 'api/users', requestOptions)
-      let data = await res.json()
-      data = data.data.filter((user) => user.role === ROLES.BARBER)
-      setLoading(true)
-      setData(data)
-      localStorage.setItem(type, JSON.stringify(data))
-    } catch (error) {
-      console.log('error: ', error)
-    }
-
-    return data
-  }
-
   /* Functions to be executed when the page is rendered */
   useEffect(() => {
-    getUsers()
+    getUsers(ROLES.BARBER, type, setData, setLoading)
   }, [])
 
   return (

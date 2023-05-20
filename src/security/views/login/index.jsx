@@ -15,7 +15,6 @@ import {
   Upload,
   DatePicker,
   Spin,
-  notification,
   message
 } from 'antd'
 import { UploadOutlined, LoadingOutlined, LockOutlined, UserOutlined } from '@ant-design/icons'
@@ -80,7 +79,7 @@ const LoginView = ({ setToken }) => {
           : error.message
       console.log(error)
       setUser(false)
-      openNotificationWithIcon(notification, type, message, description)
+      openNotificationWithIcon(type, message, description)
     }
   }
 
