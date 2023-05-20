@@ -10,10 +10,10 @@ import './style.scss'
 
 /* Component used to display barber information */
 
-export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate }) => {
+export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate, setData, setLoading }) => {
 
   const API_URL = import.meta.env.VITE_API_URL
-
+  const _type = "barbers"
   /* Function to delete a barber */
   const onDeleteBarber = async (id) => {
     const requestOptions = {
@@ -31,12 +31,11 @@ export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate })
         const message = '¡Despido exitoso!'
         const description = `El barbero ${barber} ha sido despedido`
         openNotificationWithIcon(type, message, description)
-        await getUsers(ROLES.BARBER, type, setData, setLoading)
+        await getUsers(ROLES.BARBER, _type, setData, setLoading)
 
       }
 
     } catch (error) {
-      console.log(error)
 
       const type = 'warning'
       const message = '¡Ocurrió algo inusual!'
