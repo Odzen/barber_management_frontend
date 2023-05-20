@@ -1,8 +1,9 @@
 import { STATES } from '../../../../utils/enums'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Button, Popconfirm } from 'antd'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import './style.scss'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 /* Component used to display barber information */
 
 export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate }) => {
@@ -36,8 +37,21 @@ export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate })
         </div>
 
         <div className='d-flex justify-content-center align-center' style={{ width: '110px' }}>
-          <EditOutlined className='m-1' style={{ color: '#01329a', cursor: 'pointer' }} id={id} />
-          <DeleteOutlined className='m-1' style={{ color: 'red', cursor: 'pointer' }} id={id} />
+          <EditOutlined
+            className='m-1'
+            style={{ color: '#01329a', cursor: 'pointer' }}
+            id={id}
+          />
+          <Popconfirm
+            title="Despedir barbero"
+            description="¿Quieres despedir a este barbero?"
+            onConfirm={() => console.log("confirm")}
+            onCancel={() => console.log("cancel")}
+            okText="Sí"
+            cancelText="No"
+          >
+            <DeleteOutlined type="link" className='m-1' style={{ color: 'red', cursor: 'pointer' }} id={id} />
+          </Popconfirm>
         </div>
       </div>
     </>
