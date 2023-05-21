@@ -16,9 +16,11 @@ export const getUsers = async (role, type, setData, setLoading) => {
     try {
         const res = await fetch(API_URL + 'api/users', requestOptions)
         let data = await res.json()
+        console.log(data.data)
         data = data.data.filter((user) => user.role === role)
         setLoading(true)
         setData(data)
+        console.log(role)
         const { _id, _name, _role, _urlImg, _token } = backUpLocalStorage()
         setLocalStorage(_id, _name, _role, _urlImg, _token)
         localStorage.setItem(type, JSON.stringify(data))

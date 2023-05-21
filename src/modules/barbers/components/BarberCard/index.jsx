@@ -1,16 +1,46 @@
-import { ROLES, STATES } from '../../../../utils/enums'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { openNotificationWithIcon } from '../../../../helpers/openNotificationWithIcon'
-import { Popconfirm } from 'antd'
-import { headers } from '../../../../utils/headers'
+import { handleSetState } from '../../../../helpers/handleSetState'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { ROLES, STATES } from '../../../../utils/enums'
 import { getUsers } from '../../../../helpers/getUsers'
+import { headers } from '../../../../utils/headers'
+import { Popconfirm, Modal } from 'antd'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import './style.scss'
+import { useState } from 'react'
 
 /* Component used to display barber information */
 
-export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate, setData, setLoading }) => {
+export const BarberCard = (
+  {
+    id,
+    name,
+    urlImg,
+    email,
+    phone,
+    state,
+    birthDate,
+    setData,
+    setLoading,
+  }
+) => {
+  /*-------------------------------------------------------------------- */
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  /*-------------------------------------------------------------------- */
+
 
   const API_URL = import.meta.env.VITE_API_URL
   const _type = "barbers"
@@ -46,7 +76,6 @@ export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate, s
   }
 
 
-
   return (
     <>
       <div className='userCard'>
@@ -77,7 +106,11 @@ export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate, s
         </div>
 
         <div className='d-flex justify-content-center align-center' style={{ width: '110px' }}>
-          <EditOutlined className='m-1' style={{ color: '#01329a', cursor: 'pointer' }} />
+          <EditOutlined
+            className='m-1'
+            style={{ color: '#01329a', cursor: 'pointer' }}
+            onClick={() => showModal()}
+          />
           <Popconfirm
             title='Despedir barbero'
             description='¿Quieres despedir a este barbero?'
@@ -94,6 +127,29 @@ export const BarberCard = ({ id, name, urlImg, email, phone, state, birthDate, s
           </Popconfirm>
         </div>
       </div>
+
+
+      {/* Modal to create barbers */}
+      {/* <UserModal
+        title="Editar barbero"
+        notifMessage='Actualización exitosa!'
+        form={formBarber}
+        newUser={newUser}
+        modelRegister={modelRegister}
+        registeredUser={registeredUser}
+        setNewUser={setNewUser}
+        setModelRegister={setModelRegister}
+        setRegisteredUser={setRegisteredUser}
+        setData={setData}
+        setLoading={setLoading}
+      /> */}
+
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
+
     </>
   )
 }

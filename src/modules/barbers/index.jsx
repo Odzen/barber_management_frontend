@@ -132,7 +132,7 @@ const BarbersView = () => {
       {/* Modal to create barbers */}
       <UserModal
         title="Contratar barbero"
-        notifMessage='Contratación exitosa!'
+        notifMessage='¡Contratación exitosa!'
         form={formBarber}
         newUser={newUser}
         modelRegister={modelRegister}
