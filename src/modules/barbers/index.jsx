@@ -131,6 +131,7 @@ const BarbersView = () => {
 
       {/* Modal to create barbers */}
       <UserModal
+        edit={true}
         title="Contratar barbero"
         notifMessage='¡Contratación exitosa!'
         form={formBarber}

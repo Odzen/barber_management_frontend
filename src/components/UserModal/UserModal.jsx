@@ -4,7 +4,7 @@ import { handleSetState } from '../../helpers/handleSetState'
 import { newUserFields } from '../../utils/newUserFields'
 import { resetForm } from '../../helpers/resetForm'
 import { normFile, setUrlImgBase64 } from '../../helpers/handleUpload'
-import { UploadOutlined, LoadingOutlined } from '@ant-design/icons'
+import { UploadOutlined, LoadingOutlined, DownOutlined, SmileOutlined } from '@ant-design/icons'
 import { ROLES } from '../../utils/enums'
 import {
     Modal,
@@ -16,7 +16,9 @@ import {
     Upload,
     DatePicker,
     Spin,
-    message
+    message,
+    Dropdown,
+    Space
 } from 'antd'
 import { getUsers } from '../../helpers/getUsers'
 import axios from 'axios'
@@ -24,6 +26,7 @@ import dayjs from 'dayjs';
 
 export const UserModal = (
     {
+        edit = false,
         title,
         notifMessage,
         form,
@@ -81,6 +84,47 @@ export const UserModal = (
         }
     }
 
+    const handleUpdate = async () => {
+        console.log("actualizar")
+        console.log(newUser)
+    }
+
+    const items = [
+        {
+            key: '1',
+            label: (
+                <a target='_blank' rel='noopener noreferrer' href='https://www.antgroup.com'>
+                    1st menu item
+                </a>
+            )
+        },
+        {
+            key: '2',
+            label: (
+                <a target='_blank' rel='noopener noreferrer' href='https://www.aliyun.com'>
+                    2nd menu item (disabled)
+                </a>
+            ),
+            icon: <SmileOutlined />,
+            disabled: true
+        },
+        {
+            key: '3',
+            label: (
+                <a target='_blank' rel='noopener noreferrer' href='https://www.luohanacademy.com'>
+                    3rd menu item (disabled)
+                </a>
+            ),
+            disabled: true
+        },
+        {
+            key: '4',
+            danger: true,
+            label: 'a danger item'
+        }
+    ]
+
+
     return (
         <Modal
             centered
@@ -95,7 +139,7 @@ export const UserModal = (
                 name='crearCliente'
                 className='crearCliente'
                 id='crearCliente'
-                onFinish={() => void handleRegisterSubmit()}
+                onFinish={() => !!edit ? void handleRegisterSubmit() : void handleUpdate()}
                 onFinishFailed={() => {
                     const type = 'warning'
                     const message = '¡No se pudo completar el registro!'
@@ -109,7 +153,7 @@ export const UserModal = (
                             <Form.Item
                                 name='name'
                                 label='Nombre completo'
-                                rules={[{ required: true, message: 'Este campo es obligatorio' }]}
+                                rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
                                 className='d-flex flex-column'
                             >
                                 <Input
@@ -126,7 +170,7 @@ export const UserModal = (
                             <Form.Item
                                 name='email'
                                 label='Correo electrónico'
-                                rules={[{ required: true, message: 'Este campo es obligatorio' }]}
+                                rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
                                 className='d-flex flex-column'
                             >
                                 <Input
@@ -143,7 +187,7 @@ export const UserModal = (
                             <Form.Item
                                 name='documentNumber'
                                 label='Número de cédula'
-                                rules={[{ required: true, message: 'Este campo es obligatorio' }]}
+                                rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
                                 className='d-flex flex-column'
                             >
                                 <Input
@@ -158,45 +202,51 @@ export const UserModal = (
 
                                 />
                             </Form.Item>
-                            <Form.Item
-                                name='password'
-                                label='Contraseña'
-                                rules={[{ required: true, message: 'Este campo es obligatorio' }]}
-                                className='d-flex flex-column'
-                            >
-                                <Input.Password
-                                    type='password'
-                                    pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*#]){1})\S{8,16}$'
-                                    title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
-                                    onChange={(event) =>
-                                        handleInputChange(newUser, setNewUser, null, null, null, event)
-                                    }
-                                    name='password'
+                            {
+                                !!edit
+                                    ?
+                                    <>
+                                        <Form.Item
+                                            name='password'
+                                            label='Contraseña'
+                                            rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
+                                            className='d-flex flex-column'
+                                        >
+                                            <Input.Password
+                                                type='password'
+                                                pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*#]){1})\S{8,16}$'
+                                                title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
+                                                onChange={(event) =>
+                                                    handleInputChange(newUser, setNewUser, null, null, null, event)
+                                                }
+                                                name='password'
 
-                                />
-                            </Form.Item>
-                            <Form.Item
-                                name='password_confirm'
-                                label='Confirmar contraseña'
-                                rules={[{ required: true, message: 'Este campo es obligatorio' }]}
-                                className='d-flex flex-column'
-                            >
-                                <Input.Password
-                                    type='password'
-                                    pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*#]){1})\S{8,16}$'
-                                    title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
-                                    onChange={(event) =>
-                                        handleInputChange(newUser, setNewUser, null, null, null, event)
-                                    }
-                                    name='password_confirm'
-                                />
-                            </Form.Item>
+                                            />
+                                        </Form.Item>
+                                        <Form.Item
+                                            name='password_confirm'
+                                            label='Confirmar contraseña'
+                                            rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
+                                            className='d-flex flex-column'
+                                        >
+                                            <Input.Password
+                                                type='password'
+                                                pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*#]){1})\S{8,16}$'
+                                                title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
+                                                onChange={(event) =>
+                                                    handleInputChange(newUser, setNewUser, null, null, null, event)
+                                                }
+                                                name='password_confirm'
+                                            />
+                                        </Form.Item></>
+                                    : ''
+                            }
                         </Col>
                         <Col span={12} className='m-3 col_r'>
                             <Form.Item
                                 name='phone'
                                 label='Número de celular'
-                                rules={[{ required: true, message: 'Este campo es obligatorio' }]}
+                                rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
                                 className='d-flex flex-column'
                             >
                                 <Input
@@ -211,11 +261,11 @@ export const UserModal = (
                                     value={newUser?.phone}
                                 />
                             </Form.Item>
-                            
+
                             <Form.Item
                                 name='birthDate'
                                 label='Fecha de nacimiento'
-                                rules={[{ required: true, message: 'Este campo es obligatorio' }]}
+                                rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
                                 className='d-flex flex-column'
                             >
                                 <DatePicker
@@ -233,7 +283,7 @@ export const UserModal = (
                                 label='Imágen de perfil'
                                 valuePropName='fileList'
                                 getValueFromEvent={(event) => normFile(event)}
-                                rules={[{ required: true, message: 'Este campo es obligatorio' }]}
+                                rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
                                 className='d-flex text-center'
                             >
                                 <Upload
@@ -257,7 +307,7 @@ export const UserModal = (
                                     listType='picture'
                                     maxCount={1}
                                     id='urlImg'
-                                    // defaultValue={newUser?.urlImg}
+                                // defaultValue={newUser?.urlImg}
 
                                 >
                                     <Button icon={<UploadOutlined />}>Subir imágen</Button>
@@ -265,20 +315,40 @@ export const UserModal = (
                             </Form.Item>
                         </Col>
                     </div>
+                    <Form.Item
+                        name='state'
+                        rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
+                        className='d-flex flex-column'
+                    >
+                        <Dropdown menu={{ items }}>
+                            <a onClick={(e) => e.preventDefault()}>
+                                <Space>
+                                    Estado
+                                    <DownOutlined />
+                                </Space>
+                            </a>
+                        </Dropdown>
+                    </Form.Item>
                 </Row>
 
                 <div className='d-flex justify-content-center'>
                     <Form.Item>
-                        <Button htmlType='button' className='m-2' onClick={() => resetForm(form)}>
-                            Limpiar
-                        </Button>
+                        {
+                            !!edit
+                                ?
+                                <Button htmlType='button' className='m-2' onClick={() => resetForm(form)}>
+                                    Limpiar
+                                </Button>
+                                :
+                                ''
+                        }
                         <Button
                             type='primary'
                             htmlType='submit'
                             disabled={registeredUser ? true : false}
                             className='btnCrearCliente m-2'
                         >
-                            Crear
+                            {!!edit ? 'Crear' : 'Actualizar'}
                         </Button>
                     </Form.Item>
                 </div>
