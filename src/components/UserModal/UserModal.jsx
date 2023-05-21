@@ -18,8 +18,9 @@ import {
     Spin,
     message
 } from 'antd'
-import axios from 'axios'
 import { getUsers } from '../../helpers/getUsers'
+import axios from 'axios'
+import dayjs from 'dayjs';
 
 export const UserModal = (
     {
@@ -34,21 +35,21 @@ export const UserModal = (
         setRegisteredUser,
         setData,
         setLoading,
-        setDataBk
     }
 ) => {
     const API_URL = import.meta.env.VITE_API_URL
     const _type = "barbers"
+    const dateFormat = 'YYYY-MM-DD';
 
     const handleRegisterSubmit = async () => {
         let type = ''
         let message = ''
         let description = ''
 
-        if (newUser.password === newUser.password_confirm) {
+        if (newUser?.password === newUser?.password_confirm) {
             type = 'success'
             message = notifMessage
-            description = `Bienvenido ${newUser.name}`
+            description = `Bienvenido ${newUser?.name}`
 
             let user = Object.assign({}, newUser)
             delete user.password_confirm
@@ -60,7 +61,7 @@ export const UserModal = (
                     handleSetState(false, setModelRegister)
                     setRegisteredUser(false)
                     openNotificationWithIcon(type, message, description)
-                    await getUsers(ROLES.BARBER, _type, setData, setLoading, setDataBk)
+                    await getUsers(ROLES.BARBER, _type, setData, setLoading)
                     resetForm(form)
                 }, 1000)
 
@@ -119,6 +120,7 @@ export const UserModal = (
                                         handleInputChange(newUser, setNewUser, null, null, null, event)
                                     }
                                     name='name'
+                                    defaultValue={newUser?.name}
                                 />
                             </Form.Item>
                             <Form.Item
@@ -135,6 +137,7 @@ export const UserModal = (
                                         handleInputChange(newUser, setNewUser, null, null, null, event)
                                     }
                                     name='email'
+                                    defaultValue={newUser?.email}
                                 />
                             </Form.Item>
                             <Form.Item
@@ -151,6 +154,8 @@ export const UserModal = (
                                         handleInputChange(newUser, setNewUser, null, null, null, event)
                                     }
                                     name='documentNumber'
+                                    defaultValue={newUser?.documentNumber}
+
                                 />
                             </Form.Item>
                             <Form.Item
@@ -167,6 +172,7 @@ export const UserModal = (
                                         handleInputChange(newUser, setNewUser, null, null, null, event)
                                     }
                                     name='password'
+
                                 />
                             </Form.Item>
                             <Form.Item
@@ -201,9 +207,11 @@ export const UserModal = (
                                         handleInputChange(newUser, setNewUser, null, null, null, event)
                                     }
                                     name='phone'
+                                    defaultValue={newUser?.phone}
+                                    value={newUser?.phone}
                                 />
                             </Form.Item>
-
+                            
                             <Form.Item
                                 name='birthDate'
                                 label='Fecha de nacimiento'
@@ -216,6 +224,7 @@ export const UserModal = (
                                     }
                                     name='birthDate'
                                     className='w-100'
+                                    defaultValue={dayjs(newUser?.birthDate?.split("T")[0], dateFormat)}
                                 />
                             </Form.Item>
                             <Form.Item
@@ -248,6 +257,8 @@ export const UserModal = (
                                     listType='picture'
                                     maxCount={1}
                                     id='urlImg'
+                                    // defaultValue={newUser?.urlImg}
+
                                 >
                                     <Button icon={<UploadOutlined />}>Subir imágen</Button>
                                 </Upload>

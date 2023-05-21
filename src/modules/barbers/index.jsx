@@ -136,7 +136,6 @@ const BarbersView = () => {
         form={formBarber}
         newUser={newUser}
         modelRegister={modelRegister}
-        registeredUser={registeredUser}
         setNewUser={setNewUser}
         setModelRegister={setModelRegister}
         setRegisteredUser={setRegisteredUser}

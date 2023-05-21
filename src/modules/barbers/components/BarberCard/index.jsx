@@ -4,11 +4,13 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { ROLES, STATES } from '../../../../utils/enums'
 import { getUsers } from '../../../../helpers/getUsers'
 import { headers } from '../../../../utils/headers'
-import { Popconfirm, Modal } from 'antd'
+import { Popconfirm, Modal, Form } from 'antd'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import './style.scss'
 import { useState } from 'react'
+import { getUser } from '../../../../helpers/getUser'
+import { UserModal } from '../../../../components/UserModal/UserModal'
 
 /* Component used to display barber information */
 
@@ -25,19 +27,25 @@ export const BarberCard = (
     setLoading,
   }
 ) => {
-  /*-------------------------------------------------------------------- */
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formBarber] = Form.useForm()
+  const [registeredUser, setRegisteredUser] = useState(false)
+  const [oldUser, setOldUser] = useState({})
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  /*-------------------------------------------------------------------- */
+  const [modalUpdate, setModalUpdate] = useState(false);
+
+  const showModal = async (id) => {
+    const data = await getUser(id)
+    setOldUser(data)
+    setModalUpdate(true);
   };
 
   const handleOk = () => {
-    setIsModalOpen(false);
+    setModalUpdate(false);
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setModalUpdate(false);
   };
   /*-------------------------------------------------------------------- */
 
@@ -109,7 +117,7 @@ export const BarberCard = (
           <EditOutlined
             className='m-1'
             style={{ color: '#01329a', cursor: 'pointer' }}
-            onClick={() => showModal()}
+            onClick={() => showModal(id)}
           />
           <Popconfirm
             title='Despedir barbero'
@@ -130,25 +138,20 @@ export const BarberCard = (
 
 
       {/* Modal to create barbers */}
-      {/* <UserModal
+      <UserModal
         title="Editar barbero"
         notifMessage='Actualización exitosa!'
         form={formBarber}
-        newUser={newUser}
-        modelRegister={modelRegister}
+        newUser={oldUser}
+        modelRegister={modalUpdate}
         registeredUser={registeredUser}
-        setNewUser={setNewUser}
-        setModelRegister={setModelRegister}
+        setNewUser={setOldUser}
+        setModelRegister={setModalUpdate}
         setRegisteredUser={setRegisteredUser}
         setData={setData}
         setLoading={setLoading}
-      /> */}
+      />
 
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Modal>
 
     </>
   )
