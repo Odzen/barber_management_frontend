@@ -1,11 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-  Spin,
-  Empty,
-  Form,
-  Input,
-  Button
-} from 'antd'
+import { Spin, Empty, Form, Input, Button } from 'antd'
 import { ROLES } from '../../utils/enums'
 import { onSearch } from '../../helpers/onSearch'
 import { getUsers } from '../../helpers/getUsers'
@@ -34,7 +28,7 @@ const BarbersView = () => {
     email: '',
     password: '',
     password_confirm: '',
-    role: "BARBER"
+    role: 'BARBER'
   })
 
   /* Functions to be executed when the page is rendered */
@@ -50,11 +44,10 @@ const BarbersView = () => {
             className='d-flex justify-content-between align-items-center mb-3'
             style={{ margin: '10px 20px' }}
           >
-            <h1 className='_title' style={{ marginBottom: "0 important" }}>Barberos</h1>
-            <Button
-              type="primary"
-              onClick={() => handleSetState(true, setModelRegister)}
-            >
+            <h1 className='_title' style={{ marginBottom: '0 important' }}>
+              Barberos
+            </h1>
+            <Button type='primary' onClick={() => handleSetState(true, setModelRegister)}>
               Contratar barbero
             </Button>
             <Input
@@ -100,43 +93,43 @@ const BarbersView = () => {
           </div>
 
           <div style={{ maxHeight: '77vh', overflowY: 'auto' }}>
-            {!data && !loading ?
+            {!data && !loading ? (
               <Spin size='large' className='m-4'>
                 <div className='content' />
               </Spin>
-              : !!data && data.length < 1 ? (
-                <Empty />
-              ) : (
-                data.map(({ id, name, urlImg, phone, email, state, birthDate }) => {
-                  return (
-                    <BarberCard
-                      key={id}
-                      id={id}
-                      name={name}
-                      urlImg={urlImg}
-                      email={email}
-                      phone={phone}
-                      state={state}
-                      birthDate={birthDate}
-                      setData={setData}
-                      setLoading={setLoading}
-                    />
-                  )
-                })
-              )}
+            ) : !!data && data.length < 1 ? (
+              <Empty />
+            ) : (
+              data.map(({ id, name, urlImg, phone, email, state, birthDate }) => {
+                return (
+                  <BarberCard
+                    key={id}
+                    id={id}
+                    name={name}
+                    urlImg={urlImg}
+                    email={email}
+                    phone={phone}
+                    state={state}
+                    birthDate={birthDate}
+                    setData={setData}
+                    setLoading={setLoading}
+                  />
+                )
+              })
+            )}
           </div>
         </div>
       </div>
 
-
       {/* Modal to create barbers */}
       <UserModal
         edit={true}
-        title="Contratar barbero"
+        title='Contratar barbero'
         notifMessage='¡Contratación exitosa!'
         form={formNewBarber}
-        user={newUser}
+        newUser={newUser}
         modelRegister={modelRegister}
+        registeredUser={registeredUser}
         setUser={setNewUser}
         setModelRegister={setModelRegister}
         setRegisteredUser={setRegisteredUser}

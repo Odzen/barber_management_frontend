@@ -19,4 +19,3 @@ export const APPOINTMENT_STATE = Object.freeze({
   SCHEDULED: 'SCHEDULED',
   DONE: 'DONE'
 })
-

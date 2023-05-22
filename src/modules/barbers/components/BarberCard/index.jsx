@@ -1,10 +1,9 @@
 import { openNotificationWithIcon } from '../../../../helpers/openNotificationWithIcon'
-import { handleSetState } from '../../../../helpers/handleSetState'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { ROLES, STATES } from '../../../../utils/enums'
 import { getUsers } from '../../../../helpers/getUsers'
 import { headers } from '../../../../utils/headers'
-import { Popconfirm, Modal, Form } from 'antd'
+import { Popconfirm, Form } from 'antd'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import './style.scss'
@@ -14,33 +13,31 @@ import { UserModal } from '../../../../components/UserModal/UserModal'
 
 /* Component used to display barber information */
 
-export const BarberCard = (
-  {
-    id,
-    name,
-    urlImg,
-    email,
-    phone,
-    state,
-    birthDate,
-    setData,
-    setLoading,
-  }
-) => {
+export const BarberCard = ({
+  id,
+  name,
+  urlImg,
+  email,
+  phone,
+  state,
+  birthDate,
+  setData,
+  setLoading
+}) => {
   const API_URL = import.meta.env.VITE_API_URL
-  const _type = "barbers"
+  const _type = 'barbers'
   const [formBarber] = Form.useForm()
   const [registeredUser, setRegisteredUser] = useState(false)
   const [oldUser, setOldUser] = useState({})
-  const [modalUpdate, setModalUpdate] = useState(false);
+  const [modalUpdate, setModalUpdate] = useState(false)
 
   /* Function to show a update barber modal */
   const showModalUpdateBarber = async (id) => {
-    localStorage.setItem("currentUser", id)
+    localStorage.setItem('currentUser', id)
     const data = await getUser(id)
     setOldUser(data)
-    setModalUpdate(true);
-  };
+    setModalUpdate(true)
+  }
 
   /* Function to delete a barber */
   const onDeleteBarber = async (id) => {
@@ -50,7 +47,7 @@ export const BarberCard = (
     }
 
     try {
-      const response = await fetch(API_URL + "api/users/" + id, requestOptions)
+      const response = await fetch(API_URL + 'api/users/' + id, requestOptions)
       const { data } = await response.json()
       const barber = data.name
 
@@ -60,11 +57,8 @@ export const BarberCard = (
         const description = `El barbero ${barber} ha sido despedido`
         openNotificationWithIcon(type, message, description)
         await getUsers(ROLES.BARBER, _type, setData, setLoading)
-
       }
-
     } catch (error) {
-
       const type = 'warning'
       const message = '¡Ocurrió algo inusual!'
       const description = error.message
@@ -73,13 +67,15 @@ export const BarberCard = (
     }
   }
 
-
   return (
     <>
       <div className='userCard'>
         <div className='d-flex align-items-center field'>
           <img src={'data:image/png;base64,' + urlImg} alt='avatar' className='userImg' />
-          <span className='info_text _name'>{name}</span>
+
+          <span className='info_text _name' style={{ cursor: 'pointer' }}>
+            {name}
+          </span>
         </div>
         <div className='field'>
           <div className='d-flex align-items-center justify-content-center'>
@@ -96,10 +92,10 @@ export const BarberCard = (
 
         <div className='field'>
           <span
-            className={`state ${STATES[state] === "ACTIVE" ? 'active' : 'inactive'}`}
+            className={`state ${STATES[state] === 'ACTIVE' ? 'active' : 'inactive'}`}
             style={{ fontWeight: '500' }}
           >
-            {STATES[state] == "ACTIVE" ? 'Activo' : 'Inactivo'}
+            {STATES[state] == 'ACTIVE' ? 'Activo' : 'Inactivo'}
           </span>
         </div>
 
@@ -126,13 +122,12 @@ export const BarberCard = (
         </div>
       </div>
 
-
       {/* Modal to create barbers */}
       <UserModal
-        title="Editar barbero"
+        title='Editar barbero'
         notifMessage='Actualización exitosa!'
         form={formBarber}
-        user={oldUser}
+        newUser={oldUser}
         modelRegister={modalUpdate}
         registeredUser={registeredUser}
         setUser={setOldUser}
@@ -141,8 +136,6 @@ export const BarberCard = (
         setData={setData}
         setLoading={setLoading}
       />
-
-
     </>
   )
 }
@@ -154,7 +147,9 @@ BarberCard.propTypes = {
   urlImg: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
-  birthDate: PropTypes.string.isRequired
+  birthDate: PropTypes.string.isRequired,
+  setData: PropTypes.func.isRequired,
+  setLoading: PropTypes.func.isRequired
 }
 
 export default BarberCard

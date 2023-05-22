@@ -5,18 +5,7 @@ import { handleSetState } from '../../../helpers/handleSetState'
 import { newUserFields } from '../../../utils/newUserFields'
 import { resetForm } from '../../../helpers/resetForm'
 import { normFile, setUrlImgBase64 } from '../../../helpers/handleUpload'
-import {
-  Modal,
-  Form,
-  Input,
-  Button,
-  Col,
-  Row,
-  Upload,
-  DatePicker,
-  Spin,
-  message
-} from 'antd'
+import { Modal, Form, Input, Button, Col, Row, Upload, DatePicker, Spin, message } from 'antd'
 import { UploadOutlined, LoadingOutlined, LockOutlined, UserOutlined } from '@ant-design/icons'
 import axios from 'axios'
 import PropTypes from 'prop-types'
@@ -200,7 +189,7 @@ const LoginView = ({ setToken }) => {
           </div>
         </div>
       </section>
-      
+
       <Modal
         centered
         open={modelRegister}
