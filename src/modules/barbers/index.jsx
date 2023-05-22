@@ -22,7 +22,7 @@ const BarbersView = () => {
   const [loading, setLoading] = useState(false)
   const type = 'barbers'
 
-  const [formBarber] = Form.useForm()
+  const [formNewBarber] = Form.useForm()
   const [registeredUser, setRegisteredUser] = useState(false)
   const [modelRegister, setModelRegister] = useState(false)
   const [newUser, setNewUser] = useState({
@@ -134,10 +134,10 @@ const BarbersView = () => {
         edit={true}
         title="Contratar barbero"
         notifMessage='¡Contratación exitosa!'
-        form={formBarber}
-        newUser={newUser}
+        form={formNewBarber}
+        user={newUser}
         modelRegister={modelRegister}
-        setNewUser={setNewUser}
+        setUser={setNewUser}
         setModelRegister={setModelRegister}
         setRegisteredUser={setRegisteredUser}
         setData={setData}

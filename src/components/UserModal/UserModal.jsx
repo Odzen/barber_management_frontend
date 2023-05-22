@@ -1,10 +1,9 @@
 import { openNotificationWithIcon } from '../../helpers/openNotificationWithIcon'
 import { handleInputChange } from '../../helpers/handleInputChange'
 import { handleSetState } from '../../helpers/handleSetState'
-import { newUserFields } from '../../utils/newUserFields'
 import { resetForm } from '../../helpers/resetForm'
 import { normFile, setUrlImgBase64 } from '../../helpers/handleUpload'
-import { UploadOutlined, LoadingOutlined, DownOutlined, SmileOutlined } from '@ant-design/icons'
+import { UploadOutlined, LoadingOutlined } from '@ant-design/icons'
 import { ROLES } from '../../utils/enums'
 import {
     Modal,
@@ -17,12 +16,15 @@ import {
     DatePicker,
     Spin,
     message,
-    Dropdown,
-    Space
+    Select
 } from 'antd'
 import { getUsers } from '../../helpers/getUsers'
 import axios from 'axios'
 import dayjs from 'dayjs';
+import { getState } from '../../helpers/getState'
+import { optionsSelectState } from '../../helpers/optionsSelectState'
+import { headers } from '../../utils/headers'
+import { newUserFields } from '../../utils/newUserFields'
 
 export const UserModal = (
     {
@@ -30,10 +32,10 @@ export const UserModal = (
         title,
         notifMessage,
         form,
-        newUser,
+        user,
         modelRegister,
         registeredUser,
-        setNewUser,
+        setUser,
         setModelRegister,
         setRegisteredUser,
         setData,
@@ -44,19 +46,26 @@ export const UserModal = (
     const _type = "barbers"
     const dateFormat = 'YYYY-MM-DD';
 
+    /* Function to create an user*/
     const handleRegisterSubmit = async () => {
         let type = ''
         let message = ''
         let description = ''
 
-        if (newUser?.password === newUser?.password_confirm) {
+        console.log(user)
+        console.log(user.name)
+        if (user.password === user.password_confirm) {
+            console.log(user)
+            console.log(user.password_confirm)
+
             type = 'success'
             message = notifMessage
-            description = `Bienvenido ${newUser?.name}`
+            description = `Bienvenido ${user[name]}`
 
-            let user = Object.assign({}, newUser)
+            let user = Object.assign({}, user)
             delete user.password_confirm
-
+            console.log(user)
+            console.log(user.name)
             try {
                 await axios.post(`${API_URL}api/users`, user)
                 setRegisteredUser(true)
@@ -84,45 +93,52 @@ export const UserModal = (
         }
     }
 
+    /* Function to update an user*/
     const handleUpdate = async () => {
-        console.log("actualizar")
-        console.log(newUser)
-    }
 
-    const items = [
-        {
-            key: '1',
-            label: (
-                <a target='_blank' rel='noopener noreferrer' href='https://www.antgroup.com'>
-                    1st menu item
-                </a>
-            )
-        },
-        {
-            key: '2',
-            label: (
-                <a target='_blank' rel='noopener noreferrer' href='https://www.aliyun.com'>
-                    2nd menu item (disabled)
-                </a>
-            ),
-            icon: <SmileOutlined />,
-            disabled: true
-        },
-        {
-            key: '3',
-            label: (
-                <a target='_blank' rel='noopener noreferrer' href='https://www.luohanacademy.com'>
-                    3rd menu item (disabled)
-                </a>
-            ),
-            disabled: true
-        },
-        {
-            key: '4',
-            danger: true,
-            label: 'a danger item'
+        let type = ''
+        let message = ''
+        let description = ''
+
+        type = 'success'
+        message = notifMessage
+        description = `Bienvenido ${user?.name}`
+
+        let id = localStorage.getItem("currentUser")
+
+        delete user['id']
+
+        const requestOptions = {
+            method: 'PATCH',
+            headers: headers,
+            body: JSON.stringify(user)
         }
-    ]
+
+        try {
+            const response = await fetch(`${API_URL}api/users/${id}`, requestOptions)
+            if (response.status === 500) {
+                const error = await response.json()
+                let error_field = newUserFields[error.err.meta.target]
+                type = 'warning'
+                message = '¡Hubo un error!'
+                description = 'El ' + error_field + ' ingresado ya existe, inténtalo con uno diferente'
+                openNotificationWithIcon(type, message, description)
+
+            } else {
+                setRegisteredUser(true)
+                setTimeout(async () => {
+                    handleSetState(false, setModelRegister)
+                    setRegisteredUser(false)
+                    openNotificationWithIcon(type, message, description)
+                    await getUsers(ROLES.BARBER, _type, setData, setLoading)
+                    resetForm(form)
+                }, 1000)
+            }
+
+        } catch (error) {
+        }
+
+    }
 
 
     return (
@@ -161,10 +177,10 @@ export const UserModal = (
                                     pattern='^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+${2,60}'
                                     title='Ingresa un nombre válido'
                                     onChange={(event) =>
-                                        handleInputChange(newUser, setNewUser, null, null, null, event)
+                                        handleInputChange(user, setUser, null, null, null, event)
                                     }
                                     name='name'
-                                    defaultValue={newUser?.name}
+                                    defaultValue={user?.name}
                                 />
                             </Form.Item>
                             <Form.Item
@@ -178,10 +194,10 @@ export const UserModal = (
                                     pattern='^[^@]+@[^@]+\.[a-zA-Z]{2,}$'
                                     title='Ingresa un correo válido'
                                     onChange={(event) =>
-                                        handleInputChange(newUser, setNewUser, null, null, null, event)
+                                        handleInputChange(user, setUser, null, null, null, event)
                                     }
                                     name='email'
-                                    defaultValue={newUser?.email}
+                                    defaultValue={user?.email}
                                 />
                             </Form.Item>
                             <Form.Item
@@ -195,10 +211,10 @@ export const UserModal = (
                                     pattern='^[0-9]{6,10}$'
                                     title='Ingresa un número de cédula válido'
                                     onChange={(event) =>
-                                        handleInputChange(newUser, setNewUser, null, null, null, event)
+                                        handleInputChange(user, setUser, null, null, null, event)
                                     }
                                     name='documentNumber'
-                                    defaultValue={newUser?.documentNumber}
+                                    defaultValue={user?.documentNumber}
 
                                 />
                             </Form.Item>
@@ -217,7 +233,7 @@ export const UserModal = (
                                                 pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*#]){1})\S{8,16}$'
                                                 title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
                                                 onChange={(event) =>
-                                                    handleInputChange(newUser, setNewUser, null, null, null, event)
+                                                    handleInputChange(user, setUser, null, null, null, event)
                                                 }
                                                 name='password'
 
@@ -234,7 +250,7 @@ export const UserModal = (
                                                 pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*#]){1})\S{8,16}$'
                                                 title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
                                                 onChange={(event) =>
-                                                    handleInputChange(newUser, setNewUser, null, null, null, event)
+                                                    handleInputChange(user, setUser, null, null, null, event)
                                                 }
                                                 name='password_confirm'
                                             />
@@ -254,11 +270,11 @@ export const UserModal = (
                                     pattern='([0-9]{10})'
                                     title='Ingresa un número de celular válido'
                                     onChange={(event) =>
-                                        handleInputChange(newUser, setNewUser, null, null, null, event)
+                                        handleInputChange(user, setUser, null, null, null, event)
                                     }
                                     name='phone'
-                                    defaultValue={newUser?.phone}
-                                    value={newUser?.phone}
+                                    defaultValue={user?.phone}
+                                    value={user?.phone}
                                 />
                             </Form.Item>
 
@@ -270,11 +286,11 @@ export const UserModal = (
                             >
                                 <DatePicker
                                     onChange={(date, dateString) =>
-                                        handleInputChange(newUser, setNewUser, 'birthDate', date, dateString)
+                                        handleInputChange(user, setUser, 'birthDate', date, dateString)
                                     }
                                     name='birthDate'
                                     className='w-100'
-                                    defaultValue={dayjs(newUser?.birthDate?.split("T")[0], dateFormat)}
+                                // defaultValue={dayjs(user?.birthDate?.split("T")[0], dateFormat)}
                                 />
                             </Form.Item>
                             <Form.Item
@@ -299,7 +315,7 @@ export const UserModal = (
                                             await message.error(`${file.name} no es un archivo válido`)
                                         } else {
                                             await message.success(`${file.name} añadido exitosamente`)
-                                            setUrlImgBase64(file, newUser, setNewUser)
+                                            setUrlImgBase64(file, user, setUser)
                                         }
                                         return notImage || Upload.LIST_IGNORE
                                     }}
@@ -307,28 +323,37 @@ export const UserModal = (
                                     listType='picture'
                                     maxCount={1}
                                     id='urlImg'
-                                // defaultValue={newUser?.urlImg}
-
                                 >
                                     <Button icon={<UploadOutlined />}>Subir imágen</Button>
                                 </Upload>
                             </Form.Item>
                         </Col>
                     </div>
-                    <Form.Item
-                        name='state'
-                        rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
-                        className='d-flex flex-column'
-                    >
-                        <Dropdown menu={{ items }}>
-                            <a onClick={(e) => e.preventDefault()}>
-                                <Space>
-                                    Estado
-                                    <DownOutlined />
-                                </Space>
-                            </a>
-                        </Dropdown>
-                    </Form.Item>
+                    {
+                        !edit ?
+                            <Form.Item
+                                name='state'
+                                rules={!!edit ? [{ required: true, message: 'Este campo es obligatorio' }] : []}
+                                className='d-flex flex-column'
+                            >
+                                <Select
+                                    defaultValue={getState(user.state)}
+                                    style={{ width: 120 }}
+                                    onChange={(value) => handleInputChange(user, setUser, null, null, null,
+                                        {
+                                            target: {
+                                                name: 'state',
+                                                value
+                                            }
+                                        }
+                                    )}
+                                    options={optionsSelectState}
+                                    name='state'
+                                />
+                            </Form.Item>
+                            :
+                            ''
+                    }
                 </Row>
 
                 <div className='d-flex justify-content-center'>
@@ -357,6 +382,6 @@ export const UserModal = (
                     <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
                 </div>
             </Form>
-        </Modal>
+        </Modal >
     )
 }

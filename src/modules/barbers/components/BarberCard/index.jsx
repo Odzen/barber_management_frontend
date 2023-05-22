@@ -27,31 +27,21 @@ export const BarberCard = (
     setLoading,
   }
 ) => {
+  const API_URL = import.meta.env.VITE_API_URL
+  const _type = "barbers"
   const [formBarber] = Form.useForm()
   const [registeredUser, setRegisteredUser] = useState(false)
   const [oldUser, setOldUser] = useState({})
-
-  /*-------------------------------------------------------------------- */
   const [modalUpdate, setModalUpdate] = useState(false);
 
-  const showModal = async (id) => {
+  /* Function to show a update barber modal */
+  const showModalUpdateBarber = async (id) => {
+    localStorage.setItem("currentUser", id)
     const data = await getUser(id)
     setOldUser(data)
     setModalUpdate(true);
   };
 
-  const handleOk = () => {
-    setModalUpdate(false);
-  };
-
-  const handleCancel = () => {
-    setModalUpdate(false);
-  };
-  /*-------------------------------------------------------------------- */
-
-
-  const API_URL = import.meta.env.VITE_API_URL
-  const _type = "barbers"
   /* Function to delete a barber */
   const onDeleteBarber = async (id) => {
     const requestOptions = {
@@ -106,10 +96,10 @@ export const BarberCard = (
 
         <div className='field'>
           <span
-            className={`state ${STATES[state] === state ? 'active' : 'inactive'}`}
+            className={`state ${STATES[state] === "ACTIVE" ? 'active' : 'inactive'}`}
             style={{ fontWeight: '500' }}
           >
-            {STATES[state] === state ? 'Activo' : 'Inactivo'}
+            {STATES[state] == "ACTIVE" ? 'Activo' : 'Inactivo'}
           </span>
         </div>
 
@@ -117,7 +107,7 @@ export const BarberCard = (
           <EditOutlined
             className='m-1'
             style={{ color: '#01329a', cursor: 'pointer' }}
-            onClick={() => showModal(id)}
+            onClick={() => showModalUpdateBarber(id)}
           />
           <Popconfirm
             title='Despedir barbero'
@@ -142,10 +132,10 @@ export const BarberCard = (
         title="Editar barbero"
         notifMessage='Actualización exitosa!'
         form={formBarber}
-        newUser={oldUser}
+        user={oldUser}
         modelRegister={modalUpdate}
         registeredUser={registeredUser}
-        setNewUser={setOldUser}
+        setUser={setOldUser}
         setModelRegister={setModalUpdate}
         setRegisteredUser={setRegisteredUser}
         setData={setData}
