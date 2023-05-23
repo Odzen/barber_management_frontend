@@ -179,7 +179,6 @@ export const BarberLinks = [
   }
 ]
 
-
 export const CustomerLinks = [
   {
     to: '/staff',

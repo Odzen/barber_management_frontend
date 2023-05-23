@@ -33,7 +33,6 @@ const Sidebar = ({ setToken }) => {
 
   /* Function to have the data of the user who has just entered the software */
   const getData = () => {
-
     setDataUser({
       name: name,
       urlImg: urlImg,
@@ -103,8 +102,8 @@ const Sidebar = ({ setToken }) => {
         </div>
 
         <div className='linksContainer'>
-          {
-            CustomerLinks && role === ROLES.CUSTOMER &&
+          {CustomerLinks &&
+            role === ROLES.CUSTOMER &&
             CustomerLinks.map(({ text, to, svg }) => {
               let classes = open ? 'linkOpen' : 'normal'
               let item_text = text ? text : ''
@@ -114,11 +113,10 @@ const Sidebar = ({ setToken }) => {
                   {text}
                 </Item>
               )
-
             })}
 
-          {
-            BarberLinks && role === ROLES.BARBER &&
+          {BarberLinks &&
+            role === ROLES.BARBER &&
             BarberLinks.map(({ text, to, svg }) => {
               let classes = open ? 'linkOpen' : 'normal'
               let item_text = text ? text : ''
@@ -128,11 +126,10 @@ const Sidebar = ({ setToken }) => {
                   {text}
                 </Item>
               )
-
             })}
 
-          {
-            AdminLinks && role === ROLES.ADMIN &&
+          {AdminLinks &&
+            role === ROLES.ADMIN &&
             AdminLinks.map(({ text, to, svg }) => {
               let classes = open ? 'linkOpen' : 'normal'
               let item_text = text ? text : ''
@@ -142,7 +139,6 @@ const Sidebar = ({ setToken }) => {
                   {text}
                 </Item>
               )
-
             })}
         </div>
 
