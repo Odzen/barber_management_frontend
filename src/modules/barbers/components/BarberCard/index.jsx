@@ -4,12 +4,12 @@ import { ROLES, STATES } from '../../../../utils/enums'
 import { getUsers } from '../../../../helpers/getUsers'
 import { headers } from '../../../../utils/headers'
 import { Popconfirm, Form } from 'antd'
-import PropTypes from 'prop-types'
-import moment from 'moment/moment'
-import './style.scss'
 import { useState } from 'react'
 import { getUser } from '../../../../helpers/getUser'
 import { UserModal } from '../../../../components/UserModal/UserModal'
+import PropTypes from 'prop-types'
+import moment from 'moment/moment'
+import './style.scss'
 
 /* Component used to display barber information */
 
@@ -72,10 +72,9 @@ export const BarberCard = ({
       <div className='userCard'>
         <div className='d-flex align-items-center field'>
           <img src={'data:image/png;base64,' + urlImg} alt='avatar' className='userImg' />
-
-          <span className='info_text _name' style={{ cursor: 'pointer' }}>
+          <a className='info_text _name' style={{ cursor: 'pointer' }} href={`/staff/${id}`}>
             {name}
-          </span>
+          </a>
         </div>
         <div className='field'>
           <div className='d-flex align-items-center justify-content-center'>

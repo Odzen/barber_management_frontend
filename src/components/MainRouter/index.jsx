@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { ROLES } from '../../utils/enums'
+import { UserProfile } from '../../modules/profile/index'
 import PropTypes from 'prop-types'
 import ErrorView from '../../security/views/error'
 import LoginView from '../../security/views/login'
 import Sidebar from '../../components/sidebar'
 import CustomersView from '../../modules/customers'
 import BarbersView from '../../modules/barbers'
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { ROLES } from '../../utils/enums'
 
 const MainRouter = ({ location }) => {
   /* General states for receiving the token */
@@ -32,6 +33,12 @@ const MainRouter = ({ location }) => {
     return <Navigate to={`/staff/${id}`} />
   }
 
+  /* If the user's role is Customer, then we redirect him to his profile */
+
+  if (role == ROLES.CUSTOMER && location.pathname === '/') {
+    return <Navigate to={`/profile`} />
+  }
+
   return (
     <>
       {/* SideBar, which allows us to navigate between the modules */}
@@ -41,15 +48,15 @@ const MainRouter = ({ location }) => {
       <Routes>
         <Route path='/main' element={role !== ROLES.ADMIN ? <ErrorView /> : <h1>Dashboard</h1>} />
         <Route path='/staff' element={role == ROLES.BARBER ? <ErrorView /> : <BarbersView />} />
-        <Route path='/staff/:id' element={<h1>Staff Id</h1>} />
+        <Route
+          path='/staff/:id'
+          element={role == ROLES.BARBER ? <ErrorView /> : <UserProfile />}
+        />
         <Route
           path='/customers'
           element={role !== ROLES.ADMIN ? <ErrorView /> : <CustomersView />}
         />
-        <Route path='/profile' element={<h1>Profile</h1>} />
-        {/* <Route path='/customers' element={rol == 'Barber' ? (<ErrorView />) : <h1>Customers</h1>} />
-                <Route path='/customers:id' element={rol == 'Barber' ? (<ErrorView />) : <h1>Customer Id</h1>} /> */}
-
+        <Route path='/profile' element={<UserProfile />} />
         <Route path='/*' element={<ErrorView />} />
       </Routes>
     </>

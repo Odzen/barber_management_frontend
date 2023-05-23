@@ -1,0 +1,22 @@
+.cardProfile {
+  background: rgba(35, 31, 31, 0.75);
+  padding: 30px;
+  color: white;
+  border-radius: 20px;
+}
+.cardProfile .name {
+  font-weight: bold;
+  font-size: 20px;
+}
+.cardProfile .subfields {
+  font-size: 15px;
+}
+.cardProfile .imgProfile {
+  margin-bottom: 10px;
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+}
+.cardProfile span {
+  margin: 5px 0;
+}

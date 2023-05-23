@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Links } from '../Sidebar/Data/index'
 import { useNavigate } from 'react-router-dom'
-import { ROLES } from '../../utils/enums'
 import PropTypes from 'prop-types'
 import userPhoto from '../../assets/images/UserPhoto.png'
 import Item from './Item/index'
@@ -103,8 +102,7 @@ const Sidebar = ({ setToken }) => {
         </div>
 
         <div className='linksContainer'>
-          {dataUser.role == ROLES.ADMIN &&
-            Links &&
+          {
             Links.map(({ text, to, svg }) => {
               let classes = open ? 'linkOpen' : 'normal'
               let item_text = text ? text : ''

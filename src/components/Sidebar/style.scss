@@ -1,7 +1,7 @@
 .sidebar {
   width: 60px;
   height: 100vh;
-  background: #231f1f !important;
+  background: rgba(35, 31, 31, 0.75) !important;
   transition-duration: 0.3s;
   display: flex;
   flex-direction: column;
@@ -43,7 +43,7 @@
 .sidebarOpen {
   width: 200px;
   height: 100vh;
-  background: #231f1f !important;
+  background: rgba(35, 31, 31, 0.75) !important;
   transition-duration: 0.3s;
   display: flex;
   flex-direction: column;
