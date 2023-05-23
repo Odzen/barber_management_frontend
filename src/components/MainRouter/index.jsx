@@ -34,7 +34,6 @@ const MainRouter = ({ location }) => {
   }
 
   /* If the user's role is Customer, then we redirect him to his profile */
-
   if (role == ROLES.CUSTOMER && location.pathname === '/') {
     return <Navigate to={`/profile`} />
   }
@@ -51,7 +50,7 @@ const MainRouter = ({ location }) => {
         <Route path='/staff/:id' element={role == ROLES.BARBER ? <ErrorView /> : <UserProfile />} />
         <Route
           path='/customers'
-          element={role !== ROLES.ADMIN ? <ErrorView /> : <CustomersView />}
+          element={role == ROLES.CUSTOMER ? <ErrorView /> : <CustomersView />}
         />
         <Route path='/profile' element={<UserProfile />} />
         <Route path='/*' element={<ErrorView />} />

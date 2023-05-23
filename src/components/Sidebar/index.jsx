@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Links } from '../Sidebar/Data/index'
+import { AdminLinks, CustomerLinks, BarberLinks } from '../Sidebar/Data/index'
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import userPhoto from '../../assets/images/UserPhoto.png'
 import Item from './Item/index'
 import './style.scss'
+import { ROLES } from '../../utils/enums'
 
 const Sidebar = ({ setToken }) => {
   /* Global variables */
@@ -14,6 +15,10 @@ const Sidebar = ({ setToken }) => {
 
   /* Imperactive method to change location in software */
   let navegate = useNavigate()
+  let name = localStorage.getItem('name')
+  let urlImg = localStorage.getItem('urlImg')
+  let role = localStorage.getItem('role')
+  let id = localStorage.getItem('id')
 
   /* Function to exit the software and go to login */
   const handleLogout = () => {
@@ -28,10 +33,6 @@ const Sidebar = ({ setToken }) => {
 
   /* Function to have the data of the user who has just entered the software */
   const getData = () => {
-    let name = localStorage.getItem('name')
-    let urlImg = localStorage.getItem('urlImg')
-    let role = localStorage.getItem('role')
-    let id = localStorage.getItem('id')
 
     setDataUser({
       name: name,
@@ -102,16 +103,47 @@ const Sidebar = ({ setToken }) => {
         </div>
 
         <div className='linksContainer'>
-          {Links.map(({ text, to, svg }) => {
-            let classes = open ? 'linkOpen' : 'normal'
-            let item_text = text ? text : ''
+          {
+            CustomerLinks && role === ROLES.CUSTOMER &&
+            CustomerLinks.map(({ text, to, svg }) => {
+              let classes = open ? 'linkOpen' : 'normal'
+              let item_text = text ? text : ''
 
-            return (
-              <Item key={text} open={open} to={to} svg={svg} text={item_text} classes={classes}>
-                {text}
-              </Item>
-            )
-          })}
+              return (
+                <Item key={text} open={open} to={to} svg={svg} text={item_text} classes={classes}>
+                  {text}
+                </Item>
+              )
+
+            })}
+
+          {
+            BarberLinks && role === ROLES.BARBER &&
+            BarberLinks.map(({ text, to, svg }) => {
+              let classes = open ? 'linkOpen' : 'normal'
+              let item_text = text ? text : ''
+
+              return (
+                <Item key={text} open={open} to={to} svg={svg} text={item_text} classes={classes}>
+                  {text}
+                </Item>
+              )
+
+            })}
+
+          {
+            AdminLinks && role === ROLES.ADMIN &&
+            AdminLinks.map(({ text, to, svg }) => {
+              let classes = open ? 'linkOpen' : 'normal'
+              let item_text = text ? text : ''
+
+              return (
+                <Item key={text} open={open} to={to} svg={svg} text={item_text} classes={classes}>
+                  {text}
+                </Item>
+              )
+
+            })}
         </div>
 
         <div className='d-flex flex-column justify-center align-items-center'>
