@@ -102,17 +102,16 @@ const Sidebar = ({ setToken }) => {
         </div>
 
         <div className='linksContainer'>
-          {
-            Links.map(({ text, to, svg }) => {
-              let classes = open ? 'linkOpen' : 'normal'
-              let item_text = text ? text : ''
+          {Links.map(({ text, to, svg }) => {
+            let classes = open ? 'linkOpen' : 'normal'
+            let item_text = text ? text : ''
 
-              return (
-                <Item key={text} open={open} to={to} svg={svg} text={item_text} classes={classes}>
-                  {text}
-                </Item>
-              )
-            })}
+            return (
+              <Item key={text} open={open} to={to} svg={svg} text={item_text} classes={classes}>
+                {text}
+              </Item>
+            )
+          })}
         </div>
 
         <div className='d-flex flex-column justify-center align-items-center'>
