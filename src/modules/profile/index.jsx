@@ -33,20 +33,20 @@ export const UserProfile = () => {
         <div className='d-flex justify-content-center align-items-center'>
           <div className='d-flex justify-content-center align-items-center flex-column cardProfile'>
             <img
-              src={data?.urlImg ? `data:image/png;base64,${data.urlImg}` : ''}
+              src={data?.urlImg ? `data:image/png;base64,${data?.urlImg}` : ''}
               alt='My photo'
               className='imgProfile'
             />
-            <span className='name'>{data.name}</span>
-            <span className='subfields'>{data.email}</span>
-            <span className='subfields'>{data.phone}</span>
-            <span className='subfields'>{moment(data.birthDate).calendar()}</span>
-            <span className='subfields'>{getRole(data.role)}</span>
+            <span className='name'>{data?.name}</span>
+            <span className='subfields'>{data?.email}</span>
+            <span className='subfields'>{data?.phone}</span>
+            <span className='subfields'>{moment(data?.birthDate).calendar()}</span>
+            <span className='subfields'>{getRole(data?.role)}</span>
             <span
-              className={`state ${STATES[data.state] === 'ACTIVE' ? 'active' : 'inactive'}`}
+              className={`state ${STATES[data?.state] === 'ACTIVE' ? 'active' : 'inactive'}`}
               style={{ fontWeight: '500' }}
             >
-              {getState(data.state)}
+              {getState(data?.state)}
             </span>
           </div>
         </div>
