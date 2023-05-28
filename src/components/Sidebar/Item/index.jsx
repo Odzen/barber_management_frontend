@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import './item.scss'
+import './style.scss'
 
 /* Component to display each of the modules in the Sidebar */
 
@@ -18,7 +18,7 @@ const Item = ({ text, to, svg, classes }) => {
 Item.propTypes = {
   text: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  svg: PropTypes.string.isRequired,
+  svg: PropTypes.object.isRequired,
   classes: PropTypes.string.isRequired
 }
 

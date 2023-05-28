@@ -1,0 +1,48 @@
+/*Estilos que comparten todos los módulos*/
+
+.contenedor_main {
+  position: absolute;
+  left: 65px;
+  z-index: 1;
+  width: 94%;
+}
+
+/* .ant-btn,
+.ant-btn:hover,
+.ant-btn:focus {
+  color: red !important;
+  border-color: #fdc43f !important;
+  background: transparent !important;
+} */
+
+._title {
+  font-weight: 500;
+  font-family: sans-serif;
+  font-size: 36px;
+  color: white;
+}
+
+.centrar {
+  margin: 0 auto !important;
+}
+
+a.ant-upload-list-item-name {
+  display: none;
+}
+
+.state {
+  font-weight: bold;
+  padding: 5px 15px;
+  border-radius: 10px;
+  width: 130px;
+  text-align: center;
+  color: white;
+}
+
+.active {
+  background-image: linear-gradient(to left top, #48bb78, #41c18d, #3ec7a2, #43ccb4, #4fd1c5);
+}
+
+.inactive {
+  background-image: linear-gradient(to left top, #e53e3e, #ec504f, #f26160, #f77170, #fc8181);
+}

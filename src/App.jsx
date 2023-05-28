@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import MainRouter from './containers/mainRouter/index'
+import MainRouter from './components/MainRouter/index'
 import 'antd/dist/reset.css'
 
 const App = () => {
