@@ -59,6 +59,7 @@ We are using Github Actions for CI/CD. You can find the workflow file in the .gi
    - **test** - It runs the unit tests using jest.
    - **build** - It builds the app. To check if it compiles and creates the dist folder without errors.
    - **deploy** - It is responsible for deploying only the features implemented in the pull request in a different domain to do Quality Assurance in Vercel. Use a custom action to install cached dependencies, set environment variables, deploy **using the amondnet/vercel-action@v20** action, and comment on the GitHub pull request with information about the **deployment preview**.
+   
    Example: 
    
    ```bash
