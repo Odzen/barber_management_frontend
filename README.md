@@ -73,7 +73,7 @@ We are using Github Actions for CI/CD. You can find the workflow file in the .gi
 
    ```bash
    🚀 Production
-   www.barbermanagment.live/
+   www.barbermanagment.live
    ```
 
 5. [pr_notification.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/pr_notification.yml) - This action will be executed when certain types of pull request events occur. Event types include: opened, reopened, review_requested, closed, and synchronize on the main and dev branches. And its purpose is to send notifications to Slack when some of the pull requests mentioned above occur.
