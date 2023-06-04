@@ -52,9 +52,16 @@ https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows
 
 2. [notifications.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/notifications.yml) - This action runs on every push to the main branch. It sends a notification to a Slack channel with the purpose of notifying that the main branch has been updated.
 
-3. [deploy.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/deploy.yml) - This action runs on every push to the main branch. First it runs all the same checks from the push workflow, prettier, lint, test and build. If all the checks pass, it deploys the app to [Vercel](https://vercel.com) that deploys the app using the [vercel.json](https://github.com/Odzen/barber_management_frontend/blob/main/vercel.json) file. sets the file version, defines that the project directory is not public, and disables Vercel's integration with GitHub.
+3. [ci.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/ci.yml) - This workflow runs on every push or pull request (opened, synchronize) to main branch in the repository. It has serveral jobs that run in parallel:
 
-4. [pr_notification.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/pr_notification.yml) - This action will be executed when certain types of pull request events occur. Event types include: opened, reopened, review_requested, closed, and synchronize on the main and dev branches. And its purpose is to send notifications to Slack when some of the pull requests mentioned above occur.
+   - **prettier** - It runs prettier to check if the code is formatted correctly.
+   - **lint** - It runs eslint to check if there are any linting errors.
+   - **test** - It runs the unit tests using jest.
+   - **build** - It builds the app. To check if it compiles and creates the dist folder without errors.
 
-5. [cached_install/action.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/cached_install/action.yml) - This action configures Node.js, caches the node_modules modules, and then installs dependencies only if no previous cache was found. This allows for a faster installation process by using the cache where possible.
+4. [deploy.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/deploy.yml) - This action runs on every push to the main branch. First it runs all the same checks from the CI workflow, prettier, lint, test and build. If all the checks pass, it deploys the app to [Vercel](https://vercel.com) that deploys the app using the [vercel.json](https://github.com/Odzen/barber_management_frontend/blob/main/vercel.json) file. sets the file version, defines that the project directory is not public, and disables Vercel's integration with GitHub.
+
+5. [pr_notification.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/pr_notification.yml) - This action will be executed when certain types of pull request events occur. Event types include: opened, reopened, review_requested, closed, and synchronize on the main and dev branches. And its purpose is to send notifications to Slack when some of the pull requests mentioned above occur.
+
+6. [cached_install/action.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/cached_install/action.yml) - This action configures Node.js, caches the node_modules modules, and then installs dependencies only if no previous cache was found. This allows for a faster installation process by using the cache where possible.
 
