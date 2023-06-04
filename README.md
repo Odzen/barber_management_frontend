@@ -64,7 +64,7 @@ We are using Github Actions for CI/CD. You can find the workflow file in the .gi
    
    ```bash
    ✅ Preview
-   https://dev-barber-management.vercel.app
+   dev-barber-management.vercel.app
    ```
    
    In this url we can see the changes implemented in the pull request to see if we can mix it up or make corrections in dev branch.
