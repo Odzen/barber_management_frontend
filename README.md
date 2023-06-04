@@ -47,7 +47,7 @@ Auto Close Tag: Automatically close HTML tags in text editor. [Download](https:/
 ## CI/CD
 
 We are using Github Actions for CI/CD. You can find the workflow file in the .github/workflows folder. We are using the following actions:
-https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows
+
 1. [sonar.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/sonar.yml) - It runs SonarCloud analysis on every push to the main branch and development branch. This uses SonarCloud to analyze the code and find bugs, vulnerabilities, code smells, etc. SonarCloud is also configured to interact with a Lambda function in a AWS that works as a webhook to process the results of the analysis and send them to a Slack channel.
 
 2. [notifications.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/notifications.yml) - This action runs on every push to the main branch. It sends a notification to a Slack channel with the purpose of notifying that the main branch has been updated.
