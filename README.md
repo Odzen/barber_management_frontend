@@ -71,6 +71,11 @@ We are using Github Actions for CI/CD. You can find the workflow file in the .gi
 
 4. [deploy.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/deploy.yml) - This action runs on every push to the main branch. First it runs almost all the same checks from the CI workflow, prettier, lint, test and build. If all the checks pass, it **deploys the application to production** using [Vercel](https://vercel.com) and the [vercel.json](https://github.com/Odzen/barber_management_frontend/blob/main/vercel.json) file, which sets the file version, defines that the project directory is not public, and disables Vercel's integration with GitHub.
 
+   ```bash
+   🚀 Production
+   www.barbermanagment.live/
+   ```
+
 5. [pr_notification.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/pr_notification.yml) - This action will be executed when certain types of pull request events occur. Event types include: opened, reopened, review_requested, closed, and synchronize on the main and dev branches. And its purpose is to send notifications to Slack when some of the pull requests mentioned above occur.
 
 6. [cached_install/action.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/actions/cached_install/action.yml) - This action configures Node.js, caches the node_modules modules, and then installs dependencies only if no previous cache was found. This allows for a faster installation process by using the cache where possible.
