@@ -58,9 +58,17 @@ We are using Github Actions for CI/CD. You can find the workflow file in the .gi
    - **lint** - It runs eslint to check if there are any linting errors.
    - **test** - It runs the unit tests using jest.
    - **build** - It builds the app. To check if it compiles and creates the dist folder without errors.
-   - **deploy** - It is responsible for deploying the application in Vercel. Use a custom action to install cached dependencies, set environment variables, deploy **using the amondnet/vercel-action@v20** action, and comment on the GitHub pull request with information about the **deployment preview**.
+   - **deploy** - It is responsible for deploying only the features implemented in the pull request in a different domain to do Quality Assurance in Vercel. Use a custom action to install cached dependencies, set environment variables, deploy **using the amondnet/vercel-action@v20** action, and comment on the GitHub pull request with information about the **deployment preview**.
+   Example: 
+   
+   ```bash
+   ✅ Preview
+   https://dev-1-barber-management.vercel.app
+   ```
+   
+   In this url we can see the changes implemented in the pull request to see if we can mix it up or make corrections.
 
-4. [deploy.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/deploy.yml) - This action runs on every push to the main branch. First it runs all the same checks from the CI workflow, prettier, lint, test and build. If all the checks pass, it deploys the app to [Vercel](https://vercel.com) that deploys the app using the [vercel.json](https://github.com/Odzen/barber_management_frontend/blob/main/vercel.json) file. sets the file version, defines that the project directory is not public, and disables Vercel's integration with GitHub.
+4. [deploy.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/deploy.yml) - This action runs on every push to the main branch. First it runs almost all the same checks from the CI workflow, prettier, lint, test and build. If all the checks pass, it **deploys the application to production** using [Vercel](https://vercel.com) and the [vercel.json](https://github.com/Odzen/barber_management_frontend/blob/main/vercel.json) file, which sets the file version, defines that the project directory is not public, and disables Vercel's integration with GitHub.
 
 5. [pr_notification.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/pr_notification.yml) - This action will be executed when certain types of pull request events occur. Event types include: opened, reopened, review_requested, closed, and synchronize on the main and dev branches. And its purpose is to send notifications to Slack when some of the pull requests mentioned above occur.
 
