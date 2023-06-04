@@ -64,10 +64,10 @@ We are using Github Actions for CI/CD. You can find the workflow file in the .gi
    
    ```bash
    ✅ Preview
-   https://dev-1-barber-management.vercel.app
+   https://dev-barber-management.vercel.app
    ```
    
-   In this url we can see the changes implemented in the pull request to see if we can mix it up or make corrections.
+   In this url we can see the changes implemented in the pull request to see if we can mix it up or make corrections in dev branch.
 
 4. [deploy.yml](https://github.com/Odzen/barber_management_frontend/tree/main/.github/workflows/deploy.yml) - This action runs on every push to the main branch. First it runs almost all the same checks from the CI workflow, prettier, lint, test and build. If all the checks pass, it **deploys the application to production** using [Vercel](https://vercel.com) and the [vercel.json](https://github.com/Odzen/barber_management_frontend/blob/main/vercel.json) file, which sets the file version, defines that the project directory is not public, and disables Vercel's integration with GitHub.
 
