@@ -59,7 +59,7 @@ jobs:
   deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
-    needs: [lint, prettier, build]
+    needs: [lint, prettier, test, build]
     outputs:
       preview-url: ${{ steps.deploy-vercel.outputs.preview-url }}
     steps:
