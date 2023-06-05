@@ -6,7 +6,6 @@ import { getUsers } from '../../helpers/getUsers'
 import { UserModal } from '../../components/UserModal/UserModal'
 import BarberCard from './components/BarberCard/index'
 import '../../style.scss'
-import './style.scss'
 import { handleSetState } from '../../helpers/handleSetState'
 /* Component used to display each of the barber */
 
