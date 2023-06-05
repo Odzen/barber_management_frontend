@@ -102,23 +102,23 @@ const BarbersView = () => {
           )}
 
           <div style={{ maxHeight: '77vh', overflowY: 'auto' }}>
-            {data ? (
-              data.map(({ id, name, urlImg, phone, email, state, birthDate }) => {
-                return (
-                  <BarberCard
-                    key={id}
-                    id={id}
-                    name={name}
-                    urlImg={urlImg}
-                    email={email}
-                    phone={phone}
-                    state={state}
-                    birthDate={birthDate}
-                    setData={setData}
-                    setLoading={setLoading}
-                  />
-                )
-              }))
+            {data
+              ? data.map(({ id, name, urlImg, phone, email, state, birthDate }) => {
+                  return (
+                    <BarberCard
+                      key={id}
+                      id={id}
+                      name={name}
+                      urlImg={urlImg}
+                      email={email}
+                      phone={phone}
+                      state={state}
+                      birthDate={birthDate}
+                      setData={setData}
+                      setLoading={setLoading}
+                    />
+                  )
+                })
               : ''}
           </div>
         </div>
