@@ -65,6 +65,7 @@ export const BarberCard = ({
 
       openNotificationWithIcon(type, message, description)
     }
+    return
   }
 
   return (
