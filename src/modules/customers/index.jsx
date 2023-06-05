@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Input, Spin, Empty } from 'antd'
+import { Input } from 'antd'
 import { getUsers } from '../../helpers/getUsers'
 import { ROLES } from '../../utils/enums'
 import { onSearch } from '../../helpers/onSearch'
 import CustomerCard from './components/CustomerCard'
+import { waitingContent } from '../../helpers/waitingContent'
 import '../../style.scss'
 import './style.scss'
 
@@ -19,6 +20,8 @@ const CustomersView = () => {
   useEffect(() => {
     getUsers(ROLES.CUSTOMER, type, setData, setLoading)
   }, [])
+
+  let waiting = waitingContent(data, loading)
 
   return (
     <div className='contenedor_main'>
@@ -60,15 +63,7 @@ const CustomersView = () => {
           </div>
         </div>
 
-        {!data && !loading ? (
-          <Spin size='large' className='m-4' sty>
-            <div className='content' style={{ height: '50px' }} />
-          </Spin>
-        ) : !data || data.length < 1 ? (
-          <Empty className='m-3' />
-        ) : (
-          ''
-        )}
+        {waiting}
 
         <div style={{ maxHeight: '77vh', overflowY: 'auto' }}>
           {data

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Spin, Empty, Form, Input, Button } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { ROLES } from '../../utils/enums'
 import { onSearch } from '../../helpers/onSearch'
 import { getUsers } from '../../helpers/getUsers'
 import { UserModal } from '../../components/UserModal/UserModal'
 import BarberCard from './components/BarberCard/index'
-import '../../style.scss'
 import { handleSetState } from '../../helpers/handleSetState'
+import { waitingContent } from '../../helpers/waitingContent'
+import '../../style.scss'
 /* Component used to display each of the barber */
 
 const BarbersView = () => {
@@ -34,6 +35,8 @@ const BarbersView = () => {
   useEffect(() => {
     getUsers(ROLES.BARBER, type, setData, setLoading)
   }, [])
+
+  let waiting = waitingContent(data, loading)
 
   return (
     <>
@@ -91,15 +94,7 @@ const BarbersView = () => {
             </div>
           </div>
 
-          {!data && !loading ? (
-            <Spin size='large' className='m-4' sty>
-              <div className='content' style={{ height: '50px' }} />
-            </Spin>
-          ) : !data || data.length < 1 ? (
-            <Empty className='m-3' />
-          ) : (
-            ''
-          )}
+          {waiting}
 
           <div style={{ maxHeight: '77vh', overflowY: 'auto' }}>
             {data
