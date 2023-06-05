@@ -1,8 +1,9 @@
 import { headers } from '../utils/headers'
 import { backUpLocalStorage } from './backUpLocalStorage'
+import { getApiUrl } from './getApiUrl'
 import { setLocalStorage } from './setLocalStorage'
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = getApiUrl()
 
 /* Function to obtain the data of all barbers */
 export const getUsers = async (role, type, setData, setLoading) => {

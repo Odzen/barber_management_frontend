@@ -11,12 +11,13 @@ import axios from 'axios'
 import PropTypes from 'prop-types'
 import icon from '../../../assets/images/icono.png'
 import './login.css'
+import { getApiUrl } from '../../../helpers/getApiUrl'
 
 /* Component used to validate user input */
 
 const LoginView = ({ setToken }) => {
   /* General states for receiving user data */
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = getApiUrl()
   const [formCustomer] = Form.useForm()
   const [user, setUser] = useState(false)
   const [registeredUser, setRegisteredUser] = useState(false)
