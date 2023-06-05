@@ -120,7 +120,7 @@ const LoginView = ({ setToken }) => {
                   <div className='d-flex justify-content-center align-items-center'>
                     <div className='d-flex container-title p-3 m-2'>
                       <img src={icon} className='imgIcon' alt='' />
-                      <span className='fs-4 card-title fw-bold'>Bienvenido a nuestro portal</span>
+                      <span className='fs-4 card-title fw-bold'>Bienvenido a producción</span>
                       <img src={icon} className='imgIcon' alt='' />
                     </div>
                   </div>
