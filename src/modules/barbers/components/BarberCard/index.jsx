@@ -9,7 +9,6 @@ import { getUser } from '../../../../helpers/getUser'
 import { UserModal } from '../../../../components/UserModal/UserModal'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
-import './style.scss'
 import { getApiUrl } from '../../../../helpers/getApiUrl'
 
 /* Component used to display barber information */
