@@ -107,7 +107,7 @@ export const BarberCard = ({
           <Popconfirm
             title='Despedir barbero'
             description='¿Quieres despedir a este barbero?'
-            onConfirm={async () => await void onDeleteBarber(id)}
+            onConfirm={async () => void await onDeleteBarber(id)}
             okText='Sí'
             cancelText='No'
           >
