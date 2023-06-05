@@ -16,7 +16,16 @@ export const UserProfile = () => {
   }
 
   useEffect(() => {
-    getUserData()
+    const getUserDataAsync = async () => {
+      try {
+        await getUserData()
+
+      } catch (error) {
+        console.log("🚀 ~ file: index.jsx:24 ~ getUserDataAsync ~ error:", error)
+      }
+    };
+
+    getUserDataAsync()
   }, [])
 
   return (
