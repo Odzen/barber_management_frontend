@@ -71,7 +71,9 @@ export const UserModal = ({
             await getUsers(ROLES.BARBER, _type, setData, setLoading)
             resetForm(form)
           }
-          delayedAction()
+          delayedAction().catch((error) => {
+            console.log('🚀 ~ file: UserModal.jsx:75 ~ setTimeout ~ error:', error)
+          })
         }, 1000)
       } catch (error) {
         console.log(error)
