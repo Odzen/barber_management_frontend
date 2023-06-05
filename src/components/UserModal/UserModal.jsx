@@ -84,6 +84,8 @@ export const UserModal = ({
       description = 'Inténtalo de nuevo'
       openNotificationWithIcon(type, message, description)
     }
+    return
+
   }
 
   /* Function to update an user*/
