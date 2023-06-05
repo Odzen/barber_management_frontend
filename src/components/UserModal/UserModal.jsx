@@ -64,11 +64,14 @@ export const UserModal = ({
         await axios.post(`${API_URL}api/users`, user)
         setRegisteredUser(true)
         setTimeout(async () => {
-          handleSetState(false, setModelRegister)
-          setRegisteredUser(false)
-          openNotificationWithIcon(type, message, description)
-          await getUsers(ROLES.BARBER, _type, setData, setLoading)
-          resetForm(form)
+          const delayedAction = async () => {
+            handleSetState(false, setModelRegister)
+            setRegisteredUser(false)
+            openNotificationWithIcon(type, message, description)
+            await getUsers(ROLES.BARBER, _type, setData, setLoading)
+            resetForm(form)
+          }
+          delayedAction()
         }, 1000)
       } catch (error) {
         console.log(error)
