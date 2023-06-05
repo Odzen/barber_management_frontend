@@ -5,7 +5,7 @@ import { UserProfile } from '../../modules/profile/index'
 import PropTypes from 'prop-types'
 import ErrorView from '../../security/views/error/index'
 import LoginView from '../../security/views/login/index'
-import Sidebar from '../../components/sidebar/index'
+import Sidebar from '../../components/Sidebar/index'
 import CustomersView from '../../modules/customers/index'
 import BarbersView from '../../modules/barbers/index'
 
