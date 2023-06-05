@@ -72,20 +72,20 @@ const CustomersView = () => {
 
         <div style={{ maxHeight: '77vh', overflowY: 'auto' }}>
           {data ? (
-            ? data.map(({ id, name, urlImg, phone, email, state, role, birthDate }) => {
-                return (
-                  <CustomerCard
-                    key={id}
-                    name={name}
-                    urlImg={urlImg}
-                    email={email}
-                    phone={phone}
-                    state={state}
-                    role={role}
-                    birthDate={birthDate}
-                  />
-                )
-              })
+            data.map(({ id, name, urlImg, phone, email, state, role, birthDate }) => {
+              return (
+                <CustomerCard
+                  key={id}
+                  name={name}
+                  urlImg={urlImg}
+                  email={email}
+                  phone={phone}
+                  state={state}
+                  role={role}
+                  birthDate={birthDate}
+                />
+              )
+            }))
             : ''}
         </div>
       </div>
