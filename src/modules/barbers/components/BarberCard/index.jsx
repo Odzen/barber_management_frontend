@@ -103,12 +103,12 @@ export const BarberCard = ({
           <EditOutlined
             className='m-1'
             style={{ color: '#01329a', cursor: 'pointer' }}
-            onClick={() => showModalUpdateBarber(id)}
+            onClick={() => void showModalUpdateBarber(id)}
           />
           <Popconfirm
             title='Despedir barbero'
             description='¿Quieres despedir a este barbero?'
-            onConfirm={async () => await onDeleteBarber(id)}
+            onConfirm={async () => void await onDeleteBarber(id)}
             okText='Sí'
             cancelText='No'
           >
