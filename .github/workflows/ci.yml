@@ -55,7 +55,7 @@ jobs:
           node-version: '14'
       - run: npm install
       - run: npm run build
-
+ 
   deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
