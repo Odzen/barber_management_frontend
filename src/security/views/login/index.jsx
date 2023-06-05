@@ -5,30 +5,19 @@ import { handleSetState } from '../../../helpers/handleSetState'
 import { newUserFields } from '../../../utils/newUserFields'
 import { resetForm } from '../../../helpers/resetForm'
 import { normFile, setUrlImgBase64 } from '../../../helpers/handleUpload'
-import {
-  Modal,
-  Form,
-  Input,
-  Button,
-  Col,
-  Row,
-  Upload,
-  DatePicker,
-  Spin,
-  notification,
-  message
-} from 'antd'
+import { Modal, Form, Input, Button, Col, Row, Upload, DatePicker, Spin, message } from 'antd'
 import { UploadOutlined, LoadingOutlined, LockOutlined, UserOutlined } from '@ant-design/icons'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import icon from '../../../assets/images/icono.png'
 import './login.css'
+import { getApiUrl } from '../../../helpers/getApiUrl'
 
 /* Component used to validate user input */
 
 const LoginView = ({ setToken }) => {
   /* General states for receiving user data */
-  const API_URL = 'https://api.barbermanagment.live'
+  const API_URL = getApiUrl()
   const [formCustomer] = Form.useForm()
   const [user, setUser] = useState(false)
   const [registeredUser, setRegisteredUser] = useState(false)
@@ -52,7 +41,7 @@ const LoginView = ({ setToken }) => {
   const handleLoginSubmit = async () => {
     try {
       setUser(!user)
-      let response = await axios.post(`${API_URL}/api/auth/login`, loginUser)
+      let response = await axios.post(`${API_URL}api/auth/login`, loginUser)
       let { data, token } = await response.data
 
       const id = data.id
@@ -80,7 +69,7 @@ const LoginView = ({ setToken }) => {
           : error.message
       console.log(error)
       setUser(false)
-      openNotificationWithIcon(notification, type, message, description)
+      openNotificationWithIcon(type, message, description)
     }
   }
 
@@ -98,25 +87,25 @@ const LoginView = ({ setToken }) => {
       delete user.password_confirm
 
       try {
-        await axios.post(`${API_URL}/api/users`, user)
+        await axios.post(`${API_URL}api/users`, user)
         setRegisteredUser(true)
         setTimeout(() => {
           handleSetState(false, setModelRegister)
           setRegisteredUser(false)
-          openNotificationWithIcon(notification, type, message, description)
+          openNotificationWithIcon(type, message, description)
         }, 1000)
       } catch (error) {
         let error_field = newUserFields[error.response.data.err.meta.target]
         type = 'warning'
         message = '¡Hubo un error!'
         description = 'El ' + error_field + ' ingresado ya existe, inténtalo con uno diferente'
-        openNotificationWithIcon(notification, type, message, description)
+        openNotificationWithIcon(type, message, description)
       }
     } else {
       type = 'warning'
       message = '¡Las contraseñas no son iguales!'
       description = 'Inténtalo de nuevo'
-      openNotificationWithIcon(notification, type, message, description)
+      openNotificationWithIcon(type, message, description)
     }
   }
 
@@ -201,6 +190,7 @@ const LoginView = ({ setToken }) => {
           </div>
         </div>
       </section>
+
       <Modal
         centered
         open={modelRegister}
@@ -219,7 +209,7 @@ const LoginView = ({ setToken }) => {
             const type = 'warning'
             const message = '¡No se pudo completar el registro!'
             const description = 'Algunos campos obligatorios no están diligenciados'
-            openNotificationWithIcon(notification, type, message, description)
+            openNotificationWithIcon(type, message, description)
           }}
         >
           <Row className='col-12 col-md-12 d-flex flex-column align-items-center'>
@@ -281,7 +271,7 @@ const LoginView = ({ setToken }) => {
                 >
                   <Input.Password
                     type='password'
-                    pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*]){1})\S{8,16}$'
+                    pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*#]){1})\S{8,16}$'
                     title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
                     onChange={(event) =>
                       handleInputChange(newUser, setNewUser, null, null, null, event)
@@ -297,7 +287,7 @@ const LoginView = ({ setToken }) => {
                 >
                   <Input.Password
                     type='password'
-                    pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*]){1})\S{8,16}$'
+                    pattern='^(?=(?:.*\d){1})(?=(?:.*[A-Z]){1})(?=(?:.*[a-z]){1})(?=(?:.*[@$?¡\-_~`^{}¿\+*#]){1})\S{8,16}$'
                     title='La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una mayúscula y al menos un caracter especial.'
                     onChange={(event) =>
                       handleInputChange(newUser, setNewUser, null, null, null, event)
@@ -344,7 +334,6 @@ const LoginView = ({ setToken }) => {
                   label='Imágen de perfil'
                   valuePropName='fileList'
                   getValueFromEvent={(event) => normFile(event)}
-                  // onChange={getUrl}s
                   rules={[{ required: true, message: 'Este campo es obligatorio' }]}
                   className='d-flex text-center'
                 >

@@ -2,7 +2,7 @@
 
 ## Description
 
-Frontend for Barber Managment using:
+Frontend for Barber Management using:
 
 - JavaScript
 - React / Vite
