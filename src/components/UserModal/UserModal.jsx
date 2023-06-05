@@ -144,7 +144,7 @@ export const UserModal = ({
         name='crearCliente'
         className='crearCliente'
         id='crearCliente'
-        onFinish={() => (edit ? handleRegisterSubmit() : handleUpdate())}
+        onFinish={() => (edit ? void handleRegisterSubmit() : void handleUpdate())}
         onFinishFailed={() => {
           const type = 'warning'
           const message = '¡No se pudo completar el registro!'
