@@ -9,7 +9,6 @@ import { getUser } from '../../../../helpers/getUser'
 import { UserModal } from '../../../../components/UserModal/UserModal'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
-import './style.scss'
 import { getApiUrl } from '../../../../helpers/getApiUrl'
 
 /* Component used to display barber information */
@@ -103,7 +102,7 @@ export const BarberCard = ({
           <EditOutlined
             className='m-1'
             style={{ color: '#01329a', cursor: 'pointer' }}
-            onClick={() => showModalUpdateBarber(id)}
+            onClick={() => void showModalUpdateBarber(id)}
           />
           <Popconfirm
             title='Despedir barbero'
