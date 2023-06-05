@@ -1,6 +1,7 @@
 import { headers } from '../utils/headers'
+import { getApiUrl } from './getApiUrl'
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = getApiUrl()
 
 export const getUser = async (id) => {
   const requestOptions = {

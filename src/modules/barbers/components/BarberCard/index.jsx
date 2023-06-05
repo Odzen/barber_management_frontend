@@ -10,6 +10,7 @@ import { UserModal } from '../../../../components/UserModal/UserModal'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import './style.scss'
+import { getApiUrl } from '../../../../helpers/getApiUrl'
 
 /* Component used to display barber information */
 
@@ -24,7 +25,7 @@ export const BarberCard = ({
   setData,
   setLoading
 }) => {
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = getApiUrl()
   const _type = 'barbers'
   const [formBarber] = Form.useForm()
   const [registeredUser, setRegisteredUser] = useState(false)

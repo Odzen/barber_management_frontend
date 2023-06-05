@@ -26,6 +26,7 @@ import { newUserFields } from '../../utils/newUserFields'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
+import { getApiUrl } from '../../helpers/getApiUrl'
 
 export const UserModal = ({
   edit = false,
@@ -41,7 +42,7 @@ export const UserModal = ({
   setData,
   setLoading
 }) => {
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = getApiUrl()
   const _type = 'barbers'
   const dateFormat = 'YYYY-MM-DD'
 
