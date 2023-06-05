@@ -91,31 +91,35 @@ const BarbersView = () => {
             </div>
           </div>
 
+          {!data && !loading ? (
+            <Spin size='large' className='m-4' sty>
+              <div className='content' style={{ height: '50px' }} />
+            </Spin>
+          ) : !data || data.length < 1 ? (
+            <Empty className='m-3' />
+          ) : (
+            ''
+          )}
+
           <div style={{ maxHeight: '77vh', overflowY: 'auto' }}>
-            {!data && !loading ? (
-              <Spin size='large' className='m-4'>
-                <div className='content' />
-              </Spin>
-            ) : !!data && data.length < 1 ? (
-              <Empty />
-            ) : (
-              data.map(({ id, name, urlImg, phone, email, state, birthDate }) => {
-                return (
-                  <BarberCard
-                    key={id}
-                    id={id}
-                    name={name}
-                    urlImg={urlImg}
-                    email={email}
-                    phone={phone}
-                    state={state}
-                    birthDate={birthDate}
-                    setData={setData}
-                    setLoading={setLoading}
-                  />
-                )
-              })
-            )}
+            {data
+              ? data.map(({ id, name, urlImg, phone, email, state, birthDate }) => {
+                  return (
+                    <BarberCard
+                      key={id}
+                      id={id}
+                      name={name}
+                      urlImg={urlImg}
+                      email={email}
+                      phone={phone}
+                      state={state}
+                      birthDate={birthDate}
+                      setData={setData}
+                      setLoading={setLoading}
+                    />
+                  )
+                })
+              : ''}
           </div>
         </div>
       </div>

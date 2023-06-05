@@ -46,3 +46,7 @@ a.ant-upload-list-item-name {
 .inactive {
   background-image: linear-gradient(to left top, #e53e3e, #ec504f, #f26160, #f77170, #fc8181);
 }
+
+:where(.css-dev-only-do-not-override-zjzpde).ant-spin-nested-loading .ant-spin-container::after {
+  background: transparent !important;
+}
