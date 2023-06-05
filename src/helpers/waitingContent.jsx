@@ -12,7 +12,7 @@ export const waitingContent = (data, loading) => {
   } else if (!data || data.length < 1) {
     waitingContent = <Empty className='m-3' />
   } else {
-    waitingContent = {}
+    waitingContent = <div></div>
   }
 
   return waitingContent

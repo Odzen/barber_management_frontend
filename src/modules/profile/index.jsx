@@ -16,7 +16,9 @@ export const UserProfile = () => {
   }
 
   useEffect(() => {
-    getUserData()
+    getUserData().catch((error) => {
+      console.log('🚀 ~ file: index.jsx:20 ~ getUserData ~ error:', error)
+    })
   }, [])
 
   return (

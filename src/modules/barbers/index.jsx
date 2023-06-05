@@ -37,6 +37,7 @@ const BarbersView = () => {
   }, [])
 
   let waiting = waitingContent(data, loading)
+  console.log('🚀 ~ file: index.jsx:98 ~ BarbersView ~ waiting:', waiting)
 
   return (
     <>
