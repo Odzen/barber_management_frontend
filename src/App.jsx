@@ -1,5 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import MainRouter from './components/MainRouter/index'
 import 'antd/dist/reset.css'
 
