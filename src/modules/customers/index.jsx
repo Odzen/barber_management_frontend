@@ -60,16 +60,18 @@ const CustomersView = () => {
           </div>
         </div>
 
+        {!data && !loading ? (
+          <Spin size="large" className="m-4" sty>
+            <div className="content" style={{ height: "50px" }} />
+          </Spin>
+        ) : !data || data.length < 1 ? (
+          <Empty className="m-3" />
+        ) : (
+          ""
+        )}
+
         <div style={{ maxHeight: '77vh', overflowY: 'auto' }}>
-          {!data && !loading ? (
-            <div>
-              <Spin size='large' className='m-4'>
-                <div className='content' />
-              </Spin>
-            </div>
-          ) : !!data && data.length < 1 ? (
-            <Empty />
-          ) : (
+          {!!data ? (
             data.map(({ id, name, urlImg, phone, email, state, role, birthDate }) => {
               return (
                 <CustomerCard
@@ -84,7 +86,7 @@ const CustomersView = () => {
                 />
               )
             })
-          )}
+          ) : ''}
         </div>
       </div>
     </div>
