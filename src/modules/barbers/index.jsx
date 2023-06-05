@@ -33,7 +33,9 @@ const BarbersView = () => {
 
   /* Functions to be executed when the page is rendered */
   useEffect(() => {
-    getUsers(ROLES.BARBER, type, setData, setLoading)
+    getUsers(ROLES.BARBER, type, setData, setLoading).catch((error) => {
+      console.log('🚀 ~ file: index.jsx:37 ~ useEffect ~ error:', error)
+    })
   }, [])
 
   let waiting = waitingContent(data, loading)

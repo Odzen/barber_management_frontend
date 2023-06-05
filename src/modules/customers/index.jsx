@@ -18,7 +18,9 @@ const CustomersView = () => {
 
   /* Functions to be executed when the page is rendered */
   useEffect(() => {
-    getUsers(ROLES.CUSTOMER, type, setData, setLoading)
+    getUsers(ROLES.CUSTOMER, type, setData, setLoading).catch((error) => {
+      console.log('🚀 ~ file: index.jsx:22 ~ useEffect ~ error:', error)
+    })
   }, [])
 
   let waiting = waitingContent(data, loading)
