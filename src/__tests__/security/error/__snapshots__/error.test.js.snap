@@ -11,7 +11,11 @@ exports[`testing to ErrorView should return ErrorView Component 1`] = `
   </h1>
   <img
     alt=""
-    src="error404.png"
+    src={
+      {
+        "process": [Function],
+      }
+    }
   />
   <h2>
     No hemos podido encontrar la página que buscas.
