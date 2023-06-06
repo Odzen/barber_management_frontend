@@ -16,6 +16,13 @@ const CustomersView = () => {
   const [loading, setLoading] = useState(false)
   const type = 'customers'
 
+  const fields = [
+    { id: 'name', label: 'Nombre' },
+    { id: 'email', label: 'Correo' },
+    { id: 'phone', label: 'Teléfono' },
+    { id: 'birthday', label: 'Cumpleaños' }
+  ]
+
   /* Functions to be executed when the page is rendered */
   useEffect(() => {
     getUsers(ROLES.CUSTOMER, type, setData, setLoading).catch((error) => {
@@ -43,26 +50,13 @@ const CustomersView = () => {
         </div>
 
         <div className='titles'>
-          <div className='field'>
-            <div className='d-flex align-items-center justify-content-center'>
-              <span className='info_text text-white'>Nombre</span>
+          {fields.map((field) => (
+            <div key={field.id} className='field'>
+              <div className='d-flex align-items-center justify-content-center'>
+                <span className='info_text text-white'>{field.label}</span>
+              </div>
             </div>
-          </div>
-          <div className='field'>
-            <div className='d-flex align-items-center justify-content-center'>
-              <span className='info_text text-white'>Correo</span>
-            </div>
-          </div>
-          <div className='field'>
-            <div className='d-flex align-items-center justify-content-center'>
-              <span className='info_text text-white'>Teléfono</span>
-            </div>
-          </div>
-          <div className='field'>
-            <div className='d-flex align-items-center justify-content-center'>
-              <span className='info_text text-white'>Cumpleaños</span>
-            </div>
-          </div>
+          ))}
         </div>
 
         {waiting}

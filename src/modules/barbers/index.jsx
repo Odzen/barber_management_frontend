@@ -31,6 +31,15 @@ const BarbersView = () => {
     role: 'BARBER'
   })
 
+  const fields = [
+    { id: 'name', label: 'Nombre' },
+    { id: 'email', label: 'Correo' },
+    { id: 'phone', label: 'Teléfono' },
+    { id: 'birthday', label: 'Cumpleaños' },
+    { id: 'state', label: 'Estado' },
+    { id: 'actions', label: 'Acciones' }
+  ]
+
   /* Functions to be executed when the page is rendered */
   useEffect(() => {
     getUsers(ROLES.BARBER, type, setData, setLoading).catch((error) => {
@@ -39,7 +48,6 @@ const BarbersView = () => {
   }, [])
 
   let waiting = waitingContent(data, loading)
-  console.log('🚀 ~ file: index.jsx:98 ~ BarbersView ~ waiting:', waiting)
 
   return (
     <>
@@ -65,36 +73,17 @@ const BarbersView = () => {
           </div>
 
           <div className='titles'>
-            <div className='field'>
-              <div className='d-flex align-items-center justify-content-center'>
-                <span className='info_text text-white'>Nombre</span>
+            {fields.map((field) => (
+              <div
+                key={field.id}
+                className={field.id === 'actions' ? '' : 'field'}
+                style={{ width: `${field.id === 'actions' ? '110px' : ''}` }}
+              >
+                <div className='d-flex align-items-center justify-content-center'>
+                  <span className='info_text text-white'>{field.label}</span>
+                </div>
               </div>
-            </div>
-            <div className='field'>
-              <div className='d-flex align-items-center justify-content-center'>
-                <span className='info_text text-white'>Correo</span>
-              </div>
-            </div>
-            <div className='field'>
-              <div className='d-flex align-items-center justify-content-center'>
-                <span className='info_text text-white'>Teléfono</span>
-              </div>
-            </div>
-            <div className='field'>
-              <div className='d-flex align-items-center justify-content-center'>
-                <span className='info_text text-white'>Cumpleaños</span>
-              </div>
-            </div>
-            <div className='field'>
-              <div className='d-flex align-items-center justify-content-center'>
-                <span className='info_text text-white'>Estado</span>
-              </div>
-            </div>
-            <div style={{ width: '110px' }}>
-              <div className='d-flex align-items-center justify-content-center'>
-                <span className='info_text text-white'>Acciones</span>
-              </div>
-            </div>
+            ))}
           </div>
 
           {waiting}
