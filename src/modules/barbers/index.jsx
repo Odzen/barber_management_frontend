@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Spin } from 'antd'
 import { ROLES } from '../../utils/enums'
 import { onSearch } from '../../helpers/onSearch'
 import { getUsers } from '../../helpers/getUsers'
@@ -87,6 +87,10 @@ const BarbersView = () => {
           </div>
 
           {waiting}
+
+          <Spin size='large' className='m-4'>
+            <div className='content' style={{ height: '50px' }} />
+          </Spin>
 
           <div style={{ maxHeight: '77vh', overflowY: 'auto' }}>
             {data
