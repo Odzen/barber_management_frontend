@@ -70,6 +70,7 @@ export const UserModal = ({
           await getUsers(ROLES.BARBER, _type, setData, setLoading)
             .then(() => {
               resetForm(form)
+              return
             })
             .catch((error) => {
               console.log('🚀 ~ file: UserModal.jsx:77 ~ setTimeout ~ error:', error)
