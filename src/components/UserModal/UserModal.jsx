@@ -63,7 +63,7 @@ export const UserModal = ({
       try {
         await axios.post(`${API_URL}api/users`, user)
         setRegisteredUser(true)
-        setTimeout(async () => {
+        setTimeout(() => {
           handleSetState(false, setModelRegister)
           setRegisteredUser(false)
           openNotificationWithIcon(type, message, description)
@@ -116,7 +116,7 @@ export const UserModal = ({
         openNotificationWithIcon(type, message, description)
       } else {
         setRegisteredUser(true)
-        setTimeout(async () => {
+        setTimeout(() => {
           handleSetState(false, setModelRegister)
           setRegisteredUser(false)
           openNotificationWithIcon(type, message, description)
