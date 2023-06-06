@@ -67,15 +67,8 @@ export const UserModal = ({
           handleSetState(false, setModelRegister)
           setRegisteredUser(false)
           openNotificationWithIcon(type, message, description)
-          await getUsers(ROLES.BARBER, _type, setData, setLoading)
-            .then(() => {
-              resetForm(form)
-              return
-            })
-            .catch((error) => {
-              console.log('🚀 ~ file: UserModal.jsx:77 ~ setTimeout ~ error:', error)
-            })
         }, 1000)
+        await getUsers(ROLES.BARBER, _type, setData, setLoading)
       } catch (error) {
         console.log(error)
         let error_field = newUserFields[error.response.data.err.meta.target]
@@ -127,9 +120,9 @@ export const UserModal = ({
           handleSetState(false, setModelRegister)
           setRegisteredUser(false)
           openNotificationWithIcon(type, message, description)
-          await getUsers(ROLES.BARBER, _type, setData, setLoading)
           resetForm(form)
         }, 1000)
+        await getUsers(ROLES.BARBER, _type, setData, setLoading)
       }
     } catch (error) {
       console.log(error)
