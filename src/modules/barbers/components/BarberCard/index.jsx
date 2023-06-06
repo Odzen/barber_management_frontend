@@ -69,6 +69,12 @@ export const BarberCard = ({
     }
   }
 
+  const handleConfirm = () => {
+    onDeleteBarber().catch((error) => {
+      console.log('🚀 ~ file: index.jsx:74 ~ onDeleteBarber ~ error:', error)
+    })
+  }
+
   return (
     <>
       <div className='userCard'>
@@ -109,7 +115,7 @@ export const BarberCard = ({
           <Popconfirm
             title='Despedir barbero'
             description='¿Quieres despedir a este barbero?'
-            onConfirm={onDeleteBarber}
+            onConfirm={handleConfirm}
             okText='Sí'
             cancelText='No'
           >
