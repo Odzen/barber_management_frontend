@@ -8,7 +8,7 @@ Frontend for Barber Management using:
 - React / Vite
 - Ant Design
 - CSS / SCSS
-- Jest
+- Jest 
 
 ## Installation of dependencies
 
