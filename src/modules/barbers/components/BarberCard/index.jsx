@@ -40,7 +40,7 @@ export const BarberCard = ({
   }
 
   /* Function to delete a barber */
-  const onDeleteBarber = async (id) => {
+  const onDeleteBarber = async () => {
     const requestOptions = {
       method: 'DELETE',
       headers: headers
@@ -107,7 +107,7 @@ export const BarberCard = ({
           <Popconfirm
             title='Despedir barbero'
             description='¿Quieres despedir a este barbero?'
-            onConfirm={async () => await onDeleteBarber(id)}
+            onConfirm={onDeleteBarber}
             okText='Sí'
             cancelText='No'
           >
