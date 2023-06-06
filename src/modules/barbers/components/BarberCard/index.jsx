@@ -56,7 +56,9 @@ export const BarberCard = ({
         const message = '¡Despido exitoso!'
         const description = `El barbero ${barber} ha sido despedido`
         openNotificationWithIcon(type, message, description)
-        await getUsers(ROLES.BARBER, _type, setData, setLoading)
+        await getUsers(ROLES.BARBER, _type, setData, setLoading).catch((error) => {
+          console.log('🚀 ~ file: index.jsx:60 ~ onDeleteBarber ~ error:', error)
+        })
       }
     } catch (error) {
       const type = 'warning'
