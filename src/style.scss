@@ -50,3 +50,7 @@ a.ant-upload-list-item-name {
 :where(.css-dev-only-do-not-override-zjzpde).ant-spin-nested-loading .ant-spin-container::after {
   background: transparent !important;
 }
+
+:where(.css-zjzpde).ant-spin-nested-loading .ant-spin-container::after {
+  background: transparent !important;
+}
